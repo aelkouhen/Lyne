@@ -1,0 +1,18 @@
+= LyneDB
+
+Quick setup — if you’ve done this kind of thing before Set up 
+
+----
+git init
+git add README.adoc
+git commit -m "first commit"
+git remote add origin https://github.com/aelkouhen/lyne.git
+git push -u origin master
+----
+
+…or push an existing repository from the command line
+
+----
+git remote add origin https://github.com/aelkouhen/lyne.git
+git push -u origin master
+----
