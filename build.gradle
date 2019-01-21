@@ -1,0 +1,39 @@
+plugins {
+    id 'org.springframework.boot' version '1.5.3.RELEASE'
+}
+
+apply plugin: 'java'
+apply plugin: 'scala'
+apply plugin: 'eclipse'
+apply plugin: 'idea'
+
+ext {
+    sourceCompatibility = 1.8
+    targetCompatibility = 1.8
+}
+
+
+jar {
+    baseName = 'lyne'
+}
+
+repositories {
+    mavenCentral()
+    jcenter()
+}
+
+dependencies {
+    compile("org.springframework.boot:spring-boot-starter-web")
+    compile("org.springframework.boot:spring-boot-starter-data-jpa")
+    compile("org.springframework.boot:spring-boot-starter-actuator")
+    compile("org.thymeleaf:thymeleaf-spring4")
+    compile("nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect")
+    testCompile("org.springframework.boot:spring-boot-starter-test")
+    compile("com.h2database:h2")
+    compile("mysql:mysql-connector-java")
+    compile("org.scala-lang:scala-library:2.12.2")
+    compile("org.webjars:bootstrap:3.1.1")
+    compile group: 'com.typesafe.scala-logging', name: 'scala-logging_2.12', version: '3.9.0'
+    compile group: 'com.fasterxml.jackson.datatype', name: 'jackson-datatype-jsr310', version: '2.9.6'
+
+}

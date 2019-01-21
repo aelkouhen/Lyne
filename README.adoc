@@ -1,4 +1,4 @@
-= LyneDB
+= Lyne API
 
 Quick setup — if you’ve done this kind of thing before Set up 
 
@@ -16,3 +16,23 @@ git push -u origin master
 git remote add origin https://github.com/aelkouhen/lyne.git
 git push -u origin master
 ----
+
+
+== Install MySQL image
+
+Pull the latest MySQL image
+
+----
+docker pull mysql:latest
+----
+
+Then run it to create an instance named `mysql-lyne`
+
+----
+docker run -p 3306:3306 --name mysql-lyne -e MYSQL_ROOT_PASSWORD=password-lyne -d mysql:latest
+----
+
+[NOTE]
+====
+If you have troubles to connect MySQL Workbench (address not found), try to install VirtualBox then run `docker-machine ip default` to get the MySQL server adresse.
+====
