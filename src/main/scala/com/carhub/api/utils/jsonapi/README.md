@@ -12,14 +12,6 @@ Technical stack:
 - Jackson 2.9.2
 - Jackson Scala module 2.9.2
 
-## How to Install
-
-Add this dependency
-```
-"com.norauto" %% "jackson-module-jsonapi" %% "0.1.+"
-```
-
-
 ### Entity Annotation
 
 To work, this module use three annotations:
