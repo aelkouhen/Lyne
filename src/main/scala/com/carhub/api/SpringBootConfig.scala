@@ -1,10 +1,11 @@
 package com.carhub.api
 
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
-import org.springframework.boot.autoconfigure.orm.jpa.HibernateJpaAutoConfiguration
 import org.springframework.context.annotation.{ComponentScan, Configuration}
+import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 
 @Configuration
 @ComponentScan
-@EnableAutoConfiguration(exclude = Array(classOf[HibernateJpaAutoConfiguration]))
+@EnableAutoConfiguration
+@EnableJpaRepositories(basePackages = Array("com.carhub.api.gearheads.repositories"))
 class SpringBootConfig

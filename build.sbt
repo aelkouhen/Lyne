@@ -14,7 +14,7 @@ libraryDependencies ++= Seq (
   "com.h2database" % "h2" % "1.4.195",
   "org.webjars" % "bootstrap" % "3.1.1",
   "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.8.8",
-  "mysql" % "mysql-connector-java" % "5.1.16"
+  "mysql" % "mysql-connector-java" % "8.0.13"
 )
 
 assemblyMergeStrategy in assembly := {

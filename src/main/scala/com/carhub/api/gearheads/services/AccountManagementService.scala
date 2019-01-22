@@ -2,15 +2,15 @@ package com.carhub.api.gearheads.services
 
 import java.lang
 
-import com.carhub.api.gearheads.entities.{Gearhead, GearheadRepository}
+import com.carhub.api.gearheads.entities.Gearhead
+import com.carhub.api.gearheads.repositories.GearheadRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 
 
 @Autowired
 @Service
-class AccountManagementService (@Autowired private val gearheadRepository: GearheadRepository){
-
+class AccountManagementService (@Autowired val gearheadRepository: GearheadRepository){
 
   def addAccount(name:String, email:String):String = {
     val g = new Gearhead
@@ -24,5 +24,4 @@ class AccountManagementService (@Autowired private val gearheadRepository: Gearh
   def getAccounts():lang.Iterable[Gearhead] = {
     gearheadRepository.findAll()
   }
-
 }

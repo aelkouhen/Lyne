@@ -1,23 +1,26 @@
 package com.carhub.api.gearheads.entities
 
 import java.io.Serializable
-import java.lang.Long
+import java.util.UUID
 
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import javax.persistence._
 
 
 @Entity
-class Gearhead extends Serializable {
+@Table(name = "gearhead")
+@JsonApi(apiType = "gearhead")
+class Gearhead extends Serializable{
 
   @Id
   @GeneratedValue(strategy = GenerationType.AUTO)
-  var id: Long = _
+  @JsonApiId
+  var id: UUID = _
 
   var name: String = ""
   var email: String = ""
 
+
+  override def toString = s"Gearhead($id, $name, $email)"
 
 }
