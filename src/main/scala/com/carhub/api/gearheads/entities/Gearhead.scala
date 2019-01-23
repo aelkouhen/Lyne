@@ -4,15 +4,20 @@ import java.io.Serializable
 import java.lang.Long
 import java.util.Date
 
+import com.carhub.api.utils.enumeration.{EnumValue, EnumValueType}
 import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
+import org.hibernate.annotations.Type
 
 import scala.beans.BeanProperty
 
-object Gender extends Enumeration {
-  val UNSPECIFIED, MALE, FEMALE = Value
+object Gender extends Enumeration with EnumValue{
+  val male = Value("MALE")
+  val female = Value("FEMALE")
+  val unspecified = Value("UNSPECIFIED")
 }
 
+class GenderType extends EnumValueType(Gender){}
 
 @Entity
 @Table(name = "gearhead")
@@ -68,15 +73,16 @@ class Gearhead extends Serializable{
   @Column(name = "enabled")
   var enabled: Boolean = _
 
-  @BeanProperty
-  @Column(name = "gender")
-  @Enumerated(EnumType.STRING)
+  @Type(`type` = "com.carhub.api.gearheads.entities.GenderType")
   var gender: Gender.Value = _
 
   @BeanProperty
-  @Column(name = "location")
   @OneToOne
   var location: Location = _
+
+  @BeanProperty
+  @OneToOne
+  var workplace: Workplace = _
 
   override def toString = s"Gearhead($username)"
 

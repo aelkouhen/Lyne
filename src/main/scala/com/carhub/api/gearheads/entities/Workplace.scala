@@ -39,7 +39,6 @@ class Workplace extends Serializable{
   var startDate: Date = _
 
   @BeanProperty
-  @Column(name = "location")
   @OneToOne
   var location: Location = _
 

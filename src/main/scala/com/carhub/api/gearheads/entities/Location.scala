@@ -2,7 +2,6 @@ package com.carhub.api.gearheads.entities
 
 import java.io.Serializable
 import java.lang.Long
-import java.util.Date
 
 import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._

@@ -17,11 +17,11 @@ class LocationAccountController(accountService: AccountManagementService) {
 
   @ResponseBody
   @GetMapping(Array("/add"))
-  def addLocation(@RequestParam street:String, @RequestParam city:String, @RequestParam state:String, @RequestParam zipCode:String, @RequestParam country:String):String = accountService.createLocation(street, city, state, zipCode, country)
+  def addLocation(@RequestParam street:String, @RequestParam city:String, @RequestParam state:String, @RequestParam(name = "zipcode") zipCode:String, @RequestParam country:String):String = accountService.createLocation(street, city, state, zipCode, country)
 
   @ResponseBody
   @GetMapping(Array("/update{id}"))
-  def updateLocation(@RequestParam id:Long, @RequestParam street:String, @RequestParam city:String, @RequestParam state:String, @RequestParam zipCode:String, @RequestParam country:String):String = accountService.createLocation(street, city, state, zipCode, country)
+  def updateLocation(@PathVariable(value = "id") id:Long, @RequestParam street:String, @RequestParam city:String, @RequestParam state:String, @RequestParam(name = "zipcode") zipCode:String, @RequestParam country:String):String = accountService.createLocation(street, city, state, zipCode, country)
 
 
   @ResponseBody
