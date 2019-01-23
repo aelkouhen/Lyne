@@ -12,9 +12,7 @@ import org.hibernate.annotations.Type
 import scala.beans.BeanProperty
 
 object Gender extends Enumeration with EnumValue{
-  val male = Value("MALE")
-  val female = Value("FEMALE")
-  val unspecified = Value("UNSPECIFIED")
+  val UNSPECIFIED, MALE, FEMALE = Value
 }
 
 class GenderType extends EnumValueType(Gender){}

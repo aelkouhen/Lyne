@@ -29,7 +29,7 @@ class AccountManagementService (@Autowired
     val now = Calendar.getInstance().getTime()
     gearhead.creationDate = now
     gearhead.lastConnexion = now
-    gearhead.gender = Gender.unspecified
+    gearhead.gender = Gender.UNSPECIFIED
     gearhead.enabled = true
     gearheadRepository.save(gearhead)
 
