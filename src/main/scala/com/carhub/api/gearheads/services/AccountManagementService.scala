@@ -4,7 +4,8 @@ import java.lang.Long
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Date, Locale}
 
-import com.carhub.api.gearheads.entities.{Gearhead, Gender, Location, Workplace}
+import com.carhub.api.gearheads.model.locations.{Location, Workplace}
+import com.carhub.api.gearheads.model.{Gearhead, Gender}
 import com.carhub.api.gearheads.repositories.{GearheadRepository, LocationRepository, WorkplaceRepository}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
@@ -27,8 +28,8 @@ class AccountManagementService (@Autowired
     gearhead.email = email
     Calendar.getInstance().getTime()
     val now = Calendar.getInstance().getTime()
-    gearhead.creationDate = now
-    gearhead.lastConnexion = now
+    gearhead.creationTime = now
+    gearhead.updateTime = now
     gearhead.gender = Gender.UNSPECIFIED
     gearhead.enabled = true
     gearheadRepository.save(gearhead)
@@ -141,7 +142,7 @@ class AccountManagementService (@Autowired
   }
 
   private def updateAccountLocation(gearhead: Gearhead, location:Location):String = {
-    gearhead.location = location
+    gearhead.currentLocation = location
     updateConnexionTime(gearhead)
     gearheadRepository.save(gearhead)
 
@@ -171,7 +172,7 @@ class AccountManagementService (@Autowired
 
   private def updateConnexionTime(gearhead:Gearhead):String = {
     val now = Calendar.getInstance().getTime()
-    gearhead.lastConnexion = now
+    gearhead.updateTime = now
     gearheadRepository.save(gearhead)
 
     s"Account ${gearhead.id} Updated"

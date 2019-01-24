@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation._
 import java.text.SimpleDateFormat
 import java.util.Locale
 
-import com.carhub.api.gearheads.entities.Gender
+import com.carhub.api.gearheads.model.Gender
 
 import scala.collection.JavaConverters.iterableAsScalaIterableConverter
 

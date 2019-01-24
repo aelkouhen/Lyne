@@ -1,4 +1,4 @@
-package com.carhub.api.gearheads.entities
+package com.carhub.api.gearheads.model.locations
 
 import java.io.Serializable
 import java.lang.Long
@@ -18,23 +18,24 @@ class Workplace extends Serializable{
   @Id
   @BeanProperty
   @GeneratedValue(strategy = GenerationType.IDENTITY)
+  @Column(name = "ID")
   @JsonApiId
   var id: Long = _
 
   @BeanProperty
-  @Column(name = "company")
+  @Column(name = "COMPANY")
   var companyName: String = _
 
   @BeanProperty
-  @Column(name = "description")
+  @Column(name = "DESCRIPTION")
   var description: String = _
 
   @BeanProperty
-  @Column(name = "position")
+  @Column(name = "POSITION")
   var position: String = _
 
   @BeanProperty
-  @Column(name = "start_date")
+  @Column(name = "START_DATE")
   @Temporal(TemporalType.DATE)
   var startDate: Date = _
 

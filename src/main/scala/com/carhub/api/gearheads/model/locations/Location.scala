@@ -1,4 +1,4 @@
-package com.carhub.api.gearheads.entities
+package com.carhub.api.gearheads.model.locations
 
 import java.io.Serializable
 import java.lang.Long
@@ -18,26 +18,35 @@ class Location extends Serializable{
   @BeanProperty
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @JsonApiId
+  @Column(name = "ID")
   var id: Long = _
 
   @BeanProperty
-  @Column(name = "street")
+  @Column(name = "LATITUDE")
+  var latitude: BigDecimal = _
+
+  @BeanProperty
+  @Column(name = "LONGITUDE")
+  var longitude: BigDecimal = _
+
+  @BeanProperty
+  @Column(name = "STREET")
   var street: String = _
 
   @BeanProperty
-  @Column(name = "city")
+  @Column(name = "CITY")
   var city: String = _
 
   @BeanProperty
-  @Column(name = "country")
+  @Column(name = "COUNTRY")
   var country: String = _
 
   @BeanProperty
-  @Column(name = "state")
+  @Column(name = "STATE")
   var state: String = _
 
   @BeanProperty
-  @Column(name = "zip_code")
+  @Column(name = "ZIP_CODE")
   var zipCode: String = _
 
 

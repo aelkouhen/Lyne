@@ -1,0 +1,32 @@
+package com.carhub.api.gearheads.model.activities
+
+import java.{lang, util}
+
+import com.carhub.api.utils.jsonapi.annotations.JsonApi
+import javax.persistence._
+
+import scala.beans.BeanProperty
+
+@Entity
+@Table(name = "channel")
+@Inheritance(strategy=InheritanceType.TABLE_PER_CLASS)
+@JsonApi(apiType = "channel")
+class Channel extends Topic {
+
+  @BeanProperty
+  @Column(name = "NAME")
+  var name: String = _
+
+  @BeanProperty
+  @Column(name = "FOLLOWERS_COUNT")
+  var followersCount: lang.Long = _
+
+  @BeanProperty
+  @OneToMany(mappedBy = "channel")
+  var treads: util.List[Thread] = _
+
+  @BeanProperty
+  @OneToMany(mappedBy = "channel")
+  var polls: util.List[Poll] = _
+
+}

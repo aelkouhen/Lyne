@@ -2,7 +2,7 @@ package com.carhub.api.gearheads.repositories
 
 import java.lang.Long
 
-import com.carhub.api.gearheads.entities.Workplace
+import com.carhub.api.gearheads.model.locations.Workplace
 import org.springframework.data.repository.CrudRepository
 import org.springframework.stereotype.Repository
 
