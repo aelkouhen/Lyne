@@ -5,7 +5,7 @@ import java.util.Date
 
 import com.carhub.api.gearheads.model.Gearhead
 import com.carhub.api.gearheads.model.files.Photo
-import com.carhub.api.utils.jsonapi.annotations.JsonApiId
+import com.carhub.api.gearheads.utils.jsonapi.annotations.JsonApiId
 import javax.persistence._
 
 import scala.beans.BeanProperty

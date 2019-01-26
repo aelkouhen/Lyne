@@ -2,7 +2,7 @@ package com.carhub.api.gearheads.model.activities
 
 import java.{lang, util}
 
-import com.carhub.api.utils.jsonapi.annotations.JsonApi
+import com.carhub.api.gearheads.utils.jsonapi.annotations.JsonApi
 import javax.persistence._
 
 import scala.beans.BeanProperty

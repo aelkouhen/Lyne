@@ -3,8 +3,8 @@ package com.carhub.api.gearheads.model.activities
 import java.lang.Long
 
 import com.carhub.api.gearheads.model.Gearhead
-import com.carhub.api.utils.enumeration.{EnumValue, EnumValueType}
-import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.carhub.api.gearheads.utils.enumeration.{EnumValue, EnumValueType}
+import com.carhub.api.gearheads.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 import org.hibernate.annotations.Type
 

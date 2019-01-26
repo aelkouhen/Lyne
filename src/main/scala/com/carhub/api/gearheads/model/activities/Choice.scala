@@ -4,7 +4,7 @@ import java.lang.Long
 import java.util
 
 import com.carhub.api.gearheads.model.Gearhead
-import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.carhub.api.gearheads.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 
 import scala.beans.BeanProperty

@@ -2,7 +2,7 @@ package com.carhub.api.gearheads.model.files
 
 import java.util
 
-import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.carhub.api.gearheads.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 
 import scala.beans.BeanProperty
