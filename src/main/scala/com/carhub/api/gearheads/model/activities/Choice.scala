@@ -16,16 +16,13 @@ class Choice extends Serializable {
   @Id
   @BeanProperty
   @GeneratedValue(strategy = GenerationType.IDENTITY)
-  @Column(name = "ID")
   @JsonApiId
   var id: Long = _
 
   @BeanProperty
-  @Column(name = "CONTENT")
   var content: String = _
 
   @BeanProperty
-  @Column(name = "COUNT")
   var count: Long = _
 
   @BeanProperty

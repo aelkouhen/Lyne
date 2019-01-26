@@ -14,11 +14,9 @@ import scala.beans.BeanProperty
 class Thread extends Topic {
 
   @BeanProperty
-  @Column(name = "SUBJECT")
   var subject: String = _
 
   @BeanProperty
-  @Column(name = "VIEW_COUNT")
   var viewCount: lang.Long = _
 
   @BeanProperty

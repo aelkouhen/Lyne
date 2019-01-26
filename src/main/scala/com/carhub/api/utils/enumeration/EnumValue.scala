@@ -1,6 +1,6 @@
 package com.carhub.api.utils.enumeration
 
-trait EnumValue{
+trait EnumValue {
 
   this: Enumeration =>
 

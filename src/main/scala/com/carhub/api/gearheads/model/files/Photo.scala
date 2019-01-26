@@ -14,7 +14,6 @@ class Photo extends File with Serializable {
 
   @Lob
   @BeanProperty
-  @Column(name = "SMALL_FORMAT")
   var smallContent: Array[Byte] = _
 
   @BeanProperty

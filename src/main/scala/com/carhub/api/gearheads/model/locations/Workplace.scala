@@ -27,23 +27,18 @@ class Workplace extends Serializable{
   var companyName: String = _
 
   @BeanProperty
-  @Column(name = "DESCRIPTION")
   var description: String = _
 
   @BeanProperty
-  @Column(name = "POSITION")
   var position: String = _
 
   @BeanProperty
-  @Column(name = "START_DATE")
   @Temporal(TemporalType.DATE)
   var startDate: Date = _
 
   @BeanProperty
   @OneToOne
   var location: Location = _
-
-
 
   override def toString = s"Workplace ($position in $companyName)"
 

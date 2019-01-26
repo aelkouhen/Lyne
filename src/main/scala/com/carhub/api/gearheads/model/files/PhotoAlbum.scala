@@ -24,7 +24,6 @@ class PhotoAlbum extends Serializable {
   var albumId: Long = _
 
   @BeanProperty
-  @Column(name = "NAME")
   var name: String = _
 
   @BeanProperty
@@ -32,7 +31,6 @@ class PhotoAlbum extends Serializable {
   var coverPhoto: Photo = _
 
   @BeanProperty
-  @Column(name = "DESCRIPTION")
   var description: String = _
 
   @BeanProperty

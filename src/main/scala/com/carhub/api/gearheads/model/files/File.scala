@@ -1,7 +1,6 @@
 package com.carhub.api.gearheads.model.files
 
 import java.lang.Long
-import java.util
 import java.util.Date
 
 import com.carhub.api.gearheads.model.Gearhead
@@ -25,7 +24,6 @@ class File extends Serializable {
   var photoId: Long = _
 
   @BeanProperty
-  @Column(name = "CAPTION")
   var caption: String = _
 
   @BeanProperty
@@ -34,7 +32,6 @@ class File extends Serializable {
   var created: Date = _
 
   @BeanProperty
-  @Column(name = "LINK")
   @URL
   var link: String = _
 
@@ -43,9 +40,8 @@ class File extends Serializable {
   @Column(name = "CONTENT")
   var fullContent: Array[Byte] = _
 
-
   @BeanProperty
-  @Column(name = "OWNER_ID")
+  @OneToOne
   var owner: Gearhead = _
 
 }

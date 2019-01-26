@@ -10,16 +10,16 @@ import org.hibernate.annotations.Type
 
 import scala.beans.BeanProperty
 
-object EventParticipationStatus extends Enumeration with EnumValue{
-  val ATTENDING, DECLINED, NOT_REPLIED, UNSURE, UNSPECIFIED = Value
+object MessageStatus extends Enumeration with EnumValue{
+  val SENT, RECEIVED, READ = Value
 }
 
-class EventParticipationType extends EnumValueType(EventParticipationStatus){}
+class MessageStatusType extends EnumValueType(MessageStatus){}
 
 @Entity
-@Table(name = "event_membership")
-@JsonApi(apiType = "event_membership")
-class EventMembership extends Serializable {
+@Table
+@JsonApi(apiType = "message-recipient")
+class MessageRecipient extends Serializable {
 
   @Id
   @BeanProperty
@@ -28,15 +28,15 @@ class EventMembership extends Serializable {
   @JsonApiId
   var id: Long = _
 
-  @Type(`type` = "com.carhub.api.gearheads.model.activities.EventParticipationType")
-  var status: EventParticipationStatus.Value = _
+  @BeanProperty
+  @ManyToOne
+  var message: Message = _
 
   @BeanProperty
   @OneToOne
-  var event: Event = _
+  var recipient: Gearhead = _
 
   @BeanProperty
-  @ManyToOne
-  var gearhead: Gearhead = _
-
+  @Type(`type` = "com.carhub.api.gearheads.model.activities.MessageStatusType")
+  var status: MessageStatus.Value = _
 }

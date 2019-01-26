@@ -14,11 +14,9 @@ import scala.beans.BeanProperty
 class Channel extends Topic {
 
   @BeanProperty
-  @Column(name = "NAME")
   var name: String = _
 
   @BeanProperty
-  @Column(name = "FOLLOWERS_COUNT")
   var followersCount: lang.Long = _
 
   @BeanProperty

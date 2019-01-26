@@ -40,16 +40,13 @@ class Relationship extends Serializable {
   var relationshipKind: RelationshipKind.Value = _
 
   @Type(`type` = "com.carhub.api.gearheads.model.activities.RelationshipStatusType")
-  @Column(name = "RELATION_STATUS")
   var relationshipStatus: RelationshipStatus.Value = _
 
   @BeanProperty
-  @Column(name = "SINCE")
   @Temporal(TemporalType.TIMESTAMP)
   var since: Date = _
 
   @BeanProperty
-  @Column(name = "CREATION_TIME")
   @Temporal(TemporalType.TIMESTAMP)
   var creationTime: Date = _
 

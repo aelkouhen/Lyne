@@ -22,11 +22,9 @@ class Post extends Serializable {
   var id: Long = _
 
   @BeanProperty
-  @Column(name = "SUBJECT")
   var subject: String = _
 
   @BeanProperty
-  @Column(name = "MESSAGE")
   var message: String = _
 
   @BeanProperty
@@ -38,7 +36,6 @@ class Post extends Serializable {
   var repliedTo: Post = _
 
   @BeanProperty
-  @Column(name = "CREATION_TIME")
   @Temporal(TemporalType.TIMESTAMP)
   var creationTime: Date = _
 

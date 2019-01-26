@@ -14,7 +14,6 @@ import scala.beans.BeanProperty
 class Poll extends Topic {
 
   @BeanProperty
-  @Column(name = "SUBJECT")
   var subject: String = _
 
   @BeanProperty

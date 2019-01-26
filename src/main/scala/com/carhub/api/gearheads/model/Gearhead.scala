@@ -5,7 +5,7 @@ import java.lang.Long
 import java.util
 import java.util.Date
 
-import com.carhub.api.gearheads.model.activities.{EventMembership, Relationship, TopicMembership}
+import com.carhub.api.gearheads.model.activities.{EventMembership, Message, Relationship, TopicMembership}
 import com.carhub.api.gearheads.model.locations.{Location, Workplace}
 import com.carhub.api.gearheads.model.files.{Photo, PhotoAlbum}
 import com.carhub.api.utils.enumeration.{EnumValue, EnumValueType}
@@ -34,36 +34,28 @@ class Gearhead extends Serializable{
   var id: Long = _
 
   @BeanProperty
-  @Column(name = "ABOUT_ME")
   var aboutMe: String = _
 
   @BeanProperty
-  @Column(name = "FIRST_NAME")
   var firstName: String = _
 
   @BeanProperty
-  @Column(name = "LAST_NAME")
   var lastName: String = _
 
   @BeanProperty
-  @Column(name = "BIRTHDAY")
   @Temporal(TemporalType.DATE)
   var birthDay: Date = _
 
   @BeanProperty
-  @Column(name = "USERNAME")
   var username: String = _
 
   @BeanProperty
-  @Column(name = "EMAIL")
   var email: String = _
 
   @BeanProperty
-  @Column(name = "PASSWORD")
   var password: String = _
 
   @BeanProperty
-  @Column(name = "CREATION_TIME")
   @Temporal(TemporalType.TIMESTAMP)
   var creationTime: Date = _
 
@@ -73,11 +65,10 @@ class Gearhead extends Serializable{
   var updateTime: Date = _
 
   @BeanProperty
-  @Column(name = "ENABLED")
   var enabled: Boolean = _
 
+  @BeanProperty
   @Type(`type` = "com.carhub.api.gearheads.model.GenderType")
-  @Column(name = "GENDER")
   var gender: Gender.Value = _
 
   @BeanProperty
@@ -92,9 +83,11 @@ class Gearhead extends Serializable{
   @OneToOne
   var workplace: Workplace = _
 
+  @BeanProperty
   @OneToOne
   var profilePhoto: Photo = _
 
+  @BeanProperty
   @OneToOne
   var coverPhoto: Photo = _
 
@@ -112,6 +105,15 @@ class Gearhead extends Serializable{
   @BeanProperty
   @OneToMany(mappedBy = "gearhead")
   var eventMemberships: util.List[EventMembership] = _
+
+  @BeanProperty
+  @OneToMany
+  var sentMessages: util.List[Message] = _
+
+  @BeanProperty
+  @OneToMany
+  var receivedMessages: util.List[Message] = _
+
 
   override def toString = s"Gearhead($username)"
 

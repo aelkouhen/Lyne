@@ -31,7 +31,6 @@ abstract class Topic extends Serializable{
   var logo: Photo = _
 
   @BeanProperty
-  @Column(name = "CREATION_TIME")
   @Temporal(TemporalType.TIMESTAMP)
   var creationTime: Date = _
 
@@ -40,7 +39,6 @@ abstract class Topic extends Serializable{
   var creator: Gearhead = _
 
   @BeanProperty
-  @Column(name = "UPDATE_TIME")
   @Temporal(TemporalType.TIMESTAMP)
   var updateTime: Date = _
 

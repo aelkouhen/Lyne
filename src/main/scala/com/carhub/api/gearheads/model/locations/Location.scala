@@ -22,31 +22,24 @@ class Location extends Serializable{
   var id: Long = _
 
   @BeanProperty
-  @Column(name = "LATITUDE")
   var latitude: BigDecimal = _
 
   @BeanProperty
-  @Column(name = "LONGITUDE")
   var longitude: BigDecimal = _
 
   @BeanProperty
-  @Column(name = "STREET")
   var street: String = _
 
   @BeanProperty
-  @Column(name = "CITY")
   var city: String = _
 
   @BeanProperty
-  @Column(name = "COUNTRY")
   var country: String = _
 
   @BeanProperty
-  @Column(name = "STATE")
   var state: String = _
 
   @BeanProperty
-  @Column(name = "ZIP_CODE")
   var zipCode: String = _
 
 
