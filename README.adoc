@@ -29,7 +29,7 @@ docker pull mysql:latest
 Then run it to create an instance named `mysql-lyne`
 
 ----
-docker run -p 3306:3306 --name mysql-lyne -e MYSQL_ROOT_PASSWORD=password-lyne -d mysql:latest
+docker run -p 3306:3306 --name mysql-lyne -e MYSQL_ROOT_PASSWORD=password-root -d mysql:latest
 ----
 
 [NOTE]
