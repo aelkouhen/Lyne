@@ -20,7 +20,7 @@ class LocationAccountController(accountService: AccountManagementService) {
   def addLocation(@RequestParam street:String, @RequestParam city:String, @RequestParam state:String, @RequestParam(name = "zipcode") zipCode:String, @RequestParam country:String):String = accountService.createLocation(street, city, state, zipCode, country)
 
   @ResponseBody
-  @GetMapping(Array("/update{id}"))
+  @GetMapping(Array("/update/{id}"))
   def updateLocation(@PathVariable(value = "id") id:Long, @RequestParam street:String, @RequestParam city:String, @RequestParam state:String, @RequestParam(name = "zipcode") zipCode:String, @RequestParam country:String):String = accountService.createLocation(street, city, state, zipCode, country)
 
 

@@ -20,11 +20,11 @@ class WorkplaceAccountController(accountService: AccountManagementService) {
   def createWorkplace(@RequestParam name:String, @RequestParam position:String, @RequestParam(value = "start") startDate:String):String = accountService.createWorkplace(name, position, startDate)
 
   @ResponseBody
-  @GetMapping(Array("/update{id}"))
+  @GetMapping(Array("/update/{id}"))
   def updateWorkplace(@PathVariable(value = "id") id:Long, @RequestParam name:String, @RequestParam position:String, @RequestParam(value = "start") startDate:String, @RequestParam(value = "about") description:String):String = accountService.updateWorkplace(id, name, position, startDate, description)
 
   @ResponseBody
-  @GetMapping(Array("/update{id}/location"))
+  @GetMapping(Array("/update/{id}/location"))
   def updateWorkplaceLocation(@PathVariable(value = "id") id:Long, @RequestParam locationID:Long):String = accountService.updateWorkplaceLocation(id, locationID)
 
   @ResponseBody

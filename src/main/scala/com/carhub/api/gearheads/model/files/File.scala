@@ -27,6 +27,9 @@ class File extends Serializable {
   var caption: String = _
 
   @BeanProperty
+  var size: Long = _
+
+  @BeanProperty
   @Column(name = "CREATION_TIME")
   @Temporal(TemporalType.TIMESTAMP)
   var created: Date = _
@@ -37,8 +40,7 @@ class File extends Serializable {
 
   @Lob
   @BeanProperty
-  @Column(name = "CONTENT")
-  var fullContent: Array[Byte] = _
+  var content: Array[Byte] = _
 
   @BeanProperty
   @OneToOne

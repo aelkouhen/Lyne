@@ -12,10 +12,6 @@ import scala.beans.BeanProperty
 @JsonApi(apiType = "photo")
 class Photo extends File with Serializable {
 
-  @Lob
-  @BeanProperty
-  var smallContent: Array[Byte] = _
-
   @BeanProperty
   @OneToMany(mappedBy = "photo")
   var tags: util.List[PhotoTag] = _

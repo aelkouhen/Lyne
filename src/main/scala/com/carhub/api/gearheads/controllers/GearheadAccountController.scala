@@ -24,7 +24,7 @@ class GearheadAccountController(accountService: AccountManagementService) {
   def addGearhead(@RequestParam(name = "username") userName:String, @RequestParam email:String, @RequestParam password:String):String = accountService.createAccount(userName, email, password)
 
   @ResponseBody
-  @GetMapping(Array("/update{id}"))
+  @GetMapping(Array("/update/{id}"))
   def updateGearhead(@PathVariable(value = "id") id:Long, @RequestParam(name = "firstname") firstName:String, @RequestParam(name = "lastname") lastName:String, @RequestParam birthday:String, @RequestParam gender:String):String = {
     val format = new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE)
     val date = format.parse(birthday)
@@ -32,15 +32,15 @@ class GearheadAccountController(accountService: AccountManagementService) {
   }
 
   @ResponseBody
-  @GetMapping(Array("/update{id}/about"))
+  @GetMapping(Array("/update/{id}/about"))
   def updateGearhead(@PathVariable(value = "id") id:Long, @RequestParam text:String):String = accountService.updateAccount(id, text)
 
   @ResponseBody
-  @GetMapping(Array("/update{id}/location"))
+  @GetMapping(Array("/update/{id}/location"))
   def updateGearheadLocation(@PathVariable(value = "id") id:Long, @RequestParam locationID:Long):String = accountService.updateAccountLocation(id, locationID)
 
   @ResponseBody
-  @GetMapping(Array("/update{id}/workplace"))
+  @GetMapping(Array("/update/{id}/workplace"))
   def updateGearheadWorkplace(@PathVariable(value = "id") id:Long, @RequestParam workplaceID:Long):String = accountService.updateAccountWorkplace(id, workplaceID)
 
 
