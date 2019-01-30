@@ -1,6 +1,5 @@
 package com.carhub.api
 
-import java.io.InputStream
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
@@ -8,6 +7,7 @@ import com.carhub.api.gearheads.model.{Gearhead, Gender}
 import com.carhub.api.gearheads.model.files.Photo
 import com.carhub.api.gearheads.model.locations.{Location, Workplace}
 import com.carhub.api.gearheads.repositories._
+import com.google.common.io.Files
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.{ApplicationArguments, ApplicationRunner}
 import org.springframework.core.io.ClassPathResource
@@ -110,6 +110,7 @@ class InitialDataLoader(@Autowired
     val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
     photo.size = picture.contentLength()
+    photo.extension = Files.getFileExtension(picture.getFilename)
     photo.caption = "Amine's Pic"
     photo.created = Calendar.getInstance().getTime()
     photo.owner = gearhead

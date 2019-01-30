@@ -30,6 +30,9 @@ class File extends Serializable {
   var size: Long = _
 
   @BeanProperty
+  var extension: String = _
+
+  @BeanProperty
   @Column(name = "CREATION_TIME")
   @Temporal(TemporalType.TIMESTAMP)
   var created: Date = _

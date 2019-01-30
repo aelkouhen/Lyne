@@ -4,6 +4,7 @@
     <modules>
       <module fileurl="file://$PROJECT_DIR$/lyne.iml" filepath="$PROJECT_DIR$/lyne.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lyne.main.iml" filepath="$PROJECT_DIR$/.idea/modules/lyne.main.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/lyne.test.iml" filepath="$PROJECT_DIR$/.idea/modules/lyne.test.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lyne_8609.iml" filepath="$PROJECT_DIR$/.idea/modules/lyne_8609.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lyne_8609-build.iml" filepath="$PROJECT_DIR$/.idea/modules/lyne_8609-build.iml" />
     </modules>
