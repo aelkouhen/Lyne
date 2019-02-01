@@ -3,9 +3,9 @@ package com.carhub.api
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
-import com.carhub.api.gearheads.model.{Gearhead, Gender}
-import com.carhub.api.gearheads.model.files.Photo
-import com.carhub.api.gearheads.model.locations.{Location, Workplace}
+import com.carhub.api.gearheads.domain.{Gearhead, Gender}
+import com.carhub.api.gearheads.domain.files.Photo
+import com.carhub.api.gearheads.domain.locations.{Location, Workplace}
 import com.carhub.api.gearheads.repositories._
 import com.google.common.io.Files
 import org.springframework.beans.factory.annotation.Autowired

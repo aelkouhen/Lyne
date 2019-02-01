@@ -2,7 +2,7 @@ package com.carhub.api.gearheads.repositories
 
 import java.lang.Long
 
-import com.carhub.api.gearheads.model.locations.Location
+import com.carhub.api.gearheads.domain.locations.Location
 import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.stereotype.Repository
 

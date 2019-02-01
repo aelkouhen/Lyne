@@ -3,7 +3,7 @@ package com.carhub.api.gearheads.controllers
 import java.lang.Long
 
 import com.carhub.api.gearheads.services.AccountManagementService
-import com.carhub.api.gearheads.utils.jsonapi.domain.JsonApiList
+import com.carhub.api.utils.jsonapi.domain.JsonApiList
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation._

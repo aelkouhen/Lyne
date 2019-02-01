@@ -4,8 +4,8 @@ import java.lang.Long
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Date, Locale}
 
-import com.carhub.api.gearheads.model.locations.{Location, Workplace}
-import com.carhub.api.gearheads.model.{Gearhead, Gender}
+import com.carhub.api.gearheads.domain.locations.{Location, Workplace}
+import com.carhub.api.gearheads.domain.{Gearhead, Gender}
 import com.carhub.api.gearheads.repositories.{GearheadRepository, LocationRepository, WorkplaceRepository}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.crypto.password.PasswordEncoder
