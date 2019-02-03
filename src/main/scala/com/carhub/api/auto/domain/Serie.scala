@@ -39,5 +39,4 @@ class Serie extends Serializable {
   //End year of production
   @BeanProperty
   var productionEndYear: Int = _
-
 }

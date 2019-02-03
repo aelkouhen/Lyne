@@ -24,11 +24,11 @@ class Model extends Serializable {
   var name:String  = _
 
   @BeanProperty
-  var generation:String  = _
-
-  @BeanProperty
   @Temporal(TemporalType.DATE)
   var creationDate: Date = _
+
+  @BeanProperty
+  var generation:String  = _
 
   //The series of the model.
   @BeanProperty
@@ -39,5 +39,4 @@ class Model extends Serializable {
   @BeanProperty
   @OneToOne
   var make: Make = _
-
 }

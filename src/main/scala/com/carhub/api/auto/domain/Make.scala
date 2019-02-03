@@ -30,7 +30,7 @@ class Make extends Serializable {
 
   @BeanProperty
   @OneToOne
-  var headquarterLocation:Location  = _
+  var headquarterLocation: Location  = _
 
   @BeanProperty
   @Temporal(TemporalType.DATE)

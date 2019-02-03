@@ -21,7 +21,7 @@ class File extends Serializable {
   @GeneratedValue(strategy = GenerationType.TABLE)
   @Column(name = "ID")
   @JsonApiId
-  var photoId: Long = _
+  var id: Long = _
 
   @BeanProperty
   var caption: String = _
