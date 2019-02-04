@@ -1,7 +1,9 @@
 package com.carhub.api.gearheads.domain.activities
 
 import java.lang.Long
+import java.util
 import java.util._
+
 import com.carhub.api.gearheads.domain.Gearhead
 import com.carhub.api.gearheads.domain.files.File
 import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
@@ -50,6 +52,6 @@ class Post extends Serializable {
   @Lob
   @BeanProperty
   @OneToMany
-  var uploadedFiles: List[File] = _
+  var uploadedFiles: List[File] = new util.ArrayList[File]()
 
 }

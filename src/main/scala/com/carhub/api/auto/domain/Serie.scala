@@ -30,7 +30,7 @@ class Serie extends Serializable {
   //The vehicles of the Serie.
   @BeanProperty
   @OneToMany(mappedBy = "serie")
-  var vehicles: util.List[Vehicle] = _
+  var vehicles: util.List[Vehicle] = new util.ArrayList[Vehicle]()
 
   //Begin year of production
   @BeanProperty

@@ -7,5 +7,5 @@ import org.springframework.data.jpa.repository.config.EnableJpaRepositories
 @Configuration
 @ComponentScan
 @EnableAutoConfiguration
-@EnableJpaRepositories(basePackages = Array("com.carhub.api.gearheads.repositories"))
+@EnableJpaRepositories(basePackages = Array("com.carhub.api.gearheads.repositories", "com.carhub.api.auto.repositories"))
 class SpringBootConfig

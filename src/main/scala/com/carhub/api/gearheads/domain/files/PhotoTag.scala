@@ -29,7 +29,7 @@ class PhotoTag extends Serializable {
 
   @BeanProperty
   @OneToMany
-  var taggedUsers: util.List[Gearhead] = _
+  var taggedUsers: util.List[Gearhead] = new util.ArrayList[Gearhead]()
 
   @BeanProperty
   @ManyToOne

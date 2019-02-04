@@ -49,7 +49,7 @@ class PhotoAlbum extends Serializable {
 
   @BeanProperty
   @OneToMany
-  var photos: util.List[Photo] = _
+  var photos: util.List[Photo] = new util.ArrayList[Photo]()
 
   @BeanProperty
   @ManyToOne

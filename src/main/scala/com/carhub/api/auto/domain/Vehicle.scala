@@ -12,11 +12,14 @@ import org.hibernate.annotations.Type
 
 import scala.beans.BeanProperty
 
+
+
 object WDEnum extends Enumeration with EnumValue{
   val FRONT_2WD, REAR_2WD, ALL_4WD = Value
 }
-
 class WDType extends EnumValueType(WDEnum){}
+
+
 
 object Transmission extends Enumeration with EnumValue{
   /*
@@ -29,13 +32,9 @@ object Transmission extends Enumeration with EnumValue{
  */
   val MT, AT, SAT, CVT, DCT, DSG = Value
 }
-
 class TransmissionType extends EnumValueType(Transmission){}
 
-object Body extends Enumeration with EnumValue{
 
-  val MIDDLE_TRANSVERSELY, REAR_TRANSVERSELY, FRONT_TRANSVERSELY, MIDDLE_LONGITUDINAL, REAR_LONGITUDINAL, FRONT_LONGITUDINAL = Value
-}
 
 object Suspension extends Enumeration with EnumValue{
 
@@ -43,19 +42,28 @@ object Suspension extends Enumeration with EnumValue{
 }
 class SuspensionType extends EnumValueType(Suspension){}
 
+
+
 object Break extends Enumeration with EnumValue{
 
   val DRUM, DISC, VENTILATED_DISC = Value
 }
 class BreakType extends EnumValueType(Break){}
 
-class BodyType extends EnumValueType(Body){}
 
-object EnginePosition extends Enumeration with EnumValue{
+
+object Body extends Enumeration with EnumValue{
 
   val MICRO, ECONOMY, COMBI, HATCHBACK, FASTBACK, LIFTBACK, COUPE, INTERMEDIATE, MONOSPACE, FULL_SEDAN, LUXURY_SEDAN, ROADSTER, CABRIOLET, CC ,SPORT, SUPER, LIMOUSINE, MINIVAN, VAN, CAMPERVAN, WAGON, CROSSOVER, MPV, CUV, SUV, OFF_ROAD, TARGA, GRAND_TOURER, PICKUP_TRUCK, MINI_TRUCK, MONSTER_TRUCK, TRUCK, BIG_TRUCK = Value
 }
+class BodyType extends EnumValueType(Body){}
 
+
+
+object EnginePosition extends Enumeration with EnumValue{
+
+  val MIDDLE_TRANSVERSELY, REAR_TRANSVERSELY, FRONT_TRANSVERSELY, MIDDLE_LONGITUDINAL, REAR_LONGITUDINAL, FRONT_LONGITUDINAL = Value
+}
 class EnginePositionType extends EnumValueType(EnginePosition){}
 
 
@@ -77,7 +85,7 @@ abstract class Vehicle extends Serializable {
   //The time needed to accelerate the vehicle from a given start velocity to a given target velocity.
   //Typical unit code(s): seconds/0..100 km/h
   @BeanProperty
-  var accelerationTime: Float  = _
+  var accelerationTime: Double  = _
 
   //Indicates the design and body style of the vehicle.
   @BeanProperty
@@ -94,22 +102,22 @@ abstract class Vehicle extends Serializable {
 
   //The amount of fuel consumed for traveling with the given vehicle (e.g. liters per 100 km).
   @BeanProperty
-  var AvgFuelConsumption: Float = _
+  var avgFuelConsumption: Double = _
 
   //Images of the vehicle.
   @BeanProperty
   @OneToMany
-  var images: util.List[Photo] = _
+  var images: util.List[Photo] = new util.ArrayList[Photo]()
 
   //Videos of the vehicle.
   @BeanProperty
   @OneToMany
-  var videos: util.List[Video] = _
+  var videos: util.List[Video] = new util.ArrayList[Video]()
 
   //Relevant documentations (technical specification, brochures...)
   @BeanProperty
   @OneToMany
-  var files: util.List[File] = _
+  var files: util.List[File] = new util.ArrayList[File]()
 
   //The sub-model (serie) of the product.
   @BeanProperty
@@ -244,7 +252,7 @@ abstract class Vehicle extends Serializable {
   //The drag coefficient is a common measure about the vehicle aerodynamics.
   // Drag is a force that acts parallel and in the same direction as the airflow.
   @BeanProperty
-  var dragCoefficient: Float = _
+  var dragCoefficient: Double = _
 
   //Ride height (also called clearance) is the shortest distance between a flat, level surface (the ground) the lowest point of the vehicle other than those parts designed to contact the ground.
   @BeanProperty
@@ -252,19 +260,19 @@ abstract class Vehicle extends Serializable {
 
   //The Approach angle is the maximum angle of a ramp onto which a vehicle can climb from a horizontal plane without interference.
   @BeanProperty
-  var approachAngle: Float = _
+  var approachAngle: Double = _
 
   //The Departure angle is the maximum ramp angle from which the car can descend without damage.
   @BeanProperty
-  var departureAngle: Float = _
+  var departureAngle: Double = _
 
   //The ramp angle is the maximum angle at which the car can travel at low speed over a ramp or obstacle without the underbody touching the edge of the ramp.
   @BeanProperty
-  var rampAngle: Float = _
+  var rampAngle: Double = _
 
   //The maximum slope that a vehicle can climb.
   @BeanProperty
-  var climbAngle: Float = _
+  var climbAngle: Double = _
 
   //The distance between the front and the front axle.
   @BeanProperty

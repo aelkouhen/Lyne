@@ -14,5 +14,5 @@ class Photo extends File with Serializable {
 
   @BeanProperty
   @OneToMany(mappedBy = "photo")
-  var tags: util.List[PhotoTag] = _
+  var tags: util.List[PhotoTag] = new util.ArrayList[PhotoTag]()
 }

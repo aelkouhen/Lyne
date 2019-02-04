@@ -33,7 +33,7 @@ class Model extends Serializable {
   //The series of the model.
   @BeanProperty
   @OneToMany(mappedBy = "model")
-  var series: util.List[Serie] = _
+  var series: util.List[Serie] = new util.ArrayList[Serie]()
 
   //The Make of the model.
   @BeanProperty

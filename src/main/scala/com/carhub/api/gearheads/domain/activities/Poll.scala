@@ -18,7 +18,7 @@ class Poll extends Topic {
 
   @BeanProperty
   @OneToMany(mappedBy = "poll")
-  var choices: util.List[Choice] = _
+  var choices: util.List[Choice] = new util.ArrayList[Choice]()
 
   @BeanProperty
   @ManyToOne

@@ -66,11 +66,11 @@ class Engine extends Serializable {
   //The volume swept by all of the pistons inside the cylinders of an internal combustion engine in a single movement.
   //Typical unit code(s): CMQ for cubic centimeter
   @BeanProperty
-  var engineDisplacement: Float = _
+  var engineDisplacement: Double = _
 
   //The power of the vehicle's engine. Typical unit code(s): KWT for kilowatt
   @BeanProperty
-  var enginePower: Float  = _
+  var enginePower: Double  = _
 
   //The type of fuel injection system powering the engine.
   @BeanProperty
@@ -103,23 +103,23 @@ class Engine extends Serializable {
 
   //The bore is the diameter the cylinder in which a piston travels in (mm).
   @BeanProperty
-  var cylinderBore: Float = _
+  var cylinderBore: Double = _
 
   //The Piston Stroke
   @BeanProperty
-  var pistonStroke: Float = _
+  var pistonStroke: Double = _
 
   //The Compression ratio of the piston.
   @BeanProperty
-  var compressionRatio: Float = _
+  var compressionRatio: Double = _
 
   //The Number of valves per cylinder.
   @BeanProperty
   var valvesPerCylinder: Int = _
 
   //The Engine Oil capacity in (l).
-  var oilCapacity: Float = _
+  var oilCapacity: Double = _
 
   //The Engine Coolant capacity in (l).
-  var coolantCapacity: Float = _
+  var coolantCapacity: Double = _
 }

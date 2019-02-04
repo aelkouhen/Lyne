@@ -21,7 +21,7 @@ class Thread extends Topic {
 
   @BeanProperty
   @OneToMany(mappedBy = "thread")
-  var posts: util.List[Post] = _
+  var posts: util.List[Post] = new util.ArrayList[Post]()
 
   @BeanProperty
   @ManyToOne

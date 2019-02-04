@@ -1,6 +1,7 @@
 package com.carhub.api.gearheads.domain.activities
 
 import java.lang.Long
+import java.util
 import java.util._
 
 import com.carhub.api.gearheads.domain.Gearhead
@@ -46,10 +47,10 @@ class Message extends Serializable {
 
   @BeanProperty
   @OneToMany(mappedBy = "message")
-  var recipients: List[MessageRecipient] = _
+  var recipients: List[MessageRecipient] = new util.ArrayList[MessageRecipient]()
 
   @Lob
   @BeanProperty
   @OneToMany
-  var uploadedFiles: List[File] = _
+  var uploadedFiles: List[File] = new util.ArrayList[File]()
 }

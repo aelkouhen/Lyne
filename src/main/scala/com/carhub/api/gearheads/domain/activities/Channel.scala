@@ -21,10 +21,10 @@ class Channel extends Topic {
 
   @BeanProperty
   @OneToMany(mappedBy = "channel")
-  var treads: util.List[Thread] = _
+  var treads: util.List[Thread] = new util.ArrayList[Thread]()
 
   @BeanProperty
   @OneToMany(mappedBy = "channel")
-  var polls: util.List[Poll] = _
+  var polls: util.List[Poll] = new util.ArrayList[Poll]()
 
 }

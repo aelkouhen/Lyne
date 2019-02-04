@@ -26,6 +26,10 @@ class Make extends Serializable {
   var name:String  = _
 
   @BeanProperty
+  var oldName:String  = _
+
+  @BeanProperty
+  @Column(length = 1000)
   var about:String  = _
 
   @BeanProperty
@@ -49,5 +53,5 @@ class Make extends Serializable {
   //The series of the model.
   @BeanProperty
   @OneToMany(mappedBy = "make")
-  var models: util.List[Model] = _
+  var models: util.List[Model] = new util.ArrayList[Model]()
 }

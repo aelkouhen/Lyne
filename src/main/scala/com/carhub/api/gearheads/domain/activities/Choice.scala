@@ -31,5 +31,5 @@ class Choice extends Serializable {
 
   @BeanProperty
   @OneToMany
-  var voters: util.List[Gearhead] = _
+  var voters: util.List[Gearhead] = new util.ArrayList[Gearhead]()
 }

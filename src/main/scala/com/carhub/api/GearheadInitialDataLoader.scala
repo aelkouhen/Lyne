@@ -15,26 +15,26 @@ import org.springframework.stereotype.Component
 
 
 @Component
-class InitialDataLoader(@Autowired
-                        val channelRepository: ChannelRepository,
-                        val choiceRepository: ChoiceRepository,
-                        val eventMembershipRepository: EventMembershipRepository,
-                        val eventRepository: EventRepository,
-                        val fileRepository: FileRepository,
-                        val gearheadRepository: GearheadRepository,
-                        val locationRepository: LocationRepository,
-                        val messageRecipientRepository: MessageRecipientRepository,
-                        val messageRepository: MessageRepository,
-                        val photoAlbumRepository: PhotoAlbumRepository,
-                        val photoRepository: PhotoRepository,
-                        val photoTagRepository: PhotoTagRepository,
-                        val pollRepository: PollRepository,
-                        val postRepository: PostRepository,
-                        val relationshipRepository: RelationshipRepository,
-                        val threadRepository: ThreadRepository,
-                        val topicMembershipRepository: TopicMembershipRepository,
-                        val workplaceRepository: WorkplaceRepository)
-                        extends ApplicationRunner {
+class GearheadInitialDataLoader(@Autowired
+                                val channelRepository: ChannelRepository,
+                                val choiceRepository: ChoiceRepository,
+                                val eventMembershipRepository: EventMembershipRepository,
+                                val eventRepository: EventRepository,
+                                val fileRepository: FileRepository,
+                                val gearheadRepository: GearheadRepository,
+                                val locationRepository: LocationRepository,
+                                val messageRecipientRepository: MessageRecipientRepository,
+                                val messageRepository: MessageRepository,
+                                val photoAlbumRepository: PhotoAlbumRepository,
+                                val photoRepository: PhotoRepository,
+                                val photoTagRepository: PhotoTagRepository,
+                                val pollRepository: PollRepository,
+                                val postRepository: PostRepository,
+                                val relationshipRepository: RelationshipRepository,
+                                val threadRepository: ThreadRepository,
+                                val topicMembershipRepository: TopicMembershipRepository,
+                                val workplaceRepository: WorkplaceRepository)
+                                extends ApplicationRunner {
 
   def run(args: ApplicationArguments): Unit = {
 
