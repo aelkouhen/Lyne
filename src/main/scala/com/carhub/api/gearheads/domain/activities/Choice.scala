@@ -13,6 +13,7 @@ import scala.beans.BeanProperty
 @Table(name = "choice")
 @JsonApi(apiType = "choice")
 class Choice extends Serializable {
+
   @Id
   @BeanProperty
   @GeneratedValue(strategy = GenerationType.IDENTITY)

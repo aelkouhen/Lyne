@@ -44,5 +44,4 @@ class Location extends Serializable{
 
 
   override def toString = s"Location ($street, $city, $state, $country)"
-
 }

@@ -58,5 +58,4 @@ class Event extends Serializable {
   @BeanProperty
   @OneToOne
   var location: Location = _
-
 }

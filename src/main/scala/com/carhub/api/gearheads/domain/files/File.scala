@@ -48,5 +48,4 @@ class File extends Serializable {
   @BeanProperty
   @OneToOne
   var owner: Gearhead = _
-
 }

@@ -26,5 +26,4 @@ class Channel extends Topic {
   @BeanProperty
   @OneToMany(mappedBy = "channel")
   var polls: util.List[Poll] = new util.ArrayList[Poll]()
-
 }

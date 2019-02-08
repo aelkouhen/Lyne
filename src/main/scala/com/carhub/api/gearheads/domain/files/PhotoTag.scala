@@ -35,10 +35,7 @@ class PhotoTag extends Serializable {
   @ManyToOne
   var photo: Photo = _
 
-  /*
   @BeanProperty
   @OneToOne
   var taggedCar: Car = _
-  */
-
 }

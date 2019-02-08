@@ -23,5 +23,4 @@ class Poll extends Topic {
   @BeanProperty
   @ManyToOne
   var channel: Channel = _
-
 }

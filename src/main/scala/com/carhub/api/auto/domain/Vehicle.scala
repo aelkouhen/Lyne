@@ -295,5 +295,6 @@ abstract class Vehicle extends Serializable {
   var tireSize: String = _
 
   //The Wheel rims size
+  @BeanProperty
   var rimsSize: String = _
 }

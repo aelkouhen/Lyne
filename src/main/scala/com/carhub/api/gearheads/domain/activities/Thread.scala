@@ -26,5 +26,4 @@ class Thread extends Topic {
   @BeanProperty
   @ManyToOne
   var channel: Channel = _
-
 }

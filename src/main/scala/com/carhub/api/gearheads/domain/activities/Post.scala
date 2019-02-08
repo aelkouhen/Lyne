@@ -53,5 +53,4 @@ class Post extends Serializable {
   @BeanProperty
   @OneToMany
   var uploadedFiles: List[File] = new util.ArrayList[File]()
-
 }

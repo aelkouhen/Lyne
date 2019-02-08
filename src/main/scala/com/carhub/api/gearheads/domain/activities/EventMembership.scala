@@ -38,5 +38,4 @@ class EventMembership extends Serializable {
   @BeanProperty
   @ManyToOne
   var gearhead: Gearhead = _
-
 }

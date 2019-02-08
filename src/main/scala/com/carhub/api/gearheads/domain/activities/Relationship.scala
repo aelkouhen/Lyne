@@ -28,6 +28,7 @@ class RelationshipType extends EnumValueType(RelationshipKind){}
 @Table(name = "relationship")
 @JsonApi(apiType = "relationship")
 class Relationship extends Serializable {
+
   @Id
   @BeanProperty
   @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -57,5 +58,4 @@ class Relationship extends Serializable {
   @BeanProperty
   @OneToOne
   var relatedTo: Gearhead = _
-
 }

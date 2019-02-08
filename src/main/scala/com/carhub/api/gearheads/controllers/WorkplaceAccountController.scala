@@ -34,5 +34,4 @@ class WorkplaceAccountController(accountService: AccountManagementService) {
     ResponseEntity.ok(JsonApiList(result))
   }
 
-
 }

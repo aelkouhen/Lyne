@@ -118,8 +118,10 @@ class Engine extends Serializable {
   var valvesPerCylinder: Int = _
 
   //The Engine Oil capacity in (l).
+  @BeanProperty
   var oilCapacity: Double = _
 
   //The Engine Coolant capacity in (l).
+  @BeanProperty
   var coolantCapacity: Double = _
 }

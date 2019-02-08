@@ -41,5 +41,4 @@ abstract class Topic extends Serializable{
   @BeanProperty
   @Temporal(TemporalType.TIMESTAMP)
   var updateTime: Date = _
-
 }

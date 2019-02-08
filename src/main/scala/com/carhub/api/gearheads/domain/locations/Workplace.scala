@@ -41,5 +41,4 @@ class Workplace extends Serializable{
   var location: Location = _
 
   override def toString = s"Workplace ($position in $companyName)"
-
 }

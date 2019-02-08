@@ -54,5 +54,4 @@ class PhotoAlbum extends Serializable {
   @BeanProperty
   @ManyToOne
   var gearhead: Gearhead = _
-
 }

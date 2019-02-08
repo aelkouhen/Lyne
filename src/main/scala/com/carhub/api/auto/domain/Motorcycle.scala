@@ -5,6 +5,4 @@ import javax.persistence._
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorValue("MOTORCYCLE")
-class Motorcycle extends Vehicle {
-
-}
+class Motorcycle extends Vehicle {}
