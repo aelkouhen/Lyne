@@ -3,9 +3,7 @@ package com.carhub.api.auto.domain
 import java.util
 import java.util.Date
 
-import com.carhub.api.gearheads.domain.files.Photo
-import com.carhub.api.gearheads.domain.locations.Location
-import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 
 import scala.beans.BeanProperty
@@ -33,8 +31,7 @@ class Make extends Serializable {
   var about:String  = _
 
   @BeanProperty
-  @OneToOne
-  var headquarterLocation: Location  = _
+  var headquarterLocation: String  = _
 
   @BeanProperty
   @Temporal(TemporalType.DATE)
@@ -45,7 +42,7 @@ class Make extends Serializable {
 
   @BeanProperty
   @OneToOne
-  var logo:Photo = _
+  var logo: Photo = _
 
   @BeanProperty
   var founder:String = _

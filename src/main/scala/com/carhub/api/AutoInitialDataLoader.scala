@@ -5,8 +5,8 @@ import java.util.{Calendar, Locale}
 
 import com.carhub.api.auto.domain._
 import com.carhub.api.auto.repositories._
-import com.carhub.api.gearheads.domain.files.{File, Photo, Video}
-import com.carhub.api.gearheads.repositories.{FileRepository, PhotoRepository, VideoRepository}
+import com.carhub.api.auto.domain.{File, Photo, Video}
+import com.carhub.api.auto.repositories.{FileRepository, PhotoRepository, VideoRepository}
 import com.google.common.io.Files
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.{ApplicationArguments, ApplicationRunner}
@@ -107,7 +107,7 @@ class AutoInitialDataLoader(@Autowired
     car.serie = serie
     car.images.add({
       val photo = new Photo
-      val picture = new ClassPathResource("image/xtrail.jpg")
+      val picture = new ClassPathResource("images/xtrail.jpg")
       val inputStream = picture.getInputStream
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
@@ -123,7 +123,7 @@ class AutoInitialDataLoader(@Autowired
 
     car.images.add({
       val photo = new Photo
-      val picture = new ClassPathResource("image/nissan-x-trail.jpg")
+      val picture = new ClassPathResource("images/nissan-x-trail.jpg")
       val inputStream = picture.getInputStream
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
@@ -149,7 +149,7 @@ class AutoInitialDataLoader(@Autowired
 
     car.files.add({
       val file = new File
-      val brochure = new ClassPathResource("Brochure_XTRAIL.pdf")
+      val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
       val inputStream = brochure.getInputStream
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
@@ -168,7 +168,7 @@ class AutoInitialDataLoader(@Autowired
 
   private def createPhoto() = {
     val photo = new Photo
-    val picture = new ClassPathResource("image/nissan_logo.png")
+    val picture = new ClassPathResource("images/nissan_logo.png")
     val inputStream = picture.getInputStream
     val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()

@@ -1,7 +1,7 @@
 package com.carhub.api.auto.domain
 
-import com.carhub.api.utils.enumeration.{EnumValue, EnumValueType}
-import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.carhub.api.auto.utils.enumeration.{EnumValue, EnumValueType}
+import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 import org.hibernate.annotations.Type
 

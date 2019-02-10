@@ -3,7 +3,7 @@ package com.carhub.api.auto.domain
 import java.util
 import java.util.Date
 
-import com.carhub.api.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 
 import scala.beans.BeanProperty

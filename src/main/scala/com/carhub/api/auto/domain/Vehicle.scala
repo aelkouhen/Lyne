@@ -4,9 +4,8 @@ import java.io.Serializable
 import java.lang.Long
 import java.util
 
-import com.carhub.api.gearheads.domain.files.{File, Photo, Video}
-import com.carhub.api.utils.enumeration.{EnumValue, EnumValueType}
-import com.carhub.api.utils.jsonapi.annotations.JsonApiId
+import com.carhub.api.auto.utils.enumeration.{EnumValue, EnumValueType}
+import com.carhub.api.auto.utils.jsonapi.annotations.JsonApiId
 import javax.persistence._
 import org.hibernate.annotations.Type
 
