@@ -2,8 +2,8 @@
 <project version="4">
   <component name="CompilerConfiguration">
     <bytecodeTargetLevel>
-      <module name="lyne.main" target="1.8" />
-      <module name="lyne.test" target="1.8" />
+      <module name="Lyne.main" target="1.8" />
+      <module name="Lyne.test" target="1.8" />
     </bytecodeTargetLevel>
   </component>
 </project>

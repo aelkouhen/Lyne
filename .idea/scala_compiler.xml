@@ -1,13 +1,13 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ScalaCompilerConfiguration">
-    <profile name="Gradle 1" modules="lyne.main,lyne.test,lyne">
+    <profile name="Gradle 1" modules="lyne.main,lyne.test,lyne,Lyne">
       <option name="deprecationWarnings" value="true" />
       <option name="uncheckedWarnings" value="true" />
       <parameters>
         <parameter value="-target:jvm-1.8" />
       </parameters>
     </profile>
-    <profile name="sbt 1" modules="lyne_8609" />
+    <profile name="sbt 1" modules="lyne_8609,Lyne-lyne" />
   </component>
 </project>
