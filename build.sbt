@@ -10,7 +10,7 @@ libraryDependencies ++= Seq (
   "org.springframework.boot" % "spring-boot-starter-data-jpa" % springVersion,
   "org.springframework.boot" % "spring-boot-starter-actuator" % springVersion,
   "org.springframework.boot" % "spring-boot-starter-security" % springVersion,
-  "org.springframework.cloud" % "spring-cloud-netflix-eureka-client" % "1.1.0.RELEASE",
+  "org.springframework.cloud" % "spring-cloud-starter-eureka" % "1.4.6.RELEASE",
   "com.typesafe.scala-logging" %% "scala-logging" % "3.9.0",
   "com.google.guava" % "guava" % "27.0.1-jre",
   "org.thymeleaf" % "thymeleaf-spring4" % thymeleafVersion,
