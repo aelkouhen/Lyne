@@ -56,7 +56,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     serieCommandService.addSerie(serie)
 
-    val car = new Car()
+    var car = new Car()
     car.accelerationTime = 11.4
     car.avgFuelConsumption = 5.1
     car.numberOfDoors = 5
@@ -71,21 +71,6 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.wheelBase = 2705
     car.rideHeight = 210
     car.enginePosition = EnginePosition.FRONT_TRANSVERSELY
-
-    val engine = new Engine
-    engine.name = "1.6 dCi"
-    engine.engineDisplacement = 1598
-    engine.torque = 320
-    engine.injectionSystem = InjectionSystem.CRDI
-    engine.turbineSystem = TurbineSystem.TURBO
-    engine.positionOfCylinders = CylinderPosition.INLINE
-    engine.numberOfCylinders = 4
-    engine.valvesPerCylinder = 4
-    engine.fuelType = Fuel.DIESEL
-
-    engineCommandService.addEngine(engine)
-
-    car.engine = engine
     car.driveWheelConfiguration = WDEnum.FRONT_2WD
     car.vehicleTransmission = Transmission.AT
     car.frontSuspension = Suspension.MCPHERSON_SPRING_WITH_STABILIZER
@@ -99,21 +84,6 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.tireSize = "225/65 R17; 225/60 R18; 225/55 R19"
     car.rimsSize = "R17; R18; R19"
     car.serie = serie
-    car.images.add({
-      val photo = new Photo
-      val picture = new ClassPathResource("images/xtrail.jpg")
-      val inputStream = picture.getInputStream
-      val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
-      inputStream.close()
-      photo.size = picture.contentLength()
-      photo.extension = Files.getFileExtension(picture.getFilename)
-      photo.caption = "Xtrail"
-      photo.created = Calendar.getInstance().getTime()
-      photo.content = arrayPic
-      photoCommandService.addPhoto(photo)
-
-      photo
-    })
 
     car.images.add({
       val photo = new Photo
@@ -131,33 +101,60 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       photo
     })
 
-    car.videos.add({
-      val video = new Video
-      video.caption = "Technical Spec. Video"
-      video.created = Calendar.getInstance().getTime()
-      video.link = "https://youtu.be/9u9x4kveojU"
-      videoCommandService.addVideo(video)
-
-      video
-    })
-
-    car.files.add({
-      val file = new File
-      val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
-      val inputStream = brochure.getInputStream
-      val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
-      inputStream.close()
-      file.size = brochure.contentLength()
-      file.extension = Files.getFileExtension(brochure.getFilename)
-      file.caption = "Brochure"
-      file.created = Calendar.getInstance().getTime()
-      file.content = arrayPic
-      fileCommandService.addFile(file)
-
-      file
-    })
-
     carCommandService.addCar(car)
+
+    val engine = new Engine
+    engine.name = "1.6 dCi"
+    engine.engineDisplacement = 1598
+    engine.torque = 320
+    engine.injectionSystem = InjectionSystem.CRDI
+    engine.turbineSystem = TurbineSystem.TURBO
+    engine.positionOfCylinders = CylinderPosition.INLINE
+    engine.numberOfCylinders = 4
+    engine.valvesPerCylinder = 4
+    engine.fuelType = Fuel.DIESEL
+
+    engineCommandService.addEngine(engine)
+    carCommandService.updateCarEngine(car, engine)
+
+
+    val photo = new Photo
+    val picture = new ClassPathResource("images/xtrail.jpg")
+    var inputStream = picture.getInputStream
+    var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
+    inputStream.close()
+    photo.size = picture.contentLength()
+    photo.extension = Files.getFileExtension(picture.getFilename)
+    photo.caption = "Xtrail"
+    photo.created = Calendar.getInstance().getTime()
+    photo.content = arrayPic
+    photoCommandService.addPhoto(photo)
+
+    carCommandService.updateCarAddPhoto(car, photo)
+
+
+    val video = new Video
+    video.caption = "Technical Spec. Video"
+    video.created = Calendar.getInstance().getTime()
+    video.link = "https://youtu.be/9u9x4kveojU"
+    videoCommandService.addVideo(video)
+
+    carCommandService.updateCarAddVideo(car, video)
+
+    val file = new File
+    val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
+    inputStream = brochure.getInputStream
+    arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
+    inputStream.close()
+    file.size = brochure.contentLength()
+    file.extension = Files.getFileExtension(brochure.getFilename)
+    file.caption = "Brochure"
+    file.created = Calendar.getInstance().getTime()
+    file.content = arrayPic
+    fileCommandService.addFile(file)
+
+
+    carCommandService.updateCarAddFile(car, file)
   }
 
   private def createPhoto() = {
@@ -175,5 +172,4 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     photo
   }
-
 }

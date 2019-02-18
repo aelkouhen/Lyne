@@ -6,8 +6,10 @@ import com.carhub.api.auto.domain._
 import com.carhub.api.auto.repositories.{CarRepository, EngineRepository}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
+import org.springframework.transaction.annotation.Transactional
 
 @Autowired
+@Transactional
 @Service
 class CarCommandService(carRepository: CarRepository, engineRepository: EngineRepository){
 
@@ -74,43 +76,43 @@ class CarCommandService(carRepository: CarRepository, engineRepository: EngineRe
   def updateCarEngine(car : Car, engine : Engine) = {
     val carToUpdate = carRepository.getOne(car.id)
     carToUpdate.engine = engine
-    carRepository.save(car)
+    carRepository.save(carToUpdate)
   }
 
   def updateCarFiles(car : Car, files : util.List[File]) = {
     val carToUpdate = carRepository.getOne(car.id)
     carToUpdate.files.addAll(files)
-    carRepository.save(car)
+    carRepository.save(carToUpdate)
   }
 
   def updateCarPhotos(car : Car, photos : util.List[Photo]) = {
     val carToUpdate = carRepository.getOne(car.id)
     carToUpdate.images.addAll(photos)
-    carRepository.save(car)
+    carRepository.save(carToUpdate)
   }
 
   def updateCarVideos(car : Car, videos : util.List[Video]) = {
     val carToUpdate = carRepository.getOne(car.id)
     carToUpdate.videos.addAll(videos)
-    carRepository.save(car)
+    carRepository.save(carToUpdate)
   }
 
   def updateCarAddFile(car : Car, file: File) = {
     val carToUpdate = carRepository.getOne(car.id)
     carToUpdate.files.add(file)
-    carRepository.save(car)
+    carRepository.save(carToUpdate)
   }
 
   def updateCarAddPhoto(car : Car, photo : Photo) = {
     val carToUpdate = carRepository.getOne(car.id)
     carToUpdate.images.add(photo)
-    carRepository.save(car)
+    carRepository.save(carToUpdate)
   }
 
   def updateCarAddVideo(car : Car, video : Video) = {
     val carToUpdate = carRepository.getOne(car.id)
     carToUpdate.videos.add(video)
-    carRepository.save(car)
+    carRepository.save(carToUpdate)
   }
 
   def deleteCar(car : Car)= carRepository.delete(car)
