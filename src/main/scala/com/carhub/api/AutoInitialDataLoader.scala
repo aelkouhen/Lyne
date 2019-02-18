@@ -4,30 +4,24 @@ import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
 import com.carhub.api.auto.domain._
-import com.carhub.api.auto.repositories._
+import com.carhub.api.auto.services.command._
 import com.carhub.api.auto.domain.{File, Photo, Video}
-import com.carhub.api.auto.repositories.{FileRepository, PhotoRepository, VideoRepository}
 import com.google.common.io.Files
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.{ApplicationArguments, ApplicationRunner}
 import org.springframework.core.io.ClassPathResource
 import org.springframework.stereotype.Component
 
-
+@Autowired
 @Component
-class AutoInitialDataLoader(@Autowired
-                            val busRepository: BusRepository,
-                            val carRepository: CarRepository,
-                            val engineRepository: EngineRepository,
-                            val makeRepository: MakeRepository,
-                            val motorcycleRepository: MotorcycleRepository,
-                            val modelRepository: ModelRepository,
-                            val motorizedBicycleRepository: MotorizedBicycleRepository,
-                            val serieRepository: SerieRepository,
-                            val videoRepository: VideoRepository,
-                            val fileRepository: FileRepository,
-                            val photoRepository: PhotoRepository)
-
+class AutoInitialDataLoader(carCommandService : CarCommandService,
+                            engineCommandService : EngineCommandService,
+                            fileCommandService : FileCommandService,
+                            makeCommandService : MakeCommandService,
+                            modelCommandService : ModelCommandService,
+                            photoCommandService : PhotoCommandService,
+                            serieCommandService : SerieCommandService,
+                            videoCommandService : VideoCommandService)
                             extends ApplicationRunner {
 
   def run(args: ApplicationArguments): Unit = {
@@ -41,7 +35,7 @@ class AutoInitialDataLoader(@Autowired
     make.founder = "Yoshisuke Aikawa"
     make.logo = createPhoto()
 
-    makeRepository.save(make)
+    makeCommandService.addMake(make)
 
 
     val xtrailModel = new Model()
@@ -52,7 +46,7 @@ class AutoInitialDataLoader(@Autowired
     xtrailModel.creationDate = date
     xtrailModel.generation = "III"
 
-    modelRepository.save(xtrailModel)
+    modelCommandService.addModel(xtrailModel)
 
     val serie = new Serie()
     serie.model = xtrailModel
@@ -60,7 +54,7 @@ class AutoInitialDataLoader(@Autowired
     serie.productionEndYear = 2017
     serie.productionStartYear = 2014
 
-    serieRepository.save(serie)
+    serieCommandService.addSerie(serie)
 
     val car = new Car()
     car.accelerationTime = 11.4
@@ -89,7 +83,7 @@ class AutoInitialDataLoader(@Autowired
     engine.valvesPerCylinder = 4
     engine.fuelType = Fuel.DIESEL
 
-    engineRepository.save(engine)
+    engineCommandService.addEngine(engine)
 
     car.engine = engine
     car.driveWheelConfiguration = WDEnum.FRONT_2WD
@@ -116,7 +110,7 @@ class AutoInitialDataLoader(@Autowired
       photo.caption = "Xtrail"
       photo.created = Calendar.getInstance().getTime()
       photo.content = arrayPic
-      photoRepository.saveAndFlush(photo)
+      photoCommandService.addPhoto(photo)
 
       photo
     })
@@ -132,7 +126,7 @@ class AutoInitialDataLoader(@Autowired
       photo.caption = "Xtrail"
       photo.created = Calendar.getInstance().getTime()
       photo.content = arrayPic
-      photoRepository.saveAndFlush(photo)
+      photoCommandService.addPhoto(photo)
 
       photo
     })
@@ -142,7 +136,7 @@ class AutoInitialDataLoader(@Autowired
       video.caption = "Technical Spec. Video"
       video.created = Calendar.getInstance().getTime()
       video.link = "https://youtu.be/9u9x4kveojU"
-      videoRepository.saveAndFlush(video)
+      videoCommandService.addVideo(video)
 
       video
     })
@@ -158,12 +152,12 @@ class AutoInitialDataLoader(@Autowired
       file.caption = "Brochure"
       file.created = Calendar.getInstance().getTime()
       file.content = arrayPic
-      fileRepository.saveAndFlush(file)
+      fileCommandService.addFile(file)
 
       file
     })
 
-    carRepository.save(car)
+    carCommandService.addCar(car)
   }
 
   private def createPhoto() = {
@@ -177,7 +171,7 @@ class AutoInitialDataLoader(@Autowired
     photo.caption = "Nissan's logo"
     photo.created = Calendar.getInstance().getTime()
     photo.content = arrayPic
-    photoRepository.saveAndFlush(photo)
+    photoCommandService.addPhoto(photo)
 
     photo
   }

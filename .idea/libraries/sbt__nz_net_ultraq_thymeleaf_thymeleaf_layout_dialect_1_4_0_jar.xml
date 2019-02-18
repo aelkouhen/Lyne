@@ -1,0 +1,11 @@
+<component name="libraryTable">
+  <library name="sbt: nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect:1.4.0:jar">
+    <CLASSES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect/jars/thymeleaf-layout-dialect-1.4.0.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.ivy2/cache/nz.net.ultraq.thymeleaf/thymeleaf-layout-dialect/srcs/thymeleaf-layout-dialect-1.4.0-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
