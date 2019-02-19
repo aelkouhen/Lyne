@@ -57,6 +57,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     serieCommandService.addSerie(serie)
 
     var car = new Car()
+    car.name = "Nissan X-Trail 1.6 dCi (130 Hp) Xtronic"
     car.accelerationTime = 11.4
     car.avgFuelConsumption = 5.1
     car.numberOfDoors = 5
@@ -91,7 +92,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       val inputStream = picture.getInputStream
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
-      photo.size = picture.contentLength()
+      photo.size = picture.contentLength
+      photo.name = picture.getFilename
       photo.extension = Files.getFileExtension(picture.getFilename)
       photo.caption = "Xtrail"
       photo.created = Calendar.getInstance().getTime()
@@ -123,7 +125,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     var inputStream = picture.getInputStream
     var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
-    photo.size = picture.contentLength()
+    photo.size = picture.contentLength
+    photo.name = picture.getFilename
     photo.extension = Files.getFileExtension(picture.getFilename)
     photo.caption = "Xtrail"
     photo.created = Calendar.getInstance().getTime()
@@ -134,6 +137,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
 
     val video = new Video
+    video.name = "TS"
     video.caption = "Technical Spec. Video"
     video.created = Calendar.getInstance().getTime()
     video.link = "https://youtu.be/9u9x4kveojU"
@@ -146,7 +150,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     inputStream = brochure.getInputStream
     arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
-    file.size = brochure.contentLength()
+    file.name = brochure.getFilename
+    file.size = brochure.contentLength
     file.extension = Files.getFileExtension(brochure.getFilename)
     file.caption = "Brochure"
     file.created = Calendar.getInstance().getTime()
@@ -163,7 +168,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     val inputStream = picture.getInputStream
     val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
-    photo.size = picture.contentLength()
+    photo.size = picture.contentLength
+    photo.name = picture.getFilename
     photo.extension = Files.getFileExtension(picture.getFilename)
     photo.caption = "Nissan's logo"
     photo.created = Calendar.getInstance().getTime()

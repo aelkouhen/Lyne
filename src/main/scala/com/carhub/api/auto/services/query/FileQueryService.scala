@@ -11,11 +11,18 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class FileQueryService(fileRepository : FileRepository) {
 
-  def getFilesPage(page : Int, size: Int, sortDirection : String, sort : String) =
-    fileRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.valueOf(sortDirection), sort)))
+  def getFilesPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    fileRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getFilesList(page : Int, size: Int, sortDirection : String, sort : String) =
-    getFilesPage(page, size, sortDirection, sort).getContent
+  def getFilesListAsc(page : Int, size: Int, sort : String) =
+    getFilesPage(page, size, Sort.Direction.ASC, sort).getContent
+
+  def getFilesListDesc(page : Int, size: Int, sort : String) =
+    getFilesPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllFiles() = fileRepository.count
+
+  def findFileByName(name : String) = fileRepository.findFileByName(name)
+
+  def findFileByExtension(ext : String) = fileRepository.findFileByExtension(ext)
 }

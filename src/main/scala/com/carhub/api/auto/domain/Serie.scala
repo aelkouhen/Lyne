@@ -3,6 +3,7 @@ package com.carhub.api.auto.domain
 import java.util
 
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence._
 
 import scala.beans.BeanProperty
@@ -24,12 +25,14 @@ class Serie extends Serializable {
 
   //The model of the serie.
   @BeanProperty
+  @JsonIgnore
   @OneToOne
   var model: Model = _
 
   //The vehicles of the Serie.
   @BeanProperty
-  @OneToMany(mappedBy = "serie")
+  @JsonIgnore
+  @OneToMany(mappedBy = "serie", fetch = FetchType.LAZY)
   var vehicles: util.List[Vehicle] = new util.ArrayList[Vehicle]()
 
   //Begin year of production

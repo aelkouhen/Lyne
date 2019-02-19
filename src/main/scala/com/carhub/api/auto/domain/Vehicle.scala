@@ -5,20 +5,18 @@ import java.lang.Long
 import java.util
 
 import com.carhub.api.auto.utils.enumeration.{EnumValue, EnumValueType}
-import com.carhub.api.auto.utils.jsonapi.annotations.JsonApiId
+import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.fasterxml.jackson.annotation.JsonIgnore
+
 import javax.persistence._
 import org.hibernate.annotations.Type
 
 import scala.beans.BeanProperty
 
-
-
 object WDEnum extends Enumeration with EnumValue{
   val FRONT_2WD, REAR_2WD, ALL_4WD = Value
 }
 class WDType extends EnumValueType(WDEnum){}
-
-
 
 object Transmission extends Enumeration with EnumValue{
   /*
@@ -33,15 +31,11 @@ object Transmission extends Enumeration with EnumValue{
 }
 class TransmissionType extends EnumValueType(Transmission){}
 
-
-
 object Suspension extends Enumeration with EnumValue{
 
   val MCPHERSON_STRUT, DEPRECIATED_RACK, HELICAL_SPRING, ANTIROLL_SPRING, SPRING, COIL_SPRING, SUSPENSION_WITH_STEERING_ROD, MULTI_LINK_SPRING, MULTI_LINK_SPRING_WITH_ABSORBERS, MCPHERSON_SPRING_WITH_STABILIZER, SPRING_LOADED_RACK, HYDRAULIC, PNEUMATIC, HYDRO_PNEUMATIC, WISHBONE, DOUBLE_WISHBONE, INCLINED_LEVER, TRAPEZOIDAL_LEVER, BEAM_BRIDGE, ROTARY_FIST, TRANSVERSE_STABILIZER, TRAILING, TORSION, THREADED_TWIST_BEAM, ELASTIC_BEAM, DE_DION = Value
 }
 class SuspensionType extends EnumValueType(Suspension){}
-
-
 
 object Break extends Enumeration with EnumValue{
 
@@ -49,15 +43,11 @@ object Break extends Enumeration with EnumValue{
 }
 class BreakType extends EnumValueType(Break){}
 
-
-
 object Body extends Enumeration with EnumValue{
 
   val MICRO, ECONOMY, COMBI, HATCHBACK, FASTBACK, LIFTBACK, COUPE, INTERMEDIATE, MONOSPACE, FULL_SEDAN, LUXURY_SEDAN, ROADSTER, CABRIOLET, CC ,SPORT, SUPER, LIMOUSINE, MINIVAN, VAN, CAMPERVAN, WAGON, CROSSOVER, MPV, CUV, SUV, OFF_ROAD, TARGA, GRAND_TOURER, PICKUP_TRUCK, MINI_TRUCK, MONSTER_TRUCK, TRUCK, BIG_TRUCK = Value
 }
 class BodyType extends EnumValueType(Body){}
-
-
 
 object EnginePosition extends Enumeration with EnumValue{
 
@@ -65,9 +55,9 @@ object EnginePosition extends Enumeration with EnumValue{
 }
 class EnginePositionType extends EnumValueType(EnginePosition){}
 
-
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@JsonApi(apiType= "vehicle")
 @DiscriminatorColumn(name="vehicle_type")
 abstract class Vehicle extends Serializable {
 
@@ -105,22 +95,26 @@ abstract class Vehicle extends Serializable {
 
   //Images of the vehicle.
   @BeanProperty
-  @OneToMany
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY)
   var images: util.List[Photo] = new util.ArrayList[Photo]()
 
   //Videos of the vehicle.
   @BeanProperty
-  @OneToMany
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY)
   var videos: util.List[Video] = new util.ArrayList[Video]()
 
   //Relevant documentations (technical specification, brochures...)
   @BeanProperty
-  @OneToMany
+  @JsonIgnore
+  @OneToMany(fetch = FetchType.LAZY)
   var files: util.List[File] = new util.ArrayList[File]()
 
   //The sub-model (serie) of the product.
   @BeanProperty
-  @OneToOne
+  @JsonIgnore
+  @OneToOne(fetch = FetchType.LAZY)
   var serie: Serie = _
 
   //The release date of a vehicle model (often used to differentiate versions of the same make and model).

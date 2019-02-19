@@ -11,15 +11,16 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class CarQueryService(carRepository: CarRepository){
 
-  def getCarsPage(page : Int, size: Int, sortDirection : String, sort : String) =
-    carRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.valueOf(sortDirection), sort)))
+  def getCarsPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    carRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getCarsList(page : Int, size: Int, sortDirection : String, sort : String) =
-    getCarsPage(page, size, sortDirection, sort).getContent
+  def getCarsListAsc(page : Int, size: Int, sort : String) =
+    getCarsPage(page, size, Sort.Direction.ASC, sort).getContent
+
+  def getCarsListDesc(page : Int, size: Int, sort : String) =
+    getCarsPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllCars() = carRepository.count
 
   def findCarByName(name : String) = carRepository.findByName(name)
-
-  def findCarById(id : Long) = carRepository.findOne(id)
 }

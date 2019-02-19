@@ -12,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class SerieQueryService(serieRepository : SerieRepository){
 
-  def getSeriesPage(page : Int, size: Int, sortDirection : String, sort : String) =
-    serieRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.valueOf(sortDirection), sort)))
+  def getSeriesPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    serieRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getSeriesList(page : Int, size: Int, sortDirection : String, sort : String) =
-    getSeriesPage(page, size, sortDirection, sort).getContent
+  def getSeriesListAsc(page : Int, size: Int, sort : String) =
+    getSeriesPage(page, size, Sort.Direction.ASC, sort).getContent
+
+  def getSeriesListDesc(page : Int, size: Int, sort : String) =
+    getSeriesPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllSeries() = serieRepository.count
 

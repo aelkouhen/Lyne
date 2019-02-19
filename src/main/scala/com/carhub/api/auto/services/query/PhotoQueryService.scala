@@ -11,11 +11,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class PhotoQueryService(photoRepository : PhotoRepository) {
 
-  def getPhotosPage(page : Int, size: Int, sortDirection : String, sort : String) =
-    photoRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.valueOf(sortDirection), sort)))
+  def getPhotosPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    photoRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getPhotosList(page : Int, size: Int, sortDirection : String, sort : String) =
-    getPhotosPage(page, size, sortDirection, sort).getContent
+  def getPhotosListAsc(page : Int, size: Int, sort : String) =
+    getPhotosPage(page, size, Sort.Direction.ASC, sort).getContent
+
+  def getPhotosListDesc(page : Int, size: Int, sort : String) =
+    getPhotosPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllPhotos() = photoRepository.count
 }

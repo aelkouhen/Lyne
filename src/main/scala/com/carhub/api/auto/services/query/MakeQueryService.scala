@@ -12,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class MakeQueryService(makeRepository: MakeRepository) {
 
-  def getMakesPage(page : Int, size: Int, sortDirection : String, sort : String) =
-    makeRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.valueOf(sortDirection), sort)))
+  def getMakesPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    makeRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getMakesList(page : Int, size: Int, sortDirection : String, sort : String) =
-    getMakesPage(page, size, sortDirection, sort).getContent
+  def getMakesListAsc(page : Int, size: Int, sort : String) =
+    getMakesPage(page, size, Sort.Direction.ASC, sort).getContent
+
+  def getMakesListDesc(page : Int, size: Int, sort : String) =
+    getMakesPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllMakes() = makeRepository.count
 

@@ -4,6 +4,7 @@ import java.util
 import java.util.Date
 
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
+import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence._
 
 import scala.beans.BeanProperty
@@ -42,6 +43,7 @@ class Make extends Serializable {
 
   @BeanProperty
   @OneToOne
+  @JsonIgnore
   var logo: Photo = _
 
   @BeanProperty
@@ -49,6 +51,7 @@ class Make extends Serializable {
 
   //The series of the model.
   @BeanProperty
-  @OneToMany(mappedBy = "make")
+  @JsonIgnore
+  @OneToMany(mappedBy = "make", fetch = FetchType.LAZY)
   var models: util.List[Model] = new util.ArrayList[Model]()
 }

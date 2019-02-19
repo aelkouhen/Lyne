@@ -7,13 +7,10 @@ import org.hibernate.annotations.Type
 
 import scala.beans.BeanProperty
 
-
 object Fuel extends Enumeration with EnumValue{
   val UNSPECIFIED, DIESEL, HYBRID, ELECTRICAL, LPG, CNG, HYDROGEN, GAS, ETHANOL = Value
 }
-
 class FuelType extends EnumValueType(Fuel){}
-
 
 object InjectionSystem extends Enumeration with EnumValue{
   //TDI= Turbocharged Direct Injection
@@ -26,14 +23,11 @@ object InjectionSystem extends Enumeration with EnumValue{
   //HDI= High Pressure Direct Injection
   val HYBRID, SDI, CRDI, CARBURETTOR, SPI, HDI, DIRECT_INJECTION, MPI, SPFI = Value
 }
-
-class InjectionSystemType extends EnumValueType(InjectionSystem){}
-
+class InjectionSystemType extends EnumValueType(InjectionSystem) {}
 
 object CylinderPosition extends Enumeration with EnumValue{
   val V_ENGINE, W_ENGINE, BOXER, WANKEL, INLINE = Value
 }
-
 class CylinderPositionType extends EnumValueType(CylinderPosition){}
 
 object TurbineSystem extends Enumeration with EnumValue{
@@ -44,7 +38,6 @@ object TurbineSystem extends Enumeration with EnumValue{
   */
   val COMPRESSOR, TURBO, TWIN_TURBO , TWIN_SCROLL_TURBO, VGT, VTS, ELECTRIC_TURBO = Value
 }
-
 class TurbineSystemType extends EnumValueType(TurbineSystem){}
 
 @Entity

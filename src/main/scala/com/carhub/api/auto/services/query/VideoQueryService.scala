@@ -11,11 +11,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class VideoQueryService(videoRepository : VideoRepository) {
 
-  def getVideosPage(page : Int, size: Int, sortDirection : String, sort : String) =
-    videoRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.valueOf(sortDirection), sort)))
+  def getVideosPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    videoRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getVideosList(page : Int, size: Int, sortDirection : String, sort : String) =
-    getVideosPage(page, size, sortDirection, sort).getContent
+  def getVideosListAsc(page : Int, size: Int, sort : String) =
+    getVideosPage(page, size, Sort.Direction.ASC, sort).getContent
+
+  def getVideosListDesc(page : Int, size: Int, sort : String) =
+    getVideosPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllVideos() = videoRepository.count
 }

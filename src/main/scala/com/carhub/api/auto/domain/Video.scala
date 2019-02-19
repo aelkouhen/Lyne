@@ -6,4 +6,6 @@ import javax.persistence._
 @Entity
 @Table(name = "video")
 @JsonApi(apiType = "video")
-class Video extends File with Serializable {}
+@Inheritance(strategy=InheritanceType.SINGLE_TABLE)
+@DiscriminatorValue("VIDEO")
+class Video extends AbstractFile with Serializable {}

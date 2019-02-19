@@ -12,11 +12,14 @@ import org.springframework.transaction.annotation.Transactional
 @Service
 class ModelQueryService(modelRepository: ModelRepository) {
 
-  def getModelsPage(page : Int, size: Int, sortDirection : String, sort : String) =
-    modelRepository.findAll(new PageRequest(page, size, new Sort(Sort.Direction.valueOf(sortDirection), sort)))
+  def getModelsPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    modelRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getModelsList(page : Int, size: Int, sortDirection : String, sort : String) =
-    getModelsPage(page, size, sortDirection, sort).getContent
+  def getModelsListAsc(page : Int, size: Int, sort : String) =
+    getModelsPage(page, size, Sort.Direction.ASC, sort).getContent
+
+  def getModelsListDesc(page : Int, size: Int, sort : String) =
+    getModelsPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllModels() = modelRepository.count
 
