@@ -21,4 +21,8 @@ class VideoQueryService(videoRepository : VideoRepository) {
     getVideosPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllVideos() = videoRepository.count
+
+  def findVideosByName(name : String) = videoRepository.findVideosByName(name)
+
+  def findVideosByExtension(ext : String) = videoRepository.findVideosByExtension(ext)
 }

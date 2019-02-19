@@ -13,7 +13,7 @@ import org.springframework.stereotype.Repository
 trait CarRepository extends JpaRepository[Car, Long] {
 
   @Query(value = "SELECT v.* FROM vehicle v, model m, serie s WHERE v.vehicle_type = 'CAR' AND v.serie_id = s.id AND s.model_id = m.id AND m.make_id = :id", nativeQuery=true)
-  def getMakesCars(@Param("id") makeId : Long) : util.List[Car]
+  def getMakeCars(@Param("id") makeId : Long) : util.List[Car]
 
   @Query(value = "SELECT v.* FROM vehicle v WHERE v.vehicle_type = 'CAR' AND v.serie_id = :id", nativeQuery=true)
   def getSerieCars(@Param("id") serieId : Long) : util.List[Car]

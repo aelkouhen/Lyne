@@ -36,7 +36,7 @@ class AbstractFileQueryRestController(@Autowired val abstractFileQueryService : 
   def countAllFiles() : Long = abstractFileQueryService.countAllAbstractFiles()
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name/{name}"))
+  @GetMapping(Array("/name={name}"))
   @ResponseBody
   def findFileByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = abstractFileQueryService.findAbstractFilesByName(name)
@@ -44,7 +44,7 @@ class AbstractFileQueryRestController(@Autowired val abstractFileQueryService : 
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("extension/{ext}"))
+  @GetMapping(Array("extension={ext}"))
   @ResponseBody
   def findFileByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = abstractFileQueryService.findAbstractFilesByExtension(extension)

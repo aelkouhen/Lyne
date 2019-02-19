@@ -36,7 +36,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   def countAllCars() : Long = carQueryService.countAllCars
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name/{name}"))
+  @GetMapping(Array("/name={name}"))
   @ResponseBody
   def findCarByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = carQueryService.findCarsByName(name)

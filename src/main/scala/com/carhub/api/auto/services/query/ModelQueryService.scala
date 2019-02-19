@@ -22,5 +22,7 @@ class ModelQueryService(modelRepository: ModelRepository) {
 
   def countAllModels() = modelRepository.count
 
-  def getMakesModels(makeId : Long) = modelRepository.getMakesModels(makeId)
+  def getMakeModels(makeId : Long) = modelRepository.getMakeModels(makeId)
+
+  def findModelsByName(name : String) = modelRepository.findModelsByName(name)
 }

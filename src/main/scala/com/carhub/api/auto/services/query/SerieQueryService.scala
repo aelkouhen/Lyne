@@ -1,6 +1,5 @@
 package com.carhub.api.auto.services.query
 
-import com.carhub.api.auto.domain.Model
 import com.carhub.api.auto.repositories.SerieRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
@@ -23,7 +22,9 @@ class SerieQueryService(serieRepository : SerieRepository){
 
   def countAllSeries() = serieRepository.count
 
-  def getMakesSeries(makeId : Long) = serieRepository.getMakesSeries(makeId)
+  def findSeriesByName(name : String) = serieRepository.findSeriesByName(name)
 
-  def getModelSeries(model : Model) = serieRepository.getModelSeries(model.id)
+  def getMakeSeries(makeId : Long) = serieRepository.getMakeSeries(makeId)
+
+  def getModelSeries(modelId : Long) = serieRepository.getModelSeries(modelId)
 }

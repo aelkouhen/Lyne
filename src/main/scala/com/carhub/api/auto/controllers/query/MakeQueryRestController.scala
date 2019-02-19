@@ -3,7 +3,7 @@ package com.carhub.api.auto.controllers.query
 import java.util
 
 import com.carhub.api.auto.domain.{Car, Make, Model, Serie}
-import com.carhub.api.auto.services.query.{CarQueryService, MakeQueryService, ModelQueryService, SerieQueryService}
+import com.carhub.api.auto.services.query._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -15,6 +15,7 @@ class MakeQueryRestController(@Autowired
                               val makeQueryService : MakeQueryService,
                               val serieQueryService : SerieQueryService,
                               val modelQueryService : ModelQueryService,
+                              val photoQueryService : PhotoQueryService,
                               val carQueryService : CarQueryService) {
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
@@ -40,7 +41,7 @@ class MakeQueryRestController(@Autowired
   def countAllMakes() : Long = makeQueryService.countAllMakes
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name/{name}"))
+  @GetMapping(Array("/name={name}"))
   @ResponseBody
   def findMakeByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = makeQueryService.findMakesByName(name)
@@ -50,24 +51,32 @@ class MakeQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("{id}/models"))
   @ResponseBody
-  def getMakesModels(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
-    val result : util.List[Model] = modelQueryService.getMakesModels(makeId)
+  def getMakeModels(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
+    val result = modelQueryService.getMakeModels(makeId)
     ResponseEntity.ok(result)
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("{id}/series"))
   @ResponseBody
-  def getMakesSeries(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
-    val result : util.List[Serie] = serieQueryService.getMakesSeries(makeId)
+  def getMakeSeries(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
+    val result = serieQueryService.getMakeSeries(makeId)
     ResponseEntity.ok(result)
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("{id}/cars"))
   @ResponseBody
-  def getMakesCars(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
-    val result : util.List[Car] = carQueryService.getMakesCars(makeId)
+  def getMakeCars(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
+    val result = carQueryService.getMakeCars(makeId)
+    ResponseEntity.ok(result)
+  }
+
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(Array("{id}/icon"))
+  @ResponseBody
+  def getMakeIcon(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
+    val result = photoQueryService.getMakeIcon(makeId)
     ResponseEntity.ok(result)
   }
 }

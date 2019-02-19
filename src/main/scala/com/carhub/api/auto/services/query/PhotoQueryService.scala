@@ -21,4 +21,10 @@ class PhotoQueryService(photoRepository : PhotoRepository) {
     getPhotosPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllPhotos() = photoRepository.count
+
+  def findPhotosByName(name : String) = photoRepository.findPhotosByName(name)
+
+  def findPhotosByExtension(ext : String) = photoRepository.findPhotosByExtension(ext)
+
+  def getMakeIcon(makeId : Long) = photoRepository.getMakeIcon(makeId)
 }
