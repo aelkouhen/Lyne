@@ -1,6 +1,5 @@
 package com.carhub.api.auto.services.query
 
-import com.carhub.api.auto.domain.Make
 import com.carhub.api.auto.repositories.MakeRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
@@ -22,12 +21,6 @@ class MakeQueryService(makeRepository: MakeRepository) {
     getMakesPage(page, size, Sort.Direction.DESC, sort).getContent
 
   def countAllMakes() = makeRepository.count
-
-  def getMakesModels(make : Make) = makeRepository.getMakesModels(make.id)
-
-  def getMakesSeries(make : Make) = makeRepository.getMakesSeries(make.id)
-
-  def getMakesCars(make : Make) = makeRepository.getMakesCars(make.id)
 
   def findMakesByName(name : String) = makeRepository.findMakesByName(name)
 }
