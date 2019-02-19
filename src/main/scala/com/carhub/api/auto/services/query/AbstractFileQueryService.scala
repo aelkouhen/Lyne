@@ -22,7 +22,7 @@ class AbstractFileQueryService(abstractFileRepository : AbstractFileRepository) 
 
   def countAllAbstractFiles() = abstractFileRepository.count
 
-  def findAbstractFileByName(name : String) = abstractFileRepository.findFileByName(name)
+  def findAbstractFilesByName(name : String) = abstractFileRepository.findFilesByName(name)
 
-  def findAbstractFileByExtension(ext : String) = abstractFileRepository.findFileByExtension(ext)
+  def findAbstractFilesByExtension(ext : String) = abstractFileRepository.findFilesByExtension(ext)
 }

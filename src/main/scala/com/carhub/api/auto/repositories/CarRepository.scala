@@ -13,5 +13,5 @@ import org.springframework.stereotype.Repository
 trait CarRepository extends JpaRepository[Car, Long] {
 
   @Query(value = "SELECT v.* FROM vehicle v where v.vehicle_type = 'CAR' AND v.name like CONCAT('%',:name,'%')", nativeQuery=true)
-  def findByName(@Param("name") name : String) : util.List[Car]
+  def findCarsByName(@Param("name") name : String) : util.List[Car]
 }

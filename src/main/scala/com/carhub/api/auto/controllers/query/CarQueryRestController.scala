@@ -39,7 +39,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @GetMapping(Array("/name/{name}"))
   @ResponseBody
   def findCarByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
-    val result = carQueryService.findCarByName(name)
+    val result = carQueryService.findCarsByName(name)
     ResponseEntity.ok(result)
   }
 }

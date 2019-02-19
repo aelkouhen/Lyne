@@ -22,5 +22,5 @@ class CarQueryService(carRepository: CarRepository){
 
   def countAllCars() = carRepository.count
 
-  def findCarByName(name : String) = carRepository.findByName(name)
+  def findCarsByName(name : String) = carRepository.findCarsByName(name)
 }

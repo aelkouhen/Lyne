@@ -28,4 +28,6 @@ class MakeQueryService(makeRepository: MakeRepository) {
   def getMakesSeries(make : Make) = makeRepository.getMakesSeries(make.id)
 
   def getMakesCars(make : Make) = makeRepository.getMakesCars(make.id)
+
+  def findMakesByName(name : String) = makeRepository.findMakesByName(name)
 }

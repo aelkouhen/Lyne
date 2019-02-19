@@ -39,7 +39,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   @GetMapping(Array("/name/{name}"))
   @ResponseBody
   def findEngineByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
-    val result = engineQueryService.findEngineByName(name)
+    val result = engineQueryService.findEnginesByName(name)
     ResponseEntity.ok(result)
   }
 
@@ -47,7 +47,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   @GetMapping(Array("fuel/{fuel}"))
   @ResponseBody
   def findEngineByFuelType(@PathVariable(value = "fuel") fuel : String) : ResponseEntity[_]  = {
-    val result = engineQueryService.findEngineByFuelType(fuel)
+    val result = engineQueryService.findEnginesByFuelType(fuel)
     ResponseEntity.ok(result)
   }
 }

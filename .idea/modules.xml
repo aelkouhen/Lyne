@@ -3,10 +3,8 @@
   <component name="ProjectModuleManager">
     <modules>
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lyne.iml" filepath="$PROJECT_DIR$/.idea/modules/Lyne.iml" />
-      <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lyne-lyne.iml" filepath="$PROJECT_DIR$/.idea/modules/Lyne-lyne.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lyne.main.iml" filepath="$PROJECT_DIR$/.idea/modules/Lyne.main.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/Lyne.test.iml" filepath="$PROJECT_DIR$/.idea/modules/Lyne.test.iml" />
-      <module fileurl="file://$PROJECT_DIR$/lyne.iml" filepath="$PROJECT_DIR$/lyne.iml" />
       <module fileurl="file://$PROJECT_DIR$/.idea/modules/lyne-build.iml" filepath="$PROJECT_DIR$/.idea/modules/lyne-build.iml" />
     </modules>
   </component>

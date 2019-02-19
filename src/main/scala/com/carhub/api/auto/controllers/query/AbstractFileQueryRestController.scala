@@ -39,7 +39,7 @@ class AbstractFileQueryRestController(@Autowired val abstractFileQueryService : 
   @GetMapping(Array("/name/{name}"))
   @ResponseBody
   def findFileByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
-    val result = abstractFileQueryService.findAbstractFileByName(name)
+    val result = abstractFileQueryService.findAbstractFilesByName(name)
     ResponseEntity.ok(result)
   }
 
@@ -47,7 +47,7 @@ class AbstractFileQueryRestController(@Autowired val abstractFileQueryService : 
   @GetMapping(Array("extension/{ext}"))
   @ResponseBody
   def findFileByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
-    val result = abstractFileQueryService.findAbstractFileByExtension(extension)
+    val result = abstractFileQueryService.findAbstractFilesByExtension(extension)
     ResponseEntity.ok(result)
   }
 }

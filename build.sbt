@@ -17,6 +17,5 @@ libraryDependencies ++= Seq (
   "nz.net.ultraq.thymeleaf" % "thymeleaf-layout-dialect" % "1.4.0",
   "com.h2database" % "h2" % "1.4.195",
   "org.webjars" % "bootstrap" % "3.1.1",
-  "com.fasterxml.jackson.datatype" % "jackson-datatype-jsr310" % "2.8.8",
   "mysql" % "mysql-connector-java" % "8.0.13"
 )

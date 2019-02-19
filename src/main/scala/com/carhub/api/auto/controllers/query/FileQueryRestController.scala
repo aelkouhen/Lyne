@@ -38,16 +38,16 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("/name/{name}"))
   @ResponseBody
-  def findFileByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
-    val result = fileQueryService.findFileByName(name)
+  def findFilesByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
+    val result = fileQueryService.findFilesByName(name)
     ResponseEntity.ok(result)
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("extension/{ext}"))
   @ResponseBody
-  def findFileByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
-    val result = fileQueryService.findFileByExtension(extension)
+  def findFilesByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
+    val result = fileQueryService.findFilesByExtension(extension)
     ResponseEntity.ok(result)
   }
 }

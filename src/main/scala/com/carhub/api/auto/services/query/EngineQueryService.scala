@@ -23,7 +23,7 @@ class EngineQueryService(engineRepository: EngineRepository) {
 
   def countAllEngines() = engineRepository.count
 
-  def findEngineByName(name : String) = engineRepository.findByName(name)
+  def findEnginesByName(name : String) = engineRepository.findEnginesByName(name)
 
-  def findEngineByFuelType(fuelType : String) = engineRepository.findByFuelType(Fuel.valueOf(fuelType.toUpperCase).toString)
+  def findEnginesByFuelType(fuelType : String) = engineRepository.findEnginesByFuelType(Fuel.valueOf(fuelType.toUpperCase).toString)
 }

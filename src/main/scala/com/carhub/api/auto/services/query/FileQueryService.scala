@@ -22,7 +22,7 @@ class FileQueryService(fileRepository : FileRepository) {
 
   def countAllFiles() = fileRepository.count
 
-  def findFileByName(name : String) = fileRepository.findFileByName(name)
+  def findFilesByName(name : String) = fileRepository.findFilesByName(name)
 
-  def findFileByExtension(ext : String) = fileRepository.findFileByExtension(ext)
+  def findFilesByExtension(ext : String) = fileRepository.findFilesByExtension(ext)
 }
