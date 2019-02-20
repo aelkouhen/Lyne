@@ -11,10 +11,9 @@ import org.springframework.stereotype.Repository
 @Repository
 trait VideoRepository extends JpaRepository[Video, Long] {
 
-  @Query(value = "SELECT f.* FROM abstract_file f where f.file_type = 'VIDEO' AND f.name like CONCAT('%',:name,'%')", nativeQuery=true)
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'VIDEO' AND r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findVideosByName(@Param("name") name : String) : util.List[Video]
 
-  @Query(value = "SELECT f.* FROM abstract_file f where f.file_type = 'VIDEO' AND f.extension like CONCAT('%',:ext,'%')", nativeQuery=true)
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'VIDEO' AND r.format like CONCAT('%',:ext,'%')", nativeQuery=true)
   def findVideosByExtension(@Param("ext") ext : String) : util.List[Video]
-
 }

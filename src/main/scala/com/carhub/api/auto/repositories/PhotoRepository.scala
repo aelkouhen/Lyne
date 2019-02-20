@@ -11,12 +11,12 @@ import org.springframework.stereotype.Repository
 @Repository
 trait PhotoRepository extends JpaRepository[Photo, Long] {
 
-  @Query(value = "SELECT f.* FROM abstract_file f where f.file_type = 'PHOTO' AND f.name like CONCAT('%',:name,'%')", nativeQuery=true)
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'PHOTO' AND r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findPhotosByName(@Param("name") name : String) : util.List[Photo]
 
-  @Query(value = "SELECT f.* FROM abstract_file f where f.file_type = 'PHOTO' AND f.extension like CONCAT('%',:ext,'%')", nativeQuery=true)
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'PHOTO' AND r.format like CONCAT('%',:ext,'%')", nativeQuery=true)
   def findPhotosByExtension(@Param("ext") ext : String) : util.List[Photo]
 
-  @Query(value = "SELECT f.content FROM abstract_file f, make m where m.logo_id = f.id AND f.file_type = 'PHOTO' AND m.id like CONCAT('%',:id,'%')", nativeQuery=true)
+  @Query(value = "SELECT r.content FROM resource r, make m where m.logo_id = r.id AND m.id like CONCAT('%',:id,'%')", nativeQuery=true)
   def getMakeIcon(@Param("id") id : Long) : Array[Byte]
 }

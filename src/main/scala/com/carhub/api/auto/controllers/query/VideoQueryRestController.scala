@@ -44,7 +44,7 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("extension={ext}"))
+  @GetMapping(Array("/format={ext}"))
   @ResponseBody
   def findVideosByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = videoQueryService.findVideosByExtension(extension)

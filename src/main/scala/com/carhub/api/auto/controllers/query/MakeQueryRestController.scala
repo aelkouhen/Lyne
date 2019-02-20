@@ -49,7 +49,7 @@ class MakeQueryRestController(@Autowired
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("{id}/models"))
+  @GetMapping(Array("/{id}/models"))
   @ResponseBody
   def getMakeModels(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = modelQueryService.getMakeModels(makeId)
@@ -57,7 +57,7 @@ class MakeQueryRestController(@Autowired
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("{id}/series"))
+  @GetMapping(Array("/{id}/series"))
   @ResponseBody
   def getMakeSeries(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = serieQueryService.getMakeSeries(makeId)
@@ -65,7 +65,7 @@ class MakeQueryRestController(@Autowired
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("{id}/cars"))
+  @GetMapping(Array("/{id}/cars"))
   @ResponseBody
   def getMakeCars(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = carQueryService.getMakeCars(makeId)
@@ -73,7 +73,7 @@ class MakeQueryRestController(@Autowired
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("{id}/icon"))
+  @GetMapping(Array("/{id}/icon"))
   @ResponseBody
   def getMakeIcon(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = photoQueryService.getMakeIcon(makeId)

@@ -20,8 +20,8 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoToUpdate.caption = photo.caption
     photoToUpdate.content = photo.content
     photoToUpdate.created = photo.created
-    photoToUpdate.extension = photo.extension
-    photoToUpdate.link = photo.link
+    photoToUpdate.format = photo.format
+    photoToUpdate.url = photo.url
     photoToUpdate.size = photo.size
 
     photoRepository.save(photoToUpdate)
@@ -48,16 +48,16 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoRepository.save(photoToUpdate)
   }
 
-  def UpdatePhotoExtension(photo : Photo, extension : String) = {
+  def UpdatePhotoExtension(photo : Photo, format : String) = {
     val photoToUpdate = photoRepository.getOne(photo.id)
-    photoToUpdate.extension = extension
+    photoToUpdate.format = format
 
     photoRepository.save(photoToUpdate)
   }
 
-  def UpdatePhotoLink(photo : Photo, link : String) = {
+  def UpdatePhotoLink(photo : Photo, url : String) = {
     val photoToUpdate = photoRepository.getOne(photo.id)
-    photoToUpdate.link = link
+    photoToUpdate.url = url
 
     photoRepository.save(photoToUpdate)
   }

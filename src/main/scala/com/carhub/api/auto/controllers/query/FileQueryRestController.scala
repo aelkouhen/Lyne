@@ -44,7 +44,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("extension={ext}"))
+  @GetMapping(Array("/format={ext}"))
   @ResponseBody
   def findFilesByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFilesByExtension(extension)

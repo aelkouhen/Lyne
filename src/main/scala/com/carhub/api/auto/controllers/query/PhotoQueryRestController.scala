@@ -44,7 +44,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("extension={ext}"))
+  @GetMapping(Array("/format={ext}"))
   @ResponseBody
   def findPhotosByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = photoQueryService.findPhotosByExtension(extension)

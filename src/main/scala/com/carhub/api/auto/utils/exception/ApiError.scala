@@ -1,0 +1,53 @@
+package com.carhub.api.auto.utils.exception
+
+import com.fasterxml.jackson.annotation.JsonFormat
+import org.springframework.http.HttpStatus
+import java.time.LocalDateTime
+
+class ApiError {
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
+  var httpStatus : HttpStatus = _
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  var time : LocalDateTime = LocalDateTime.now
+
+  var level : String = _
+
+  var component : String = _
+
+  var line : Int = _
+
+  var message : String = _
+
+  var exception : String = _
+
+  var status : Int = _
+
+
+  def this(status: HttpStatus) {
+    this
+    this.httpStatus = status
+    this.status = this.httpStatus.value
+  }
+
+  def this(status: HttpStatus, ex: Throwable) {
+    this
+    this.httpStatus = status
+    this.status = this.httpStatus.value
+    this.message = ex.getMessage
+    this.exception = ex.getClass.getName
+  }
+
+  def this(status: HttpStatus, level: String, ex: Throwable) {
+    this
+    val stack : StackTraceElement = ex.getStackTrace().apply(0)
+    this.component = stack.getClassName + "." + stack.getMethodName + " (" + stack.getFileName + ")"
+    this.httpStatus = status
+    this.status = this.httpStatus.value
+    this.message = ex.getMessage
+    this.exception = ex.getClass.getName
+    this.level = level
+    this.line = stack.getLineNumber
+  }
+}

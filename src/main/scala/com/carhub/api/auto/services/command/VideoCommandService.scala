@@ -20,8 +20,8 @@ class VideoCommandService(videoRepository : VideoRepository) {
     videoToUpdate.caption = video.caption
     videoToUpdate.content = video.content
     videoToUpdate.created = video.created
-    videoToUpdate.extension = video.extension
-    videoToUpdate.link = video.link
+    videoToUpdate.format = video.format
+    videoToUpdate.url = video.url
     videoToUpdate.size = video.size
 
     videoRepository.save(videoToUpdate)
@@ -48,16 +48,16 @@ class VideoCommandService(videoRepository : VideoRepository) {
     videoRepository.save(videoToUpdate)
   }
 
-  def UpdateVideoExtension(video : Video, extension : String) = {
+  def UpdateVideoExtension(video : Video, format : String) = {
     val videoToUpdate = videoRepository.getOne(video.id)
-    videoToUpdate.extension = extension
+    videoToUpdate.format = format
 
     videoRepository.save(videoToUpdate)
   }
 
-  def UpdateVideoLink(video : Video, link : String) = {
+  def UpdateVideoLink(video : Video, url : String) = {
     val videoToUpdate = videoRepository.getOne(video.id)
-    videoToUpdate.link = link
+    videoToUpdate.url = url
 
     videoRepository.save(videoToUpdate)
   }

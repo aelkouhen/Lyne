@@ -46,7 +46,7 @@ class SerieQueryRestController(@Autowired
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("{id}/cars"))
+  @GetMapping(Array("/{id}/cars"))
   @ResponseBody
   def getSerieCars(@PathVariable(value = "id") serieId : Long) : ResponseEntity[_] = {
     val result  = carQueryService.getSerieCars(serieId)

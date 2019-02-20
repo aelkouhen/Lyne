@@ -2,7 +2,7 @@ package com.carhub.api.auto.controllers.query
 
 import java.util
 
-import com.carhub.api.auto.domain.{Car, Model, Serie}
+import com.carhub.api.auto.domain.{Car, Model}
 import com.carhub.api.auto.services.query.{CarQueryService, ModelQueryService, SerieQueryService}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -29,7 +29,6 @@ class ModelQueryRestController(@Autowired
       case "asc" => result = modelQueryService.getModelsListAsc(page, size, sort)
       case _ => result = modelQueryService.getModelsListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 
@@ -42,12 +41,12 @@ class ModelQueryRestController(@Autowired
   @GetMapping(Array("/name={name}"))
   @ResponseBody
   def findModelByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
-    val result = modelQueryService.findModelsByName(name)
-    ResponseEntity.ok(result)
+      val result = modelQueryService.findModelsByName(name)
+      ResponseEntity.ok(result)
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("{id}/series"))
+  @GetMapping(Array("/{id}/series"))
   @ResponseBody
   def getModelsSeries(@PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
     val result = serieQueryService.getModelSeries(modelId)
@@ -55,7 +54,7 @@ class ModelQueryRestController(@Autowired
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("{id}/cars"))
+  @GetMapping(Array("/{id}/cars"))
   @ResponseBody
   def getModelsCars(@PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
     val result : util.List[Car] = carQueryService.getModelCars(modelId)

@@ -11,9 +11,9 @@ import org.springframework.stereotype.Repository
 @Repository
 trait FileRepository extends JpaRepository[File, Long] {
 
-  @Query(value = "SELECT f.* FROM abstract_file f where f.file_type = 'FILE' AND f.name like CONCAT('%',:name,'%')", nativeQuery=true)
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'FILE' AND r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findFilesByName(@Param("name") name : String) : util.List[File]
 
-  @Query(value = "SELECT f.* FROM abstract_file f where f.file_type = 'FILE' AND f.extension like CONCAT('%',:ext,'%')", nativeQuery=true)
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'FILE' AND r.format like CONCAT('%',:ext,'%')", nativeQuery=true)
   def findFilesByExtension(@Param("ext") ext : String) : util.List[File]
 }

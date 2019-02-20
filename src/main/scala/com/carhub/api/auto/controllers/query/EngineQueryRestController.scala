@@ -44,7 +44,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("fuel={fuel}"))
+  @GetMapping(Array("/fuel={fuel}"))
   @ResponseBody
   def findEngineByFuelType(@PathVariable(value = "fuel") fuel : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByFuelType(fuel)

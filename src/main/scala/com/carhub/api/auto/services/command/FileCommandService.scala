@@ -20,8 +20,8 @@ class FileCommandService(fileRepository : FileRepository) {
     fileToUpdate.caption = file.caption
     fileToUpdate.content = file.content
     fileToUpdate.created = file.created
-    fileToUpdate.extension = file.extension
-    fileToUpdate.link = file.link
+    fileToUpdate.format = file.format
+    fileToUpdate.url = file.url
     fileToUpdate.size = file.size
 
     fileRepository.save(fileToUpdate)
@@ -48,16 +48,16 @@ class FileCommandService(fileRepository : FileRepository) {
     fileRepository.save(fileToUpdate)
   }
 
-  def UpdateFileExtension(file : File, extension : String) = {
+  def UpdateFileExtension(file : File, format : String) = {
     val fileToUpdate = fileRepository.getOne(file.id)
-    fileToUpdate.extension = extension
+    fileToUpdate.format = format
 
     fileRepository.save(fileToUpdate)
   }
 
-  def UpdateFileLink(file : File, link : String) = {
+  def UpdateFileLink(file : File, url : String) = {
     val fileToUpdate = fileRepository.getOne(file.id)
-    fileToUpdate.link = link
+    fileToUpdate.url = url
 
     fileRepository.save(fileToUpdate)
   }

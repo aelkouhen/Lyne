@@ -6,8 +6,7 @@ import java.util
 
 import com.carhub.api.auto.utils.enumeration.{EnumValue, EnumValueType}
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
-import com.fasterxml.jackson.annotation.JsonIgnore
-
+import com.fasterxml.jackson.annotation.{JsonFormat, JsonIgnore}
 import javax.persistence._
 import org.hibernate.annotations.Type
 
@@ -79,6 +78,7 @@ abstract class Vehicle extends Serializable {
   //Indicates the design and body style of the vehicle.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.BodyType")
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
   var bodyType: Body.Value = _
 
   //The CO2 emissions in g/km.

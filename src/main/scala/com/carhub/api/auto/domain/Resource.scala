@@ -11,10 +11,10 @@ import org.hibernate.validator.constraints.URL
 import scala.beans.BeanProperty
 
 @Entity
-@JsonApi(apiType= "abstract_file")
+@JsonApi(apiType= "resource")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@DiscriminatorColumn(name="file_type")
-abstract class AbstractFile extends Serializable {
+@DiscriminatorColumn(name="resource_type")
+abstract class Resource extends Serializable {
 
   @Id
   @BeanProperty
@@ -33,7 +33,7 @@ abstract class AbstractFile extends Serializable {
   var size: Long = _
 
   @BeanProperty
-  var extension: String = _
+  var format: String = _
 
   @BeanProperty
   @Column(name = "CREATION_TIME")
@@ -42,7 +42,7 @@ abstract class AbstractFile extends Serializable {
 
   @BeanProperty
   @URL
-  var link: String = _
+  var url: String = _
 
   @Lob
   @BeanProperty

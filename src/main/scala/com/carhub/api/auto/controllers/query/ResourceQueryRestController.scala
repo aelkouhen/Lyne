@@ -2,16 +2,16 @@ package com.carhub.api.auto.controllers.query
 
 import java.util
 
-import com.carhub.api.auto.domain.AbstractFile
-import com.carhub.api.auto.services.query.{AbstractFileQueryService, FileQueryService}
+import com.carhub.api.auto.domain.Resource
+import com.carhub.api.auto.services.query.{ResourceQueryService, FileQueryService}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
 @RestController
-@RequestMapping(Array("/api/abstract/files"))
-class AbstractFileQueryRestController(@Autowired val abstractFileQueryService : AbstractFileQueryService) {
+@RequestMapping(Array("/api/resources"))
+class ResourceQueryRestController(@Autowired val abstractFileQueryService : ResourceQueryService) {
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array(""))
@@ -21,7 +21,7 @@ class AbstractFileQueryRestController(@Autowired val abstractFileQueryService : 
                  @RequestParam(name = "order") sortDirection : String,
                  @RequestParam(name = "field") sort : String ) : ResponseEntity[_] =
   {
-    var result : util.List[AbstractFile] = new util.ArrayList[AbstractFile]
+    var result : util.List[Resource] = new util.ArrayList[Resource]
     sortDirection.toLowerCase match {
       case "asc" => result = abstractFileQueryService.getAbstractFilesListAsc(page, size, sort)
       case _ => result = abstractFileQueryService.getAbstractFilesListDesc(page, size, sort)
@@ -44,7 +44,7 @@ class AbstractFileQueryRestController(@Autowired val abstractFileQueryService : 
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("extension={ext}"))
+  @GetMapping(Array("/format={ext}"))
   @ResponseBody
   def findFileByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = abstractFileQueryService.findAbstractFilesByExtension(extension)

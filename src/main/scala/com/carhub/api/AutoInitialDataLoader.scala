@@ -1,5 +1,6 @@
 package com.carhub.api
 
+import java.awt.image.BufferedImage
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
@@ -7,6 +8,7 @@ import com.carhub.api.auto.domain._
 import com.carhub.api.auto.services.command._
 import com.carhub.api.auto.domain.{File, Photo, Video}
 import com.google.common.io.Files
+import javax.imageio.ImageIO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.{ApplicationArguments, ApplicationRunner}
 import org.springframework.core.io.ClassPathResource
@@ -89,12 +91,15 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.images.add({
       val photo = new Photo
       val picture = new ClassPathResource("images/nissan-x-trail.jpg")
-      val inputStream = picture.getInputStream
+      var inputStream = picture.getInputStream
+      val bimg : BufferedImage = ImageIO.read(inputStream)
+      photo.dimension = (bimg.getWidth, bimg.getHeight)
+      inputStream = picture.getInputStream
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
       photo.size = picture.contentLength
       photo.name = picture.getFilename
-      photo.extension = Files.getFileExtension(picture.getFilename)
+      photo.format = Files.getFileExtension(picture.getFilename)
       photo.caption = "Xtrail"
       photo.created = Calendar.getInstance().getTime()
       photo.content = arrayPic
@@ -123,11 +128,14 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     val photo = new Photo
     val picture = new ClassPathResource("images/xtrail.jpg")
     var inputStream = picture.getInputStream
+    val bimg : BufferedImage = ImageIO.read(inputStream)
+    photo.dimension = (bimg.getWidth, bimg.getHeight)
+    inputStream = picture.getInputStream
     var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
     photo.size = picture.contentLength
     photo.name = picture.getFilename
-    photo.extension = Files.getFileExtension(picture.getFilename)
+    photo.format = Files.getFileExtension(picture.getFilename)
     photo.caption = "Xtrail"
     photo.created = Calendar.getInstance().getTime()
     photo.content = arrayPic
@@ -140,7 +148,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     video.name = "TS"
     video.caption = "Technical Spec. Video"
     video.created = Calendar.getInstance().getTime()
-    video.link = "https://youtu.be/9u9x4kveojU"
+    video.url = "https://youtu.be/9u9x4kveojU"
     videoCommandService.addVideo(video)
 
     carCommandService.updateCarAddVideo(car, video)
@@ -152,7 +160,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     inputStream.close()
     file.name = brochure.getFilename
     file.size = brochure.contentLength
-    file.extension = Files.getFileExtension(brochure.getFilename)
+    file.format = Files.getFileExtension(brochure.getFilename)
     file.caption = "Brochure"
     file.created = Calendar.getInstance().getTime()
     file.content = arrayPic
@@ -165,12 +173,15 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
   private def createPhoto() = {
     val photo = new Photo
     val picture = new ClassPathResource("images/nissan_logo.png")
-    val inputStream = picture.getInputStream
+    var inputStream = picture.getInputStream
+    val bimg : BufferedImage = ImageIO.read(inputStream)
+    inputStream = picture.getInputStream
+    photo.dimension = (bimg.getWidth, bimg.getHeight)
     val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
     photo.size = picture.contentLength
     photo.name = picture.getFilename
-    photo.extension = Files.getFileExtension(picture.getFilename)
+    photo.format = Files.getFileExtension(picture.getFilename)
     photo.caption = "Nissan's logo"
     photo.created = Calendar.getInstance().getTime()
     photo.content = arrayPic
