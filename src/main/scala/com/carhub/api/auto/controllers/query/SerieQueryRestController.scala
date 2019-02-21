@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.Serie
 import com.carhub.api.auto.services.query.{CarQueryService, SerieQueryService}
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -28,6 +29,7 @@ class SerieQueryRestController(@Autowired
       case "asc" => result = serieQueryService.getSeriesListAsc(page, size, sort)
       case _ => result = serieQueryService.getSeriesListDesc(page, size, sort)
     }
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie]()
     ResponseEntity.ok(result)
   }
 
@@ -41,6 +43,7 @@ class SerieQueryRestController(@Autowired
   @ResponseBody
   def findSeriesByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = serieQueryService.findSeriesByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie]()
     ResponseEntity.ok(result)
   }
 
@@ -49,6 +52,7 @@ class SerieQueryRestController(@Autowired
   @ResponseBody
   def getSerieCars(@PathVariable(value = "id") serieId : Long) : ResponseEntity[_] = {
     val result  = carQueryService.getSerieCars(serieId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie]()
     ResponseEntity.ok(result)
   }
 }

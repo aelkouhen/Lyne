@@ -21,6 +21,7 @@ import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMeth
 class ApiErrorHandler {
 
   @ExceptionHandler(Array(classOf[Exception],
+    classOf[ElementNotFoundException[_]],
     classOf[NoSuchRequestHandlingMethodException],
     classOf[HttpRequestMethodNotSupportedException],
     classOf[HttpMediaTypeNotSupportedException],
@@ -39,6 +40,7 @@ class ApiErrorHandler {
     classOf[NoHandlerFoundException],
     classOf[AsyncRequestTimeoutException]))
   def handleAll(ex: Exception, request: WebRequest): ResponseEntity[ApiError] = ex match{
+      case ex : ElementNotFoundException[_] => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : NoSuchRequestHandlingMethodException => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : HttpRequestMethodNotSupportedException => buildResponseEntity(new ApiError(HttpStatus.METHOD_NOT_ALLOWED,"error" , ex))
       case ex : HttpMediaTypeNotSupportedException => buildResponseEntity(new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE,"error" , ex))
@@ -55,7 +57,7 @@ class ApiErrorHandler {
       case ex : BindException => buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST,"error" , ex))
       case ex : NoHandlerFoundException => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : AsyncRequestTimeoutException => buildResponseEntity(new ApiError(HttpStatus.SERVICE_UNAVAILABLE,"error" , ex))
-      case _ => buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR,"error" , ex))
+      case _ : Throwable => buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR,"error" , ex))
   }
 
   private def buildResponseEntity(error : ApiError) = ResponseEntity.status(error.httpStatus).body(error)

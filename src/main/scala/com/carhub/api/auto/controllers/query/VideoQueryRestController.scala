@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.Video
 import com.carhub.api.auto.services.query.VideoQueryService
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -26,6 +27,7 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
       case "asc" => result = videoQueryService.getVideosListAsc(page, size, sort)
       case _ => result = videoQueryService.getVideosListDesc(page, size, sort)
     }
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
     ResponseEntity.ok(result)
   }
 
@@ -39,6 +41,7 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   @ResponseBody
   def findVideosByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = videoQueryService.findVideosByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
     ResponseEntity.ok(result)
   }
 
@@ -47,6 +50,7 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   @ResponseBody
   def findVideosByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = videoQueryService.findVideosByExtension(extension)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
     ResponseEntity.ok(result)
   }
 }

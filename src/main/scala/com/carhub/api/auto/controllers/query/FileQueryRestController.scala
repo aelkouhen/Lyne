@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.File
 import com.carhub.api.auto.services.query.FileQueryService
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -26,6 +27,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
       case "asc" => result = fileQueryService.getFilesListAsc(page, size, sort)
       case _ => result = fileQueryService.getFilesListDesc(page, size, sort)
     }
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[File]()
     ResponseEntity.ok(result)
   }
 
@@ -39,6 +41,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   @ResponseBody
   def findFilesByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFilesByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[File]()
     ResponseEntity.ok(result)
   }
 
@@ -47,6 +50,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   @ResponseBody
   def findFilesByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFilesByExtension(extension)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[File]()
     ResponseEntity.ok(result)
   }
 }

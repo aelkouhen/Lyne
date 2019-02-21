@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.{Car, Model}
 import com.carhub.api.auto.services.query.{CarQueryService, ModelQueryService, SerieQueryService}
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -29,6 +30,7 @@ class ModelQueryRestController(@Autowired
         case "asc" =>  result = modelQueryService.getModelsListAsc(page, size, sort)
         case _ =>  result = modelQueryService.getModelsListDesc(page, size, sort)
       }
+    if (result.isEmpty) throw new ElementNotFoundException[Model]()
     ResponseEntity.ok(result)
   }
 
@@ -41,8 +43,9 @@ class ModelQueryRestController(@Autowired
   @GetMapping(Array("/name={name}"))
   @ResponseBody
   def findModelByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
-      val result = modelQueryService.findModelsByName(name)
-      ResponseEntity.ok(result)
+    val result = modelQueryService.findModelsByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Model]()
+    ResponseEntity.ok(result)
   }
 
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
@@ -50,6 +53,7 @@ class ModelQueryRestController(@Autowired
   @ResponseBody
   def getModelsSeries(@PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
     val result = serieQueryService.getModelSeries(modelId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Model]()
     ResponseEntity.ok(result)
   }
 
@@ -58,6 +62,7 @@ class ModelQueryRestController(@Autowired
   @ResponseBody
   def getModelsCars(@PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
     val result : util.List[Car] = carQueryService.getModelCars(modelId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Model]()
     ResponseEntity.ok(result)
   }
 }

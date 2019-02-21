@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.Make
 import com.carhub.api.auto.services.query._
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -31,6 +32,7 @@ class MakeQueryRestController(@Autowired
       case "asc" => result = makeQueryService.getMakesListAsc(page, size, sort)
       case _ => result = makeQueryService.getMakesListDesc(page, size, sort)
     }
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
     ResponseEntity.ok(result)
   }
 
@@ -44,6 +46,7 @@ class MakeQueryRestController(@Autowired
   @ResponseBody
   def findMakeByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = makeQueryService.findMakesByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
     ResponseEntity.ok(result)
   }
 
@@ -52,6 +55,7 @@ class MakeQueryRestController(@Autowired
   @ResponseBody
   def getMakeModels(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = modelQueryService.getMakeModels(makeId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
     ResponseEntity.ok(result)
   }
 
@@ -60,6 +64,7 @@ class MakeQueryRestController(@Autowired
   @ResponseBody
   def getMakeSeries(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = serieQueryService.getMakeSeries(makeId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
     ResponseEntity.ok(result)
   }
 
@@ -68,6 +73,7 @@ class MakeQueryRestController(@Autowired
   @ResponseBody
   def getMakeCars(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = carQueryService.getMakeCars(makeId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
     ResponseEntity.ok(result)
   }
 
@@ -76,6 +82,7 @@ class MakeQueryRestController(@Autowired
   @ResponseBody
   def getMakeIcon(@PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = photoQueryService.getMakeIcon(makeId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
     ResponseEntity.ok(result)
   }
 }

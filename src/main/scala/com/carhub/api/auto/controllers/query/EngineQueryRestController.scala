@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.Engine
 import com.carhub.api.auto.services.query.EngineQueryService
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -26,6 +27,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
       case "asc" => result = engineQueryService.getEnginesListAsc(page, size, sort)
       case _ => result = engineQueryService.getEnginesListDesc(page, size, sort)
     }
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine]()
     ResponseEntity.ok(result)
   }
 
@@ -39,6 +41,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   @ResponseBody
   def findEngineByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine]()
     ResponseEntity.ok(result)
   }
 
@@ -47,6 +50,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   @ResponseBody
   def findEngineByFuelType(@PathVariable(value = "fuel") fuel : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByFuelType(fuel)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine]()
     ResponseEntity.ok(result)
   }
 }

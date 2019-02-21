@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.Car
 import com.carhub.api.auto.services.query.CarQueryService
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -26,6 +27,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
         case "asc" => result = carQueryService.getCarsListAsc(page, size, sort)
         case _ => result = carQueryService.getCarsListDesc(page, size, sort)
     }
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car]()
     ResponseEntity.ok(result)
   }
 
@@ -39,6 +41,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @ResponseBody
   def findCarByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = carQueryService.findCarsByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car]()
     ResponseEntity.ok(result)
   }
 }

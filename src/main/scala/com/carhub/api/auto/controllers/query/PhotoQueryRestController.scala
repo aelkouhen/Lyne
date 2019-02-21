@@ -4,6 +4,7 @@ import java.util
 
 import com.carhub.api.auto.domain.Photo
 import com.carhub.api.auto.services.query.PhotoQueryService
+import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -26,6 +27,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
       case "asc" => result = photoQueryService.getPhotosListAsc(page, size, sort)
       case _ => result = photoQueryService.getPhotosListDesc(page, size, sort)
     }
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo]()
     ResponseEntity.ok(result)
   }
 
@@ -39,6 +41,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   @ResponseBody
   def findPhotosByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = photoQueryService.findPhotosByName(name)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo]()
     ResponseEntity.ok(result)
   }
 
@@ -47,6 +50,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   @ResponseBody
   def findPhotosByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
     val result = photoQueryService.findPhotosByExtension(extension)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo]()
     ResponseEntity.ok(result)
   }
 }
