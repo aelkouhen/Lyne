@@ -17,5 +17,7 @@ libraryDependencies ++= Seq (
   "nz.net.ultraq.thymeleaf" % "thymeleaf-layout-dialect" % "1.4.0",
   "com.h2database" % "h2" % "1.4.195",
   "org.webjars" % "bootstrap" % "3.1.1",
-  "mysql" % "mysql-connector-java" % "8.0.13"
+  "mysql" % "mysql-connector-java" % "8.0.13",
+  "io.springfox" % "springfox-swagger2" % "2.9.2",
+  "io.springfox" % "springfox-swagger-ui" % "2.9.2"
 )

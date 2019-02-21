@@ -24,5 +24,5 @@ class VideoQueryService(videoRepository : VideoRepository) {
 
   def findVideosByName(name : String) = videoRepository.findVideosByName(name)
 
-  def findVideosByExtension(ext : String) = videoRepository.findVideosByExtension(ext)
+  def findVideosByExtension(format : String) = videoRepository.findVideosByExtension(format)
 }

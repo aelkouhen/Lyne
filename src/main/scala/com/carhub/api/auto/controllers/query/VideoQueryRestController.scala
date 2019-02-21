@@ -5,22 +5,25 @@ import java.util
 import com.carhub.api.auto.domain.Video
 import com.carhub.api.auto.services.query.VideoQueryService
 import com.carhub.api.auto.utils.exception.ElementNotFoundException
+import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
+@Api(value = "Video", tags = Array("Resource"), description = "This API queries the Video concept.")
 @RestController
 @RequestMapping(Array("/api/videos"))
 class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryService) {
 
+  @ApiOperation(value = "List the Videos : Retrieve the Videos list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Video]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array(""))
   @ResponseBody
-  def getVideosList(@RequestParam page : Int,
-                    @RequestParam size : Int,
-                    @RequestParam(name = "order") sortDirection : String,
-                    @RequestParam(name = "field") sort : String ) : ResponseEntity[_] =
+  def getVideosList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
+                    @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
+                    @ApiParam(name = "order", example="DESC", value = "The sorting order (DESC or ASC).", required = true) @RequestParam(name = "order") sortDirection : String,
+                    @ApiParam(name = "field", example="name", value = "The sort field name.", required = true) @RequestParam(name = "field") sort : String ) : ResponseEntity[_] =
   {
     var result : util.List[Video] = new util.ArrayList[Video]
     sortDirection.toLowerCase match {
@@ -31,25 +34,28 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
     ResponseEntity.ok(result)
   }
 
+  @ApiOperation(value = "Count the Videos.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("/count"))
   @ResponseBody
   def countAllVideos() : Long = videoQueryService.countAllVideos
 
+  @ApiOperation(value = "Filter Videos by name", response = classOf[util.List[Video]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("/name={name}"))
   @ResponseBody
-  def findVideosByName(@PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
+  def findVideosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
     val result = videoQueryService.findVideosByName(name)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
     ResponseEntity.ok(result)
   }
 
+  @ApiOperation(value = "Filter Videos by format", response = classOf[util.List[Video]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("/format={ext}"))
   @ResponseBody
-  def findVideosByExtension(@PathVariable(value = "ext") extension : String) : ResponseEntity[_]  = {
-    val result = videoQueryService.findVideosByExtension(extension)
+  def findVideosByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @PathVariable(value = "format") format : String) : ResponseEntity[_]  = {
+    val result = videoQueryService.findVideosByExtension(format)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
     ResponseEntity.ok(result)
   }

@@ -14,6 +14,6 @@ trait VideoRepository extends JpaRepository[Video, Long] {
   @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'VIDEO' AND r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findVideosByName(@Param("name") name : String) : util.List[Video]
 
-  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'VIDEO' AND r.format like CONCAT('%',:ext,'%')", nativeQuery=true)
-  def findVideosByExtension(@Param("ext") ext : String) : util.List[Video]
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'VIDEO' AND r.format like CONCAT('%',:format,'%')", nativeQuery=true)
+  def findVideosByExtension(@Param("format") format : String) : util.List[Video]
 }

@@ -24,7 +24,7 @@ class PhotoQueryService(photoRepository : PhotoRepository) {
 
   def findPhotosByName(name : String) = photoRepository.findPhotosByName(name)
 
-  def findPhotosByExtension(ext : String) = photoRepository.findPhotosByExtension(ext)
+  def findPhotosByExtension(format : String) = photoRepository.findPhotosByExtension(format)
 
   def getMakeIcon(makeId : Long) = photoRepository.getMakeIcon(makeId)
 }

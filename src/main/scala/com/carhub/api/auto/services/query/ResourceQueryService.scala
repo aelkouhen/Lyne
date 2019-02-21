@@ -9,20 +9,20 @@ import org.springframework.transaction.annotation.Transactional
 @Autowired
 @Transactional(readOnly = true)
 @Service
-class ResourceQueryService(abstractFileRepository : ResourceRepository) {
+class ResourceQueryService(resourceRepository : ResourceRepository) {
 
-  def getAbstractFilesPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
-    abstractFileRepository.findAll(new PageRequest(page, size, sortDirection, sort))
+  def getResourcePage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
+    resourceRepository.findAll(new PageRequest(page, size, sortDirection, sort))
 
-  def getAbstractFilesListAsc(page : Int, size: Int, sort : String) =
-    getAbstractFilesPage(page, size, Sort.Direction.ASC, sort).getContent
+  def getResourceListAsc(page : Int, size: Int, sort : String) =
+    getResourcePage(page, size, Sort.Direction.ASC, sort).getContent
 
-  def getAbstractFilesListDesc(page : Int, size: Int, sort : String) =
-    getAbstractFilesPage(page, size, Sort.Direction.DESC, sort).getContent
+  def getResourceListDesc(page : Int, size: Int, sort : String) =
+    getResourcePage(page, size, Sort.Direction.DESC, sort).getContent
 
-  def countAllAbstractFiles() = abstractFileRepository.count
+  def countAllResources() = resourceRepository.count
 
-  def findAbstractFilesByName(name : String) = abstractFileRepository.findFilesByName(name)
+  def findResourcesByName(name : String) = resourceRepository.findResourcesByName(name)
 
-  def findAbstractFilesByExtension(ext : String) = abstractFileRepository.findFilesByExtension(ext)
+  def findResourcesByExtension(ext : String) = resourceRepository.findResourcesByExtension(ext)
 }
