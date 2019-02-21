@@ -26,7 +26,6 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
       case "asc" => result = engineQueryService.getEnginesListAsc(page, size, sort)
       case _ => result = engineQueryService.getEnginesListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 

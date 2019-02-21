@@ -24,7 +24,6 @@ class ApiError {
 
   var status : Int = _
 
-
   def this(status: HttpStatus) {
     this
     this.httpStatus = status

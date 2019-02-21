@@ -2,7 +2,7 @@ package com.carhub.api.auto.controllers.query
 
 import java.util
 
-import com.carhub.api.auto.domain.{Car, Serie}
+import com.carhub.api.auto.domain.Serie
 import com.carhub.api.auto.services.query.{CarQueryService, SerieQueryService}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -28,7 +28,6 @@ class SerieQueryRestController(@Autowired
       case "asc" => result = serieQueryService.getSeriesListAsc(page, size, sort)
       case _ => result = serieQueryService.getSeriesListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 

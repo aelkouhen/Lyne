@@ -26,7 +26,6 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
       case "asc" => result = videoQueryService.getVideosListAsc(page, size, sort)
       case _ => result = videoQueryService.getVideosListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 

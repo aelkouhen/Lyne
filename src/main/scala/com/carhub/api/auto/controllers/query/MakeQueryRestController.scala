@@ -2,7 +2,7 @@ package com.carhub.api.auto.controllers.query
 
 import java.util
 
-import com.carhub.api.auto.domain.{Car, Make, Model, Serie}
+import com.carhub.api.auto.domain.Make
 import com.carhub.api.auto.services.query._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -31,7 +31,6 @@ class MakeQueryRestController(@Autowired
       case "asc" => result = makeQueryService.getMakesListAsc(page, size, sort)
       case _ => result = makeQueryService.getMakesListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 

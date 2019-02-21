@@ -25,10 +25,10 @@ class ModelQueryRestController(@Autowired
                    @RequestParam(name = "field") sort : String ) : ResponseEntity[_] =
   {
     var result : util.List[Model] = new util.ArrayList[Model]
-    sortDirection.toLowerCase match {
-      case "asc" => result = modelQueryService.getModelsListAsc(page, size, sort)
-      case _ => result = modelQueryService.getModelsListDesc(page, size, sort)
-    }
+      sortDirection.toLowerCase match {
+        case "asc" =>  result = modelQueryService.getModelsListAsc(page, size, sort)
+        case _ =>  result = modelQueryService.getModelsListDesc(page, size, sort)
+      }
     ResponseEntity.ok(result)
   }
 

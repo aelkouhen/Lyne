@@ -26,7 +26,6 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
       case "asc" => result = photoQueryService.getPhotosListAsc(page, size, sort)
       case _ => result = photoQueryService.getPhotosListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 

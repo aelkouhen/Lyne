@@ -26,7 +26,6 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
       case "asc" => result = fileQueryService.getFilesListAsc(page, size, sort)
       case _ => result = fileQueryService.getFilesListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 

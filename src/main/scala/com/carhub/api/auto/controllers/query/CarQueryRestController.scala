@@ -26,7 +26,6 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
         case "asc" => result = carQueryService.getCarsListAsc(page, size, sort)
         case _ => result = carQueryService.getCarsListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 

@@ -3,7 +3,7 @@ package com.carhub.api.auto.controllers.query
 import java.util
 
 import com.carhub.api.auto.domain.Resource
-import com.carhub.api.auto.services.query.{ResourceQueryService, FileQueryService}
+import com.carhub.api.auto.services.query.ResourceQueryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -26,7 +26,6 @@ class ResourceQueryRestController(@Autowired val abstractFileQueryService : Reso
       case "asc" => result = abstractFileQueryService.getAbstractFilesListAsc(page, size, sort)
       case _ => result = abstractFileQueryService.getAbstractFilesListDesc(page, size, sort)
     }
-
     ResponseEntity.ok(result)
   }
 
