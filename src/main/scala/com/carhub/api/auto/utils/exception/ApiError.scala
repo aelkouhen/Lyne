@@ -48,5 +48,6 @@ class ApiError {
     this.exception = ex.getClass.getName
     this.level = level
     this.line = stack.getLineNumber
+    println(this.message)
   }
 }
