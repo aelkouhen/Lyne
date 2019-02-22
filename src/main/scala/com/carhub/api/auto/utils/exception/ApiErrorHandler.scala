@@ -3,7 +3,7 @@ package com.carhub.api.auto.utils.exception
 import org.hibernate.TypeMismatchException
 import org.springframework.beans.ConversionNotSupportedException
 import org.springframework.core.annotation.Order
-import org.springframework.http.{HttpStatus, ResponseEntity}
+import org.springframework.http.{HttpHeaders, HttpStatus, ResponseEntity}
 import org.springframework.http.converter.{HttpMessageNotReadableException, HttpMessageNotWritableException}
 import org.springframework.validation.BindException
 import org.springframework.web.bind.{MethodArgumentNotValidException, MissingPathVariableException, MissingServletRequestParameterException, ServletRequestBindingException}
@@ -41,7 +41,7 @@ class ApiErrorHandler {
     classOf[BindException],
     classOf[NoHandlerFoundException],
     classOf[AsyncRequestTimeoutException]))
-  def handleAll(ex: Exception, request: WebRequest): ResponseEntity[ApiError] = ex match{
+  def handleAll(ex: Throwable, request: WebRequest): ResponseEntity[ApiError] = ex match{
       case ex : ElementNotFoundException[_] => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : ElementNotCreatedException[_] => buildResponseEntity(new ApiError(HttpStatus.NO_CONTENT,"error" , ex))
       case ex : ElementNotUpdatedException[_] => buildResponseEntity(new ApiError(HttpStatus.NOT_MODIFIED,"error" , ex))
@@ -61,8 +61,8 @@ class ApiErrorHandler {
       case ex : BindException => buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST,"error" , ex))
       case ex : NoHandlerFoundException => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : AsyncRequestTimeoutException => buildResponseEntity(new ApiError(HttpStatus.SERVICE_UNAVAILABLE,"error" , ex))
-      case _ : Throwable => buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR,"error" , ex))
+      case _ => buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR,"error" , ex))
   }
 
-  private def buildResponseEntity(error : ApiError) = ResponseEntity.status(error.httpStatus).body(error)
+  private def buildResponseEntity(error : ApiError) = new ResponseEntity[ApiError](error, new HttpHeaders(), error.httpStatus)
 }
