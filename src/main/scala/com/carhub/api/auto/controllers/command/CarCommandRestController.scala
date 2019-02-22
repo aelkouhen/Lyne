@@ -22,28 +22,28 @@ class CarCommandRestController(@Autowired val carCommandService : CarCommandServ
   def createCar(@ApiParam(name = "car", value = "A Car object.", required = true) @RequestBody car: Car): ResponseEntity[_] = {
     val created = carCommandService.addCar(car)
 
-    if(created == null) throw new ElementNotCreatedException[Car]()
+    if(created == null) throw new ElementNotCreatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.CREATED).body(created)
   }
 
   @ApiOperation(value = "Update a Car.", response = classOf[Car])
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
-  @PutMapping(Array("/{id}"))
-  def updateCar(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") id : Long, @RequestBody car: Car): ResponseEntity[_] = {
+  @PutMapping(value = Array("/{id}"))
+  def updateCar(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @RequestBody car: Car): ResponseEntity[_] = {
     val updated = carCommandService.updateCar(id, car)
 
-    if(updated == null) throw new ElementNotUpdatedException[Car]()
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
   @ApiOperation(value = "Update the Car's acceleration time.", response = classOf[Car])
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
-  @PatchMapping(Array("/{id}/acceleration={acceleration}"))
-  def updateCarAccelerationTime(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") id : Long, @ApiParam(name = "accelerationTime", value = "The acceleration time (from 0 to 100 KmH) of the Car.", required = true) @PathVariable(value = "acceleration") accelerationTime : Double) = {
+  @PatchMapping(value = Array("/{id}"), params = Array("acceleration"))
+  def updateCarAccelerationTime(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "acceleration", value = "The acceleration time (from 0 to 100 KmH) of the Car.", required = true, example = "0.0") @RequestParam(name = "acceleration") accelerationTime : Double) = {
     val updated = carCommandService.updateCarAccelerationTime(id, accelerationTime)
-    if(updated == null) throw new ElementNotUpdatedException[Car]()
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
@@ -411,7 +411,7 @@ class CarCommandRestController(@Autowired val carCommandService : CarCommandServ
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
-  def deleteCar(@ApiParam(name = "id", value = "The Car ID.", required = true) @PathVariable(value = "id") id : Long) = {
+  def deleteCar(@ApiParam(name = "id", value = "The Car ID.", required = true, example = "1") @PathVariable(value = "id") id : Long) = {
     carCommandService.deleteCar(id)
     ResponseEntity.status(HttpStatus.NO_CONTENT).build()
   }

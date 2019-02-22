@@ -11,14 +11,14 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Video", tags = Array("Resource"), description = "This API queries the Video concept.")
+@Api(value = "Video", tags = Array("Video"), description = "This API queries the Video concept.")
 @RestController
 @RequestMapping(Array("/api/videos"))
 class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryService) {
 
   @ApiOperation(value = "List the Videos : Retrieve the Videos list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Video]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array(""))
+  @GetMapping
   @ResponseBody
   def getVideosList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                     @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -30,33 +30,33 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
       case "asc" => result = videoQueryService.getVideosListAsc(page, size, sort)
       case _ => result = videoQueryService.getVideosListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Count the Videos.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/count"))
+  @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllVideos() : Long = videoQueryService.countAllVideos
 
   @ApiOperation(value = "Filter Videos by name", response = classOf[util.List[Video]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name={name}"))
+  @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
-  def findVideosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
+  def findVideosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = videoQueryService.findVideosByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Filter Videos by format", response = classOf[util.List[Video]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/format={ext}"))
+  @GetMapping(value = Array("/find"), params = Array("format"))
   @ResponseBody
-  def findVideosByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @PathVariable(value = "format") format : String) : ResponseEntity[_]  = {
+  def findVideosByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {
     val result = videoQueryService.findVideosByExtension(format)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
 }

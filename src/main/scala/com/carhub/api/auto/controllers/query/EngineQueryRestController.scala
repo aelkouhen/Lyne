@@ -18,7 +18,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
 
   @ApiOperation(value = "List the Engines : Retrieve the Engines list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Engine]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array(""))
+  @GetMapping
   @ResponseBody
   def getEnginesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                      @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -30,33 +30,33 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
       case "asc" => result = engineQueryService.getEnginesListAsc(page, size, sort)
       case _ => result = engineQueryService.getEnginesListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Count the Engines.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/count"))
+  @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllEngines() : Long = engineQueryService.countAllEngines
 
   @ApiOperation(value = "Filter Engines by name", response = classOf[util.List[Engine]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name={name}"))
+  @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
-  def findEngineByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
+  def findEngineByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Filter Engines by fuel type", response = classOf[util.List[Engine]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/fuel={fuel}"))
+  @GetMapping(value = Array("/find"), params = Array("fuel"))
   @ResponseBody
-  def findEngineByFuelType(@ApiParam(name = "fuel", value = "The filtering expression.", required = true) @PathVariable(value = "fuel") fuel : String) : ResponseEntity[_]  = {
+  def findEngineByFuelType(@ApiParam(name = "fuel", value = "The filtering expression.", required = true) @RequestParam fuel : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByFuelType(fuel)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }
 }

@@ -1,7 +1,5 @@
 package com.carhub.api.auto.utils.exception
 
-class ElementNotFoundException[A]() extends RuntimeException{
-
-  var element : A = _
-  var message : String = "No element of type " + element + " was found"
+class ElementNotFoundException[A](val element : Class[A]) extends RuntimeException{
+  override def getMessage: String = "No element of type " + element.getSimpleName + " was found"
 }

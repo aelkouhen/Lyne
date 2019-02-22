@@ -20,7 +20,7 @@ class SerieQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Series : Retrieve the Series list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Serie]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array(""))
+  @GetMapping()
   @ResponseBody
   def getSeriesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                     @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -32,23 +32,23 @@ class SerieQueryRestController(@Autowired
       case "asc" => result = serieQueryService.getSeriesListAsc(page, size, sort)
       case _ => result = serieQueryService.getSeriesListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Count the Series.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/count"))
+  @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllSeries() : Long = serieQueryService.countAllSeries
 
   @ApiOperation(value = "Filter Series by name", response = classOf[util.List[Serie]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name={name}"))
+  @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
-  def findSeriesByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
+  def findSeriesByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = serieQueryService.findSeriesByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
 
@@ -58,7 +58,7 @@ class SerieQueryRestController(@Autowired
   @ResponseBody
   def getSerieCars(@ApiParam(name = "id", example = "1", value = "The Model ID.", required = true) @PathVariable(value = "id") serieId : Long) : ResponseEntity[_] = {
     val result  = carQueryService.getSerieCars(serieId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
 }

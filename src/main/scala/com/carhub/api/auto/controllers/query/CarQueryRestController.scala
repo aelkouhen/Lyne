@@ -18,7 +18,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
 
   @ApiOperation(value = "List the Cars : Retrieve the Cars list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Car]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array(""))
+  @GetMapping
   @ResponseBody
   def getCarsList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                   @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -30,23 +30,23 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
         case "asc" => result = carQueryService.getCarsListAsc(page, size, sort)
         case _ => result = carQueryService.getCarsListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car](classOf[Car])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Count the Cars.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/count"))
+  @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllCars() : Long = carQueryService.countAllCars
 
   @ApiOperation(value = "Filter Cars by name", response = classOf[util.List[Car]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name={name}"))
+  @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
-  def findCarByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
+  def findCarByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = carQueryService.findCarsByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car](classOf[Car])
     ResponseEntity.ok(result)
   }
 }

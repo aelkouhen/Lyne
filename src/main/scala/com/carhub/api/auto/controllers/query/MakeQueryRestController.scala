@@ -23,7 +23,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Makes : Retrieve the Makes list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Make]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array(""))
+  @GetMapping
   @ResponseBody
   def getMakesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                    @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -35,63 +35,63 @@ class MakeQueryRestController(@Autowired
       case "asc" => result = makeQueryService.getMakesListAsc(page, size, sort)
       case _ => result = makeQueryService.getMakesListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Count the Makes.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/count"))
+  @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllMakes() : Long = makeQueryService.countAllMakes
 
   @ApiOperation(value = "Filter Makes by name", response = classOf[util.List[Make]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/name={name}"))
+  @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
-  def findMakeByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @PathVariable(value = "name") name : String) : ResponseEntity[_]  = {
+  def findMakeByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = makeQueryService.findMakesByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "List the Models of the Make : Retrieve all models manufactured by a Make: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Model]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/{id}/models"))
+  @GetMapping(value = Array("/{id}/models"))
   @ResponseBody
   def getMakeModels(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = modelQueryService.getMakeModels(makeId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "List the Series of the Make : Retrieve all Series issued by a Make: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Serie]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/{id}/series"))
+  @GetMapping(value = Array("/{id}/series"))
   @ResponseBody
   def getMakeSeries(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = serieQueryService.getMakeSeries(makeId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "List the Cars of the Make : Retrieve all Cars manufactured by a Make: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Car]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/{id}/cars"))
+  @GetMapping(value = Array("/{id}/cars"))
   @ResponseBody
   def getMakeCars(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = carQueryService.getMakeCars(makeId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
 
   @ApiOperation(value = "Returns the icon of the Make.", response = classOf[Array[Byte]], responseContainer = "Array")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping(Array("/{id}/icon"))
+  @GetMapping(value = Array("/{id}/icon"))
   @ResponseBody
   def getMakeIcon(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = photoQueryService.getMakeIcon(makeId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make]()
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
 }

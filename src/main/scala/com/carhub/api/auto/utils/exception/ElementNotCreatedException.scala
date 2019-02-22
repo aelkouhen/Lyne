@@ -1,7 +1,5 @@
 package com.carhub.api.auto.utils.exception
 
-class ElementNotCreatedException[A]() extends RuntimeException{
-
-  var element : A = _
-  var message : String = "No element of type " + element + " was created"
+class ElementNotCreatedException[A](val element : Class[A]) extends RuntimeException{
+  override def getMessage: String = "No element of type " + element.getSimpleName + " was created"
 }
