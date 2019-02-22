@@ -2,11 +2,10 @@ package com.carhub.api.auto.utils.enumeration
 
 import com.carhub.api.auto.domain.Body
 import com.fasterxml.jackson.core.JsonGenerator
-import com.fasterxml.jackson.databind.SerializerProvider
-import com.fasterxml.jackson.databind.ser.std.StdSerializer
+import com.fasterxml.jackson.databind.{JsonSerializer, SerializerProvider}
 
 
-class BodyEnumSerializer extends StdSerializer[Body.Body](classOf[Body.Body]){
+class BodyEnumSerializer extends JsonSerializer[Body.Body]{
 
   override def serialize(value: Body.Body, gen : JsonGenerator, provider: SerializerProvider)= {
     gen.writeStartObject
