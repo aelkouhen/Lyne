@@ -122,7 +122,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     engine.fuelType = Fuel.DIESEL
 
     engineCommandService.addEngine(engine)
-    carCommandService.updateCarEngine(car, engine)
+    carCommandService.updateCarEngine(car.id, engine)
 
 
     val photo = new Photo
@@ -141,7 +141,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     photo.content = arrayPic
     photoCommandService.addPhoto(photo)
 
-    carCommandService.updateCarAddPhoto(car, photo)
+    carCommandService.updateCarAddPhoto(car.id, photo)
 
 
     val video = new Video
@@ -151,7 +151,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     video.url = "https://youtu.be/9u9x4kveojU"
     videoCommandService.addVideo(video)
 
-    carCommandService.updateCarAddVideo(car, video)
+    carCommandService.updateCarAddVideo(car.id, video)
 
     val file = new File
     val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
@@ -167,7 +167,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     fileCommandService.addFile(file)
 
 
-    carCommandService.updateCarAddFile(car, file)
+    carCommandService.updateCarAddFile(car.id, file)
   }
 
   private def createPhoto() = {

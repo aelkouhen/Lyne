@@ -4,9 +4,10 @@ import java.io.Serializable
 import java.lang.Long
 import java.util
 
-import com.carhub.api.auto.utils.enumeration.{EnumValue, EnumValueType}
+import com.carhub.api.auto.utils.enumeration._
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
-import com.fasterxml.jackson.annotation.{JsonFormat, JsonIgnore}
+import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.databind.annotation.{JsonDeserialize, JsonSerialize}
 import javax.persistence._
 import org.hibernate.annotations.Type
 
@@ -43,10 +44,18 @@ object Break extends Enumeration with EnumValue{
 class BreakType extends EnumValueType(Break){}
 
 object Body extends Enumeration with EnumValue{
-
+  type Body = Value
   val MICRO, ECONOMY, COMBI, HATCHBACK, FASTBACK, LIFTBACK, COUPE, INTERMEDIATE, MONOSPACE, FULL_SEDAN, LUXURY_SEDAN, ROADSTER, CABRIOLET, CC ,SPORT, SUPER, LIMOUSINE, MINIVAN, VAN, CAMPERVAN, WAGON, CROSSOVER, MPV, CUV, SUV, OFF_ROAD, TARGA, GRAND_TOURER, PICKUP_TRUCK, MINI_TRUCK, MONSTER_TRUCK, TRUCK, BIG_TRUCK = Value
+  /*
+  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
+  def forValue(value: String): Body.Value = Body.valueOf(value)
+
+  @JsonValue
+  def toValue: String = {
+    Body.Value.toString
+  }*/
 }
-class BodyType extends EnumValueType(Body){}
+class BodyType extends EnumValueType(Body)
 
 object EnginePosition extends Enumeration with EnumValue{
 
@@ -78,8 +87,9 @@ abstract class Vehicle extends Serializable {
   //Indicates the design and body style of the vehicle.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.BodyType")
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  var bodyType: Body.Value = _
+  @JsonSerialize(using = classOf[BodyEnumSerializer])
+  @JsonDeserialize(using = classOf[BodyEnumDeserializer])
+  var bodyType: Body.Body = _
 
   //The CO2 emissions in g/km.
   @BeanProperty

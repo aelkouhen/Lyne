@@ -19,5 +19,7 @@ libraryDependencies ++= Seq (
   "org.webjars" % "bootstrap" % "3.1.1",
   "mysql" % "mysql-connector-java" % "8.0.13",
   "io.springfox" % "springfox-swagger2" % "2.9.2",
-  "io.springfox" % "springfox-swagger-ui" % "2.9.2"
+  "io.springfox" % "springfox-swagger-ui" % "2.9.2",
+  "com.fasterxml.jackson.core" % "jackson-core" % "2.9.8",
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.8"
 )
