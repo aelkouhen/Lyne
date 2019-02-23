@@ -66,7 +66,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.maxSpeed = 240
     car.fuelCapacity = 60
     car.modelYear = 2017
-    car.bodyType = Body.SUV
+    car.body = Body.SUV
     car.seatingCapacity = 7
     car.length = 4690
     car.width = 1820
@@ -114,12 +114,12 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     engine.name = "1.6 dCi"
     engine.engineDisplacement = 1598
     engine.torque = 320
-    engine.injectionSystem = InjectionSystem.CRDI
-    engine.turbineSystem = TurbineSystem.TURBO
-    engine.positionOfCylinders = CylinderPosition.INLINE
+    engine.injection = Injection.CRDI
+    engine.turbine = Turbine.TURBO
+    engine.cylinders = Cylinder.INLINE
     engine.numberOfCylinders = 4
     engine.valvesPerCylinder = 4
-    engine.fuelType = Fuel.DIESEL
+    engine.fuel = Fuel.DIESEL
 
     engineCommandService.addEngine(engine)
     carCommandService.updateCarEngine(car.id, engine)

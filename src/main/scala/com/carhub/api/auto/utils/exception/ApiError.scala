@@ -2,18 +2,27 @@ package com.carhub.api.auto.utils.exception
 
 import com.fasterxml.jackson.annotation.JsonFormat
 import org.springframework.http.HttpStatus
-import java.time.LocalDateTime
+import java.util.{Calendar, Date}
 
 class ApiError {
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
+  var time: Date = Calendar.getInstance().getTime()
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
+  var level : String = _
 
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   var httpStatus : HttpStatus = _
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd HH:mm:ss")
-  var time : LocalDateTime = LocalDateTime.now
+  @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
+  var status : Int = _
 
   @JsonFormat(shape = JsonFormat.Shape.STRING)
-  var level : String = _
+  var exception : String = _
+
+  @JsonFormat(shape = JsonFormat.Shape.STRING)
+  var message : String = _
 
   @JsonFormat(shape = JsonFormat.Shape.STRING)
   var component : String = _
@@ -21,14 +30,6 @@ class ApiError {
   @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
   var line : Int = _
 
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  var message : String = _
-
-  @JsonFormat(shape = JsonFormat.Shape.STRING)
-  var exception : String = _
-
-  @JsonFormat(shape = JsonFormat.Shape.NUMBER_INT)
-  var status : Int = _
 
   def this(status: HttpStatus) {
     this
@@ -54,6 +55,5 @@ class ApiError {
     this.exception = ex.getClass.getName
     this.level = level
     this.line = stack.getLineNumber
-    println(this.message)
   }
 }

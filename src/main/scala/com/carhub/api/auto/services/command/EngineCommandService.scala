@@ -20,15 +20,15 @@ class EngineCommandService(engineRepository: EngineRepository) {
     engineToUpdate.cylinderBore = engine.cylinderBore
     engineToUpdate.engineDisplacement = engine.engineDisplacement
     engineToUpdate.enginePower = engine.enginePower
-    engineToUpdate.fuelType = engine.fuelType
-    engineToUpdate.injectionSystem = engine.injectionSystem
+    engineToUpdate.fuel = engine.fuel
+    engineToUpdate.injection = engine.injection
     engineToUpdate.name = engine.name
     engineToUpdate.numberOfCylinders = engine.numberOfCylinders
     engineToUpdate.oilCapacity = engine.oilCapacity
     engineToUpdate.pistonStroke = engine.pistonStroke
-    engineToUpdate.positionOfCylinders = engine.positionOfCylinders
+    engineToUpdate.cylinders = engine.cylinders
     engineToUpdate.torque = engine.torque
-    engineToUpdate.turbineSystem = engine.turbineSystem
+    engineToUpdate.turbine = engine.turbine
     engineToUpdate.valvesPerCylinder = engine.valvesPerCylinder
 
     engineRepository.save(engineToUpdate)
@@ -71,14 +71,14 @@ class EngineCommandService(engineRepository: EngineRepository) {
 
   def updateEngineFuelType(engine : Engine, fuelType : String)= {
     val engineToUpdate = engineRepository.getOne(engine.id)
-    engineToUpdate.fuelType = Fuel.valueOf(fuelType)
+    engineToUpdate.fuel = Fuel.valueOf(fuelType)
 
     engineRepository.save(engineToUpdate)
   }
 
   def updateEngineInjectionSystem(engine : Engine, injectionSystem : String)= {
     val engineToUpdate = engineRepository.getOne(engine.id)
-    engineToUpdate.injectionSystem = InjectionSystem.valueOf(injectionSystem)
+    engineToUpdate.injection = Injection.valueOf(injectionSystem)
 
     engineRepository.save(engineToUpdate)
   }
@@ -113,7 +113,7 @@ class EngineCommandService(engineRepository: EngineRepository) {
 
   def updateEnginePositionOfCylinder(engine : Engine, positionOfCylinders : String)= {
     val engineToUpdate = engineRepository.getOne(engine.id)
-    engineToUpdate.positionOfCylinders = CylinderPosition.valueOf(positionOfCylinders)
+    engineToUpdate.cylinders = Cylinder.valueOf(positionOfCylinders)
 
     engineRepository.save(engineToUpdate)
   }
@@ -127,7 +127,7 @@ class EngineCommandService(engineRepository: EngineRepository) {
 
   def updateEngineTurbineSystem(engine : Engine, turbine : String)= {
     val engineToUpdate = engineRepository.getOne(engine.id)
-    engineToUpdate.turbineSystem = TurbineSystem.valueOf(turbine)
+    engineToUpdate.turbine = Turbine.valueOf(turbine)
 
     engineRepository.save(engineToUpdate)
   }

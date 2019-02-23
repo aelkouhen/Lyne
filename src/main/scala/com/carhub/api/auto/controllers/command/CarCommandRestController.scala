@@ -1,7 +1,7 @@
 package com.carhub.api.auto.controllers.command
 
-import com.carhub.api.auto.domain.Car
-import com.carhub.api.auto.services.command.CarCommandService
+import com.carhub.api.auto.domain.{Car, Engine}
+import com.carhub.api.auto.services.command.{CarCommandService, EngineCommandService}
 import com.carhub.api.auto.utils.exception.{ElementNotCreatedException, ElementNotUpdatedException}
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
@@ -12,7 +12,8 @@ import org.springframework.web.bind.annotation._
 @Api(value = "Car", tags = Array("Car"), description = "This API queries the Car concept.")
 @RestController
 @RequestMapping(Array("/api/cars"))
-class CarCommandRestController(@Autowired val carCommandService : CarCommandService)  {
+class CarCommandRestController(@Autowired val carCommandService : CarCommandService,
+                                          val engineCommandService : EngineCommandService)  {
 
   @ApiOperation(value = "Create a Car.", response = classOf[Car])
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
@@ -20,8 +21,10 @@ class CarCommandRestController(@Autowired val carCommandService : CarCommandServ
   @ResponseBody
   @PostMapping
   def createCar(@ApiParam(name = "car", value = "A Car object.", required = true) @RequestBody car: Car): ResponseEntity[_] = {
-    val created = carCommandService.addCar(car)
+    val engineCreated = engineCommandService.addEngine(car.engine)
+    if(engineCreated == null) throw new ElementNotCreatedException[Engine](classOf[Engine])
 
+    val created = carCommandService.addCar(car)
     if(created == null) throw new ElementNotCreatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.CREATED).body(created)
   }

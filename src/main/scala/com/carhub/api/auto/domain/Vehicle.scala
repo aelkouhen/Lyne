@@ -6,7 +6,9 @@ import java.util
 
 import com.carhub.api.auto.utils.enumeration._
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
-import com.fasterxml.jackson.annotation.JsonIgnore
+import com.fasterxml.jackson.annotation._
+import com.fasterxml.jackson.core.{JsonGenerator, JsonParser}
+import com.fasterxml.jackson.databind.{DeserializationContext, JsonDeserializer, JsonSerializer, SerializerProvider}
 import com.fasterxml.jackson.databind.annotation.{JsonDeserialize, JsonSerialize}
 import javax.persistence._
 import org.hibernate.annotations.Type
@@ -14,7 +16,20 @@ import org.hibernate.annotations.Type
 import scala.beans.BeanProperty
 
 object WDEnum extends Enumeration with EnumValue{
+  type Mode = Value
   val FRONT_2WD, REAR_2WD, ALL_4WD = Value
+
+  class WDJsonSerializer extends JsonSerializer[Mode] {
+    override def serialize(value: Mode, gen : JsonGenerator, provider: SerializerProvider)= {
+      gen.writeStartObject
+      gen.writeStringField("mode", value.toString);
+      gen.writeEndObject();
+    }
+  }
+
+  class WDJsonDeserializer extends JsonDeserializer[Mode] {
+    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Mode = WDEnum.valueOf(jsonParser.getText)
+  }
 }
 class WDType extends EnumValueType(WDEnum){}
 
@@ -27,39 +42,93 @@ object Transmission extends Enumeration with EnumValue{
   Dual-Clutch Transmission (DCT).
   DSG (Direct Shift Gearbox).
  */
+  type Mode = Value
   val MT, AT, SAT, CVT, DCT, DSG = Value
+
+  class TransmissionJsonSerializer extends JsonSerializer[Mode] {
+    override def serialize(value: Mode, gen : JsonGenerator, provider: SerializerProvider)= {
+      gen.writeStartObject
+      gen.writeStringField("mode", value.toString);
+      gen.writeEndObject();
+    }
+  }
+
+  class TransmissionJsonDeserializer extends JsonDeserializer[Mode] {
+    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Mode = Transmission.valueOf(jsonParser.getText)
+  }
 }
 class TransmissionType extends EnumValueType(Transmission){}
 
 object Suspension extends Enumeration with EnumValue{
-
+  type System = Value
   val MCPHERSON_STRUT, DEPRECIATED_RACK, HELICAL_SPRING, ANTIROLL_SPRING, SPRING, COIL_SPRING, SUSPENSION_WITH_STEERING_ROD, MULTI_LINK_SPRING, MULTI_LINK_SPRING_WITH_ABSORBERS, MCPHERSON_SPRING_WITH_STABILIZER, SPRING_LOADED_RACK, HYDRAULIC, PNEUMATIC, HYDRO_PNEUMATIC, WISHBONE, DOUBLE_WISHBONE, INCLINED_LEVER, TRAPEZOIDAL_LEVER, BEAM_BRIDGE, ROTARY_FIST, TRANSVERSE_STABILIZER, TRAILING, TORSION, THREADED_TWIST_BEAM, ELASTIC_BEAM, DE_DION = Value
+
+  class SuspensionJsonSerializer extends JsonSerializer[System] {
+    override def serialize(value: System, gen : JsonGenerator, provider: SerializerProvider)= {
+      gen.writeStartObject
+      gen.writeStringField("system", value.toString);
+      gen.writeEndObject();
+    }
+  }
+
+  class SuspensionJsonDeserializer extends JsonDeserializer[System] {
+    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): System = Suspension.valueOf(jsonParser.getText)
+  }
 }
 class SuspensionType extends EnumValueType(Suspension){}
 
 object Break extends Enumeration with EnumValue{
-
+  type Type = Value
   val DRUM, DISC, VENTILATED_DISC = Value
+
+  class BreakJsonSerializer extends JsonSerializer[Type] {
+    override def serialize(value: Type, gen : JsonGenerator, provider: SerializerProvider)= {
+      gen.writeStartObject
+      gen.writeStringField("type", value.toString);
+      gen.writeEndObject();
+    }
+  }
+
+  class BreakJsonDeserializer extends JsonDeserializer[Type] {
+    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Type = Break.valueOf(jsonParser.getText)
+  }
 }
 class BreakType extends EnumValueType(Break){}
 
 object Body extends Enumeration with EnumValue{
-  type Body = Value
+  type Category = Value
   val MICRO, ECONOMY, COMBI, HATCHBACK, FASTBACK, LIFTBACK, COUPE, INTERMEDIATE, MONOSPACE, FULL_SEDAN, LUXURY_SEDAN, ROADSTER, CABRIOLET, CC ,SPORT, SUPER, LIMOUSINE, MINIVAN, VAN, CAMPERVAN, WAGON, CROSSOVER, MPV, CUV, SUV, OFF_ROAD, TARGA, GRAND_TOURER, PICKUP_TRUCK, MINI_TRUCK, MONSTER_TRUCK, TRUCK, BIG_TRUCK = Value
-  /*
-  @JsonCreator(mode = JsonCreator.Mode.PROPERTIES)
-  def forValue(value: String): Body.Value = Body.valueOf(value)
 
-  @JsonValue
-  def toValue: String = {
-    Body.Value.toString
-  }*/
+  class BodyJsonSerializer extends JsonSerializer[Category] {
+    override def serialize(value: Category, gen : JsonGenerator, provider: SerializerProvider)= {
+      gen.writeStartObject
+      gen.writeStringField("category", value.toString);
+      gen.writeEndObject();
+    }
+  }
+
+  class BodyJsonDeserializer extends JsonDeserializer[Category] {
+    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Category = Body.valueOf(jsonParser.getText)
+  }
 }
 class BodyType extends EnumValueType(Body)
 
-object EnginePosition extends Enumeration with EnumValue{
 
+object EnginePosition extends Enumeration with EnumValue{
+  type Position = Value
   val MIDDLE_TRANSVERSELY, REAR_TRANSVERSELY, FRONT_TRANSVERSELY, MIDDLE_LONGITUDINAL, REAR_LONGITUDINAL, FRONT_LONGITUDINAL = Value
+
+  class PositionJsonSerializer extends JsonSerializer[Position] {
+    override def serialize(value: Position, gen : JsonGenerator, provider: SerializerProvider)= {
+      gen.writeStartObject
+      gen.writeStringField("position", value.toString);
+      gen.writeEndObject();
+    }
+  }
+
+  class PositionJsonDeserializer extends JsonDeserializer[Position] {
+    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Position = EnginePosition.valueOf(jsonParser.getText)
+  }
 }
 class EnginePositionType extends EnumValueType(EnginePosition){}
 
@@ -74,26 +143,26 @@ abstract class Vehicle extends Serializable {
   @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "ID")
   @JsonApiId
-  var id: Long = _
+  var id : Long = _
 
   @BeanProperty
-  var name:String  = _
+  var name :String  = _
 
   //The time needed to accelerate the vehicle from a given start velocity to a given target velocity.
   //Typical unit code(s): seconds/0..100 km/h
   @BeanProperty
-  var accelerationTime: Double  = _
+  var accelerationTime : Double  = _
 
   //Indicates the design and body style of the vehicle.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.BodyType")
-  @JsonSerialize(using = classOf[BodyEnumSerializer])
-  @JsonDeserialize(using = classOf[BodyEnumDeserializer])
-  var bodyType: Body.Body = _
+  @JsonSerialize(using = classOf[Body.BodyJsonSerializer])
+  @JsonDeserialize(using = classOf[Body.BodyJsonDeserializer])
+  var body : Body.Category = _
 
   //The CO2 emissions in g/km.
   @BeanProperty
-  var emissionsCO2: Int = _
+  var emissionsCO2 : Int = _
 
   //The capacity of the fuel tank or in the case of electric cars, the battery.
   @BeanProperty
@@ -101,116 +170,130 @@ abstract class Vehicle extends Serializable {
 
   //The amount of fuel consumed for traveling with the given vehicle (e.g. liters per 100 km).
   @BeanProperty
-  var avgFuelConsumption: Double = _
+  var avgFuelConsumption : Double = _
 
   //Images of the vehicle.
   @BeanProperty
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY)
-  var images: util.List[Photo] = new util.ArrayList[Photo]()
+  var images : util.List[Photo] = new util.ArrayList[Photo]()
 
   //Videos of the vehicle.
   @BeanProperty
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY)
-  var videos: util.List[Video] = new util.ArrayList[Video]()
+  var videos : util.List[Video] = new util.ArrayList[Video]()
 
   //Relevant documentations (technical specification, brochures...)
   @BeanProperty
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY)
-  var files: util.List[File] = new util.ArrayList[File]()
+  var files : util.List[File] = new util.ArrayList[File]()
 
   //The sub-model (serie) of the product.
   @BeanProperty
   @JsonIgnore
   @OneToOne(fetch = FetchType.LAZY)
-  var serie: Serie = _
+  var serie : Serie = _
 
   //The release date of a vehicle model (often used to differentiate versions of the same make and model).
   @BeanProperty
-  var modelYear: Int = _
+  var modelYear : Int = _
 
   //The number or type of airbags in the vehicle.
   @BeanProperty
-  var numberOfAirbags: Int = _
+  var numberOfAirbags : Int = _
 
   //The number of axles.
   @BeanProperty
-  var numberOfAxles: Int = _
+  var numberOfAxles : Int = _
 
   //The number of doors.
   @BeanProperty
-  var numberOfDoors: Int = _
+  var numberOfDoors : Int = _
 
   //The total number of forward gears available for the transmission system of the vehicle.
   @BeanProperty
-  var numberOfForwardGears: Int = _
+  var numberOfForwardGears : Int = _
 
   //The permitted weight of passengers and cargo, EXCLUDING the weight of the empty vehicle.
   @BeanProperty
-  var payload: Int = _
+  var payload : Int = _
 
   //The number of persons that can be seated.
   @BeanProperty
-  var seatingCapacity: Int = _
+  var seatingCapacity : Int = _
 
   //The maximum speed of the vehicle in KM/h.
   @BeanProperty
-  var maxSpeed: Int = _
+  var maxSpeed : Int = _
 
   //The permitted vertical load (TWR) of a trailer attached to the vehicle.
   // Also referred to as Tongue Load Rating (TLR) or Vertical Load Rating (VLR).
   @BeanProperty
-  var tongueWeight: Int = _
+  var tongueWeight : Int = _
 
   //The permitted weight of a trailer attached to the vehicle.
   @BeanProperty
-  var trailerWeight: Int = _
+  var trailerWeight : Int = _
 
   //A short text indicating the configuration of the vehicle (i.e., the trim), e.g. '5dr hatchback ST 2.5 MT 225 hp' or 'limited edition'.
   @BeanProperty
-  var vehicleConfiguration: String = _
+  var vehicleConfiguration : String = _
 
   //The drive wheel configuration: which wheels will receive torque from the vehicle's engine via the drive train.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.WDType")
-  var driveWheelConfiguration: WDEnum.Value = _
+  @JsonSerialize(using = classOf[WDEnum.WDJsonSerializer])
+  @JsonDeserialize(using = classOf[WDEnum.WDJsonDeserializer])
+  var driveWheelConfiguration : WDEnum.Value = _
 
   //Information about the engine or engines of the vehicle.
   @BeanProperty
   @OneToOne
-  var engine: Engine = _
+  var engine : Engine = _
 
   //The Position of the engine
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.EnginePositionType")
-  var enginePosition: EnginePosition.Value = _
+  @JsonSerialize(using = classOf[EnginePosition.PositionJsonSerializer])
+  @JsonDeserialize(using = classOf[EnginePosition.PositionJsonDeserializer])
+  var enginePosition : EnginePosition.Value = _
 
   //The type of component used for transmitting the power from a rotating power source to the wheels or other relevant component(s) (i.e, "gearbox" for cars).
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.TransmissionType")
-  var vehicleTransmission: Transmission.Value = _
+  @JsonSerialize(using = classOf[Transmission.TransmissionJsonSerializer])
+  @JsonDeserialize(using = classOf[Transmission.TransmissionJsonDeserializer])
+  var vehicleTransmission : Transmission.Value = _
 
   //The front suspension system.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.SuspensionType")
-  var frontSuspension: Suspension.Value = _
+  @JsonSerialize(using = classOf[Suspension.SuspensionJsonSerializer])
+  @JsonDeserialize(using = classOf[Suspension.SuspensionJsonDeserializer])
+  var frontSuspension : Suspension.Value = _
 
   //The rear suspension system.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.SuspensionType")
-  var rearSuspension: Suspension.Value = _
+  @JsonSerialize(using = classOf[Suspension.SuspensionJsonSerializer])
+  @JsonDeserialize(using = classOf[Suspension.SuspensionJsonDeserializer])
+  var rearSuspension : Suspension.Value = _
 
   //The front break system.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.BreakType")
-  var frontBreak: Break.Value = _
+  @JsonSerialize(using = classOf[Break.BreakJsonSerializer])
+  @JsonDeserialize(using = classOf[Break.BreakJsonDeserializer])
+  var frontBreak : Break.Value = _
 
   //The rear break system.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.BreakType")
-  var rearBreak: Break.Value = _
+  @JsonSerialize(using = classOf[Break.BreakJsonSerializer])
+  @JsonDeserialize(using = classOf[Break.BreakJsonDeserializer])
+  var rearBreak : Break.Value = _
 
 
   //Measurements
@@ -230,74 +313,74 @@ abstract class Vehicle extends Serializable {
 
   //The the distance between the center line of two road wheels on the front axle.
   @BeanProperty
-  var frontTrack: Int = _
+  var frontTrack : Int = _
 
   //The the distance between the center line of two road wheels on the rear axle.
   @BeanProperty
-  var backTrack: Int = _
+  var backTrack : Int = _
 
   //The length of the vehicle..
   @BeanProperty
-  var length: Int = _
+  var length : Int = _
 
   //The width of the vehicle.
   @BeanProperty
-  var width: Int = _
+  var width : Int = _
 
   //The Width of the vehicle with mirrors folded.
   @BeanProperty
-  var widthFolded: Int = _
+  var widthFolded : Int = _
 
   //The Height of the vehicle.
   @BeanProperty
-  var height: Int = _
+  var height : Int = _
 
   //The drag coefficient is a common measure about the vehicle aerodynamics.
   // Drag is a force that acts parallel and in the same direction as the airflow.
   @BeanProperty
-  var dragCoefficient: Double = _
+  var dragCoefficient : Double = _
 
   //Ride height (also called clearance) is the shortest distance between a flat, level surface (the ground) the lowest point of the vehicle other than those parts designed to contact the ground.
   @BeanProperty
-  var rideHeight: Int = _
+  var rideHeight : Int = _
 
   //The Approach angle is the maximum angle of a ramp onto which a vehicle can climb from a horizontal plane without interference.
   @BeanProperty
-  var approachAngle: Double = _
+  var approachAngle : Double = _
 
   //The Departure angle is the maximum ramp angle from which the car can descend without damage.
   @BeanProperty
-  var departureAngle: Double = _
+  var departureAngle : Double = _
 
   //The ramp angle is the maximum angle at which the car can travel at low speed over a ramp or obstacle without the underbody touching the edge of the ramp.
   @BeanProperty
-  var rampAngle: Double = _
+  var rampAngle : Double = _
 
   //The maximum slope that a vehicle can climb.
   @BeanProperty
-  var climbAngle: Double = _
+  var climbAngle : Double = _
 
   //The distance between the front and the front axle.
   @BeanProperty
-  var frontOverhang: Int = _
+  var frontOverhang : Int = _
 
   //The distance between the rear and the rear axle.
   @BeanProperty
-  var rearOverhang: Int = _
+  var rearOverhang : Int = _
 
   //The Wading depth is the limit of how the vehicle can safely run through a flood.
   @BeanProperty
-  var wadingDepth: Int = _
+  var wadingDepth : Int = _
 
   //The available volume for luggage (e.g., trunk volume).
   @BeanProperty
-  var cargoVolume: Int = _
+  var cargoVolume : Int = _
 
   //The Tire size.
   @BeanProperty
-  var tireSize: String = _
+  var tireSize : String = _
 
   //The Wheel rims size
   @BeanProperty
-  var rimsSize: String = _
+  var rimsSize : String = _
 }

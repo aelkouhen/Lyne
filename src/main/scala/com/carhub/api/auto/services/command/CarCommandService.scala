@@ -22,7 +22,7 @@ class CarCommandService(carRepository: CarRepository, engineRepository: EngineRe
     carToUpdate.approachAngle = car.approachAngle
     carToUpdate.avgFuelConsumption = car.avgFuelConsumption
     carToUpdate.backTrack = car.backTrack
-    carToUpdate.bodyType = car.bodyType
+    carToUpdate.body = car.body
     carToUpdate.cargoVolume = car.cargoVolume
     carToUpdate.climbAngle = car.climbAngle
     carToUpdate.departureAngle = car.departureAngle
@@ -103,7 +103,7 @@ class CarCommandService(carRepository: CarRepository, engineRepository: EngineRe
 
   def updateCarBody(carId : Long, body : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.bodyType = Body.valueOf(body)
+    carToUpdate.body = Body.valueOf(body)
 
     carRepository.save(carToUpdate)
   }
