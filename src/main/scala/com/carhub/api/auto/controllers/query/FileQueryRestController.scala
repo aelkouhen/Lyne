@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "File", tags = Array("File"), description = "This API queries the File concept.")
 @RestController
-@RequestMapping(Array("/api/files"))
+@RequestMapping(value = Array("/api/files"))
 class FileQueryRestController(@Autowired val fileQueryService : FileQueryService) {
 
   @ApiOperation(value = "List the Files : Retrieve the Files list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[File]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping
+  @GetMapping(value = Array("/"))
   @ResponseBody
   def getFilesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                    @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,

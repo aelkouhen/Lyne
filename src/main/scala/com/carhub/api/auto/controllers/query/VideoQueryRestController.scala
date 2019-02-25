@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Video", tags = Array("Video"), description = "This API queries the Video concept.")
 @RestController
-@RequestMapping(Array("/api/videos"))
+@RequestMapping(value = Array("/api/videos"))
 class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryService) {
 
   @ApiOperation(value = "List the Videos : Retrieve the Videos list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Video]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping
+  @GetMapping(value = Array("/"))
   @ResponseBody
   def getVideosList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                     @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,

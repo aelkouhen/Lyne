@@ -184,7 +184,7 @@ abstract class Vehicle extends Serializable {
   @OneToMany(fetch = FetchType.LAZY)
   var videos : util.List[Video] = new util.ArrayList[Video]()
 
-  //Relevant documentations (technical specification, brochures...)
+  //Relevant documentations (technical specification, brochures...).
   @BeanProperty
   @JsonIgnore
   @OneToMany(fetch = FetchType.LAZY)
@@ -380,7 +380,7 @@ abstract class Vehicle extends Serializable {
   @BeanProperty
   var tireSize : String = _
 
-  //The Wheel rims size
+  //The Wheel rims size.
   @BeanProperty
   var rimsSize : String = _
 }

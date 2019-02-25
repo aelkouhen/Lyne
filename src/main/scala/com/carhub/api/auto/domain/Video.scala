@@ -13,7 +13,7 @@ import scala.beans.BeanProperty
 class Video extends Resource with Serializable {
 
   @BeanProperty
-  var dimension = (0, 0)
+  var (width, height) = (0, 0)
 
   @BeanProperty
   var definition: String = _

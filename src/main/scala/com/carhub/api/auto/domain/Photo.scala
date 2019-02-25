@@ -13,5 +13,5 @@ import scala.beans.BeanProperty
 class Photo extends Resource with Serializable {
 
   @BeanProperty
-  var dimension = (0, 0)
+  var (width, height) = (0, 0)
 }

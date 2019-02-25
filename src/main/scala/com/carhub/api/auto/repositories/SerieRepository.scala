@@ -19,4 +19,7 @@ trait SerieRepository extends JpaRepository[Serie, Long] {
 
   @Query(value = "SELECT s.* FROM serie s WHERE s.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findSeriesByName(@Param("name") name : String) : util.List[Serie]
+
+  @Query(value = "SELECT s.* FROM serie s WHERE s.id = :id", nativeQuery=true)
+  def findSeriesById(@Param("id") id : Long) : Serie
 }

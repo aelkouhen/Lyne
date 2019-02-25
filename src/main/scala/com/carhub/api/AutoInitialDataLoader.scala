@@ -93,7 +93,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       val picture = new ClassPathResource("images/nissan-x-trail.jpg")
       var inputStream = picture.getInputStream
       val bimg : BufferedImage = ImageIO.read(inputStream)
-      photo.dimension = (bimg.getWidth, bimg.getHeight)
+      photo.width = bimg.getWidth
+      photo.height = bimg.getHeight
       inputStream = picture.getInputStream
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
@@ -129,7 +130,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     val picture = new ClassPathResource("images/xtrail.jpg")
     var inputStream = picture.getInputStream
     val bimg : BufferedImage = ImageIO.read(inputStream)
-    photo.dimension = (bimg.getWidth, bimg.getHeight)
+    photo.width = bimg.getWidth
+    photo.height = bimg.getHeight
     inputStream = picture.getInputStream
     var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
@@ -176,7 +178,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     var inputStream = picture.getInputStream
     val bimg : BufferedImage = ImageIO.read(inputStream)
     inputStream = picture.getInputStream
-    photo.dimension = (bimg.getWidth, bimg.getHeight)
+    photo.width = bimg.getWidth
+    photo.height = bimg.getHeight
     val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
     photo.size = picture.contentLength

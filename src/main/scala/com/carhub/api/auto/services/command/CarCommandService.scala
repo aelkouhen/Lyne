@@ -3,7 +3,8 @@ package com.carhub.api.auto.services.command
 import java.util
 
 import com.carhub.api.auto.domain._
-import com.carhub.api.auto.repositories.{CarRepository, EngineRepository}
+import com.carhub.api.auto.repositories.CarRepository
+import com.carhub.api.auto.services.query._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,12 +12,21 @@ import org.springframework.transaction.annotation.Transactional
 @Autowired
 @Transactional
 @Service
-class CarCommandService(carRepository: CarRepository, engineRepository: EngineRepository){
+class CarCommandService(carRepository: CarRepository,
+                        engineCommandService: EngineCommandService,
+                        serieQueryService: SerieQueryService,
+                        fileCommandService: FileCommandService,
+                        photoCommandService: PhotoCommandService,
+                        videoCommandService: VideoCommandService){
 
-  def addCar (car :Car) = carRepository.save(car)
+  def addCar (car :Car) = {
+    if(car.engine != null) engineCommandService.addEngine(car.engine)
+    carRepository.save(car)
+  }
 
   def updateCar(carId : Long, car : Car) = {
     val carToUpdate = carRepository.getOne(carId)
+    if(car.engine != null) engineCommandService.addEngine(car.engine)
     carToUpdate.engine = car.engine
     carToUpdate.accelerationTime = car.accelerationTime
     carToUpdate.approachAngle = car.approachAngle
@@ -318,7 +328,8 @@ class CarCommandService(carRepository: CarRepository, engineRepository: EngineRe
     carRepository.save(carToUpdate)
   }
 
-  def updateCarSerie(carId : Long, serie : Serie) = {
+  def updateCarSerie(carId : Long, serieId : Long) = {
+    val serie = serieQueryService.findSeriesById(serieId)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.serie = serie
 
@@ -396,44 +407,30 @@ class CarCommandService(carRepository: CarRepository, engineRepository: EngineRe
   }
 
   def updateCarEngine(carId : Long, engine : Engine) = {
+    val engineToAdd = engineCommandService.addEngine(engine)
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.engine = engine
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarFiles(carId : Long, files : util.List[File]) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.files.addAll(files)
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarPhotos(carId : Long, photos : util.List[Photo]) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.images.addAll(photos)
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarVideos(carId : Long, videos : util.List[Video]) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.videos.addAll(videos)
+    carToUpdate.engine = engineToAdd
     carRepository.save(carToUpdate)
   }
 
   def updateCarAddFile(carId : Long, file: File) = {
+    val fileToAdd = fileCommandService.addFile(file)
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.files.add(file)
+    carToUpdate.files.add(fileToAdd)
     carRepository.save(carToUpdate)
   }
 
   def updateCarAddPhoto(carId : Long, photo : Photo) = {
+    val photoToAdd = photoCommandService.addPhoto(photo)
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.images.add(photo)
+    carToUpdate.images.add(photoToAdd)
     carRepository.save(carToUpdate)
   }
 
   def updateCarAddVideo(carId : Long, video : Video) = {
+    val videoToAdd = videoCommandService.addVideo(video)
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.videos.add(video)
+    carToUpdate.videos.add(videoToAdd)
     carRepository.save(carToUpdate)
   }
 

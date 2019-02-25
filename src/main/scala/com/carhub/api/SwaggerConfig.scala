@@ -36,7 +36,7 @@ class SwaggerConfig {
       var apis = apiListingContext.apiListingBuilder.build.getApis
       val builder : ImmutableList.Builder[ApiDescription] = ImmutableList.builder[ApiDescription]()
       if (apis != null) {
-        apis.forEach(api => builder.add(new ApiDescription(api.getGroupName.get, api.getPath + " (" + api.getDescription + ")", api.getDescription, api.getOperations, api.isHidden)))
+        apis.forEach(api => builder.add(new ApiDescription(api.getGroupName.get, api.getPath + "?apiDescription=" + api.getDescription, api.getDescription, api.getOperations, api.isHidden)))
         apis = builder.build
         apiListingContext.apiListingBuilder.apis(apis)
       }

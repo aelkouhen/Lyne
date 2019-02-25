@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Make", tags = Array("Make"), description = "This API queries the Make concept.")
 @RestController
-@RequestMapping(Array("/api/makes"))
+@RequestMapping(value = Array("/api/makes"))
 class MakeQueryRestController(@Autowired
                               val makeQueryService : MakeQueryService,
                               val serieQueryService : SerieQueryService,
@@ -23,7 +23,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Makes : Retrieve the Makes list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Make]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping
+  @GetMapping(value = Array("/"))
   @ResponseBody
   def getMakesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                    @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,

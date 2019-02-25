@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Model", tags = Array("Model"), description = "This API queries the Model concept.")
 @RestController
-@RequestMapping(Array("/api/models"))
+@RequestMapping(value = Array("/api/models"))
 class ModelQueryRestController(@Autowired
                                val serieQueryService : SerieQueryService,
                                val modelQueryService : ModelQueryService,
@@ -21,7 +21,7 @@ class ModelQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Models : Retrieve the Models list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Model]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
-  @GetMapping
+  @GetMapping(value = Array("/"))
   @ResponseBody
   def getModelsList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                     @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
