@@ -200,7 +200,7 @@ abstract class Vehicle extends Serializable {
   @BeanProperty
   var modelYear : Int = _
 
-  //The number or type of airbags in the vehicle.
+  //The number of airbags in the vehicle.
   @BeanProperty
   var numberOfAirbags : Int = _
 
@@ -253,7 +253,7 @@ abstract class Vehicle extends Serializable {
   @OneToOne
   var engine : Engine = _
 
-  //The Position of the engine
+  //The Position of the engine.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.EnginePositionType")
   @JsonSerialize(using = classOf[EnginePosition.PositionJsonSerializer])
@@ -303,7 +303,7 @@ abstract class Vehicle extends Serializable {
   @BeanProperty
   var maxWeight : Int = _
 
-  //Curb weight (American English) or kerb weight (British English) is the total mass of a vehicle with standard equipment and hardpoints (all necessary operating consumables such as motor oil, transmission oil, coolant, air conditioning refrigerant, and a full tank of fuel), while not loaded with either passengers, cargo, or weaponry.
+  //The Curb weight (American English) or kerb weight (British English) is the total mass of a vehicle with standard equipment and hardpoints (all necessary operating consumables such as motor oil, transmission oil, coolant, air conditioning refrigerant, and a full tank of fuel), while not loaded with either passengers, cargo, or weaponry.
   @BeanProperty
   var kerbWeight : Int = _
 
@@ -311,11 +311,11 @@ abstract class Vehicle extends Serializable {
   @BeanProperty
   var wheelBase : Int = _
 
-  //The the distance between the center line of two road wheels on the front axle.
+  //The distance between the center line of two road wheels on the front axle.
   @BeanProperty
   var frontTrack : Int = _
 
-  //The the distance between the center line of two road wheels on the rear axle.
+  //The distance between the center line of two road wheels on the rear axle.
   @BeanProperty
   var backTrack : Int = _
 
@@ -340,7 +340,7 @@ abstract class Vehicle extends Serializable {
   @BeanProperty
   var dragCoefficient : Double = _
 
-  //Ride height (also called clearance) is the shortest distance between a flat, level surface (the ground) the lowest point of the vehicle other than those parts designed to contact the ground.
+  //The Ride height (also called clearance) is the shortest distance between a flat, level surface (the ground) the lowest point of the vehicle other than those parts designed to contact the ground.
   @BeanProperty
   var rideHeight : Int = _
 

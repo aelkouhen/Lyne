@@ -44,229 +44,324 @@ class CarCommandRestController(@Autowired val carCommandService : CarCommandServ
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("acceleration"))
-  def updateCarAccelerationTime(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "acceleration", value = "The acceleration time (from 0 to 100 KmH) of the Car.", required = true, example = "0.0") @RequestParam(name = "acceleration") accelerationTime : Double) = {
+  def updateCarAccelerationTime(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "acceleration", value = "The time needed to accelerate the vehicle from a given start velocity to a given target velocity. Typical unit code(s): seconds/0..100 km/h.", required = true, example = "0.0") @RequestParam(name = "acceleration") accelerationTime : Double) = {
     val updated = carCommandService.updateCarAccelerationTime(id, accelerationTime)
     if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
+
+  @ApiOperation(value = "Update the Car's approach angle.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("approach"))
+  def updateCarApproachAngle(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "approach", value = "The Approach angle is the maximum angle of a ramp onto which a vehicle can climb from a horizontal plane without interference.", required = true, example = "0.0") @RequestParam(name = "approach") approachAngle : Double) = {
+    val updated = carCommandService.updateCarApproachAngle(id, approachAngle)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's fuel consumption.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("consumption"))
+  def updateCarFuelConsumption(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "consumption", value = "The amount of fuel consumed for traveling with the given vehicle (e.g. liters per 100 km).", required = true, example = "0.0") @RequestParam(name = "consumption") avgFuelConsumption : Double) = {
+    val updated = carCommandService.updateCarFuelConsumption(id, avgFuelConsumption)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's back track.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("backTrack"))
+  def updateCarBackTrack(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "backTrack", value = "The distance between the center line of two road wheels on the rear axle.", required = true, example = "0") @RequestParam(name = "backTrack") backTrack : Int) = {
+    val updated = carCommandService.updateCarBackTrack(id, backTrack)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's body category.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("body"))
+  def updateCarBody(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "body", value = "Indicates the design and body style of the vehicle.", required = true) @RequestParam(name = "body") body : String) = {
+    val updated = carCommandService.updateCarBody(id, body)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's climb angle.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("climb"))
+  def updateCarClimbAngle(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "climb", value = "The maximum slope that a vehicle can climb.", required = true, example = "0.0") @RequestParam(name = "climb") climbAngle : Double) = {
+    val updated = carCommandService.updateCarClimbAngle(id, climbAngle)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's departure angle.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("departure"))
+  def updateCarDepartureAngle(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "departure", value = "The Departure angle is the maximum ramp angle from which the car can descend without damage.", required = true, example = "0.0") @RequestParam(name = "departure") departureAngle : Double) = {
+    val updated = carCommandService.updateCarDepartureAngle(id, departureAngle)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's drag coefficient.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("drag"))
+  def updateCarDragCoefficient(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "drag", value = "The drag coefficient is a common measure about the vehicle aerodynamics. Drag is a force that acts parallel and in the same direction as the airflow.", required = true, example = "0.0") @RequestParam(name = "drag") dragCoefficient : Double) = {
+    val updated = carCommandService.updateCarDragCoefficient(id, dragCoefficient)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's drive wheel configuration.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("wd"))
+  def updateCarDriveWheelConfiguration(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "wd", value = "The drive wheel configuration: which wheels will receive torque from the vehicle's engine via the drive train.", required = true) @RequestParam(name = "wd") driveWheelConfiguration : String) = {
+    val updated = carCommandService.updateCarDriveWheelConfiguration(id, driveWheelConfiguration)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's CO2 emission.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("emission"))
+  def updateCarEmissionCO2(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "emission", value = "The CO2 emissions in g/km.", required = true, example = "0") @RequestParam(name = "emission") emissionCO2 : Int) = {
+    val updated = carCommandService.updateCarEmissionCO2(id, emissionCO2)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's engine position.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("position"))
+  def updateCarEnginePosition(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "position", value = "The Position of the engine.", required = true) @RequestParam(name = "position") position : String) = {
+    val updated = carCommandService.updateCarEnginePosition(id, position)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's front break.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("frontBreak"))
+  def updateCarFrontBreak(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "frontBreak", value = "The front break system.", required = true) @RequestParam(name = "frontBreak") frontBreak : String) = {
+    val updated = carCommandService.updateCarFrontBreak(id, frontBreak)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's front overhang.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("frontOverhang"))
+  def updateCarFrontOverhang(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "frontBreak", value = "The distance between the front and the front axle.", required = true, example = "0") @RequestParam(name = "frontOverhang") frontOverhang : Int) = {
+    val updated = carCommandService.updateCarFrontOverhang(id, frontOverhang)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's front suspension.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("frontSuspension"))
+  def updateCarFrontSuspension(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "frontSuspension", value = "The front suspension system.", required = true, example = "0") @RequestParam(name = "frontSuspension") frontSuspension : String) = {
+    val updated = carCommandService.updateCarFrontSuspension(id, frontSuspension)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's front track.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("frontTrack"))
+  def updateCarFrontTrack(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "frontTrack", value = "The distance between the center line of two road wheels on the front axle.", required = true, example = "0") @RequestParam(name = "frontTrack") frontTrack : Int) = {
+    val updated = carCommandService.updateCarFrontTrack(id, frontTrack)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's fuel capacity.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("fuelCapacity"))
+  def updateCarFuelCapacity(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "fuelCapacity", value = "The capacity of the fuel tank or in the case of electric cars, the battery.", required = true, example = "0") @RequestParam(name = "fuelCapacity") fuelCapacity : Int) = {
+    val updated = carCommandService.updateCarFuelCapacity(id, fuelCapacity)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's height.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("height"))
+  def updateCarHeight(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "height", value = "The Height of the car.", required = true, example = "0") @RequestParam(name = "height") height : Int) = {
+    val updated = carCommandService.updateCarHeight(id, height)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's kerb weight.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("kerbWeight"))
+  def updateCarKerbWeight(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "kerbWeight", value = "The Curb weight (American English) or kerb weight (British English) is the total mass of a vehicle with standard equipment and hardpoints (all necessary operating consumables such as motor oil, transmission oil, coolant, air conditioning refrigerant, and a full tank of fuel), while not loaded with either passengers, cargo, or weaponry.", required = true, example = "0") @RequestParam(name = "kerbWeight") kerbWeight : Int) = {
+    val updated = carCommandService.updateCarKerbWeight(id, kerbWeight)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's length.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("length"))
+  def updateCarLength(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "length", value = "The length of the car.", required = true, example = "0") @RequestParam(name = "length") length : Int) = {
+    val updated = carCommandService.updateCarLength(id, length)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's maximum speed.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("speed"))
+  def updateCarMaxSpeed(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "speed", value = "The maximum speed of the vehicle in KM/h.", required = true, example = "0") @RequestParam(name = "speed") speed : Int) = {
+    val updated = carCommandService.updateCarMaxSpeed(id, speed)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's max weight.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("maxWeight"))
+  def updateCarMaxWeight(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "maxWeight", value = "The permitted total weight in Kg of the loaded vehicle, including passengers and cargo and the weight of the empty vehicle.", required = true, example = "0") @RequestParam(name = "maxWeight") maxWeight : Int) = {
+    val updated = carCommandService.updateCarMaxWeight(id, maxWeight)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's manufacturing year.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("modelYear"))
+  def updateCarModelYear(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "modelYear", value = "The release date of a vehicle model (often used to differentiate versions of the same make and model).", required = true, example = "0") @RequestParam(name = "modelYear") modelYear : Int) = {
+    val updated = carCommandService.updateCarModelYear(id, modelYear)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's name.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("name"))
+  def updateCarName(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "name", value = "The car's name.", required = true) @RequestParam(name = "name") name : String) = {
+    val updated = carCommandService.updateCarName(id, name)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's number of airbags.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("airbags"))
+  def updateCarNumberOfAirbags(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "airbags", value = "The car's number of airbags.", required = true, example = "0") @RequestParam(name = "airbags") numberOfAirbags : Int) = {
+    val updated = carCommandService.updateCarNumberOfAirbags(id, numberOfAirbags)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's number of axles.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("axles"))
+  def updateCarNumberOfAxles(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "axles", value = "The car's number of axles.", required = true, example = "0") @RequestParam(name = "axles") numberOfAxles : Int) = {
+    val updated = carCommandService.updateCarNumberOfAxles(id, numberOfAxles)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's number of doors.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("doors"))
+  def updateCarNumberOfDoors(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "doors", value = "The car's number of doors.", required = true, example = "0") @RequestParam(name = "doors") numberOfDoors : Int) = {
+    val updated = carCommandService.updateCarNumberOfDoors(id, numberOfDoors)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's number of forward gears.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("forwardGears"))
+  def updateCarForwardGears(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "forwardGears", value = "The total number of forward gears available for the transmission system of the vehicle.", required = true, example = "0") @RequestParam(name = "forwardGears") forwardGears : Int) = {
+    val updated = carCommandService.updateCarNumberOfForwardGears(id, forwardGears)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's payload.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("payload"))
+  def updateCarPayload(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "payload", value = "The permitted weight of passengers and cargo, EXCLUDING the weight of the empty vehicle.", required = true, example = "0") @RequestParam(name = "payload") payload : Int) = {
+    val updated = carCommandService.updateCarPayload(id, payload)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's ramp angle.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("ramp"))
+  def updateCarRampAngle(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "ramp", value = "The ramp angle is the maximum angle at which the car can travel at low speed over a ramp or obstacle without the underbody touching the edge of the ramp.", required = true, example = "0") @RequestParam(name = "ramp") rampAngle : Int) = {
+    val updated = carCommandService.updateCarRampAngle(id, rampAngle)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's rear break.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("rearBreak"))
+  def updateCarRearBreak(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "rearBreak", value = "The rear break system.", required = true) @RequestParam(name = "rearBreak") rearBreak : String) = {
+    val updated = carCommandService.updateCarRearBreak(id, rearBreak)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's rear overhang.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("rearOverhang"))
+  def updateCarRearOverhang(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "rearOverhang", value = "The distance between the rear and the rear axle.", required = true, example = "0") @RequestParam(name = "rearOverhang") rearOverhang : Int) = {
+    val updated = carCommandService.updateCarRearOverhang(id, rearOverhang)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Car's rear suspension.", response = classOf[Car])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("rearSuspension"))
+  def updateCarRearSuspension(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "rearSuspension", value = "The rear suspension system.", required = true) @RequestParam(name = "rearSuspension") rearSuspension : String) = {
+    val updated = carCommandService.updateCarRearSuspension(id, rearSuspension)
+    if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
   /*
-  def updateCarApproachAngle(carId : Long, approachAngle : Double) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.approachAngle = approachAngle
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarFuelConsumption(carId : Long, avgFuelConsumption : Double) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.avgFuelConsumption = avgFuelConsumption
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarBackTrack(carId : Long, backTrack : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.backTrack = backTrack
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarBody(carId : Long, body : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.bodyType = Body.valueOf(body)
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarClimbAngle(carId : Long, climbAngle : Double) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.climbAngle = climbAngle
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarDepartureAngle(carId : Long, departureAngle : Double) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.departureAngle = departureAngle
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarDragCoefficient(carId : Long, dragCoefficient : Double) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.dragCoefficient = dragCoefficient
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarDriveWheelConfiguration(carId : Long, driveWheelConfiguration : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.driveWheelConfiguration = WDEnum.valueOf(driveWheelConfiguration)
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarEmissionCO2(carId : Long, emissionCO2 : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.emissionsCO2 = emissionCO2
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarEnginePosition(carId : Long, position : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.enginePosition = EnginePosition.valueOf(position)
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarFrontBreak(carId : Long, frontBreak : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.frontBreak = Break.valueOf(frontBreak)
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarFrontOverhang(carId : Long, frontOverhang : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.frontOverhang = frontOverhang
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarFrontSuspension(carId : Long, frontSuspension : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.frontSuspension = Suspension.valueOf(frontSuspension)
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarFrontTrack(carId : Long, frontTrack : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.frontTrack = frontTrack
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarFuelCapacity(carId : Long, fuelCapacity : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.fuelCapacity = fuelCapacity
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarHeight(carId : Long, height : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.height = height
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarKerbWeight(carId : Long, kerbWeight : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.kerbWeight = kerbWeight
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarLength(carId : Long, length : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.length = length
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarMaxSpeed(carId : Long, maxSpeed : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.maxSpeed = maxSpeed
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarMaxWeight(carId : Long, maxWeight : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.maxWeight = maxWeight
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarModelYear(carId : Long, modelYear : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.modelYear = modelYear
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarName(carId : Long, name : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.name = name
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarNumberOfAirbags(carId : Long, numberOfAirbags : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.numberOfAirbags = numberOfAirbags
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarNumberOfAxles(carId : Long, numberOfAxles : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.numberOfAxles = numberOfAxles
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarNumberOfDoors(carId : Long, numberOfDoors : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.numberOfDoors = numberOfDoors
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarNumberOfForwardGears(carId : Long, numberOfForwardGears : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.numberOfForwardGears = numberOfForwardGears
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarPayload(carId : Long, payload : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.payload = payload
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarRampAngle(carId : Long, rampAngle : Double) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.rampAngle = rampAngle
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarRearBreak(carId : Long, rearBreak : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.rearBreak = Break.valueOf(rearBreak)
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarRearOverhang(carId : Long, rearOverhang : Int) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.rearOverhang = rearOverhang
-
-    carRepository.save(carToUpdate)
-  }
-
-  def updateCarRearSuspension(carId : Long, rearSuspension : String) = {
-    val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.rearSuspension = Suspension.valueOf(rearSuspension)
-
-    carRepository.save(carToUpdate)
-  }
 
   def updateCarRideHeight(carId : Long, rideHeight : Int) = {
     val carToUpdate = carRepository.getOne(carId)
