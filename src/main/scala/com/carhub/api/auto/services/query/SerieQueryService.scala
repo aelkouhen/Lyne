@@ -24,7 +24,7 @@ class SerieQueryService(serieRepository : SerieRepository){
 
   def findSeriesByName(name : String) = serieRepository.findSeriesByName(name)
 
-  def findSeriesById(id : Long) = serieRepository.findSeriesById(id)
+  def findSerieById(serieId : Long) = serieRepository.findSerieById(serieId)
 
   def getMakeSeries(makeId : Long) = serieRepository.getMakeSeries(makeId)
 

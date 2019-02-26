@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Photo", tags = Array("Photo"), description = "This API queries the Photo concept.")
+@Api(value = "Photo", tags = Array("Photo Queries"), description = "This API queries the Photo concept.")
 @RestController
 @RequestMapping(value = Array("/api/photos"))
 class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryService) {
@@ -47,6 +47,16 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   def findPhotosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = photoQueryService.findPhotosByName(name)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Photos by ID", response = classOf[Photo])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findPhotoById(@ApiParam(name = "id", value = "The Photo ID.", required = true, example = "1") @RequestParam(name = "id") photoId : Long) : ResponseEntity[_]  = {
+    val result = photoQueryService.findPhotoById(photoId)
+    if (result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok(result)
   }
 

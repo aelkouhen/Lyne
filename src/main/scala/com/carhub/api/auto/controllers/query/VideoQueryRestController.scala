@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Video", tags = Array("Video"), description = "This API queries the Video concept.")
+@Api(value = "Video", tags = Array("Video Queries"), description = "This API queries the Video concept.")
 @RestController
 @RequestMapping(value = Array("/api/videos"))
 class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryService) {
@@ -47,6 +47,16 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   def findVideosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = videoQueryService.findVideosByName(name)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Video](classOf[Video])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Videos by ID", response = classOf[Video])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findVideoById(@ApiParam(name = "id", value = "The Video ID.", required = true, example = "1") @RequestParam(name = "id") videoId : Long) : ResponseEntity[_]  = {
+    val result = videoQueryService.findVideoById(videoId)
+    if (result == null) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
 

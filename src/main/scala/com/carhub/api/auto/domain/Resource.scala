@@ -4,7 +4,6 @@ import java.io.Serializable
 import java.util.Date
 
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
-import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence._
 import org.hibernate.validator.constraints.URL
 
@@ -46,6 +45,5 @@ abstract class Resource extends Serializable {
 
   @Lob
   @BeanProperty
-  @JsonIgnore
   var content: Array[Byte] = _
 }

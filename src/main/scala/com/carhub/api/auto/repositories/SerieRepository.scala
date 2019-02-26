@@ -21,5 +21,5 @@ trait SerieRepository extends JpaRepository[Serie, Long] {
   def findSeriesByName(@Param("name") name : String) : util.List[Serie]
 
   @Query(value = "SELECT s.* FROM serie s WHERE s.id = :id", nativeQuery=true)
-  def findSeriesById(@Param("id") id : Long) : Serie
+  def findSerieById(@Param("id") id : Long) : Serie
 }

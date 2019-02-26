@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Engine", tags = Array("Engine"), description = "This API queries the Engine concept.")
+@Api(value = "Engine", tags = Array("Engine Queries"), description = "This API queries the Engine concept.")
 @RestController
 @RequestMapping(value = Array("/api/engines"))
 class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryService) {
@@ -57,6 +57,16 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   def findEngineByFuelType(@ApiParam(name = "fuel", value = "The filtering expression.", required = true) @RequestParam fuel : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByFuelType(fuel)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Engines by ID", response = classOf[Engine])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findEngineById(@ApiParam(name = "id", value = "The Engine ID.", required = true, example = "1") @RequestParam(name = "id") engineId : Long) : ResponseEntity[_]  = {
+    val result = engineQueryService.findEngineById(engineId)
+    if (result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }
 }

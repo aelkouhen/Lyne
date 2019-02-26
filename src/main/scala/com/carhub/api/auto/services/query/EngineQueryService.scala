@@ -25,5 +25,7 @@ class EngineQueryService(engineRepository: EngineRepository) {
 
   def findEnginesByName(name : String) = engineRepository.findEnginesByName(name)
 
+  def findEngineById(engineId : Long) = engineRepository.findEngineById(engineId)
+
   def findEnginesByFuelType(fuelType : String) = engineRepository.findEnginesByFuelType(Fuel.valueOf(fuelType.toUpperCase).toString)
 }

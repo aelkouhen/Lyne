@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Serie", tags = Array("Serie"), description = "This API queries the Serie concept.")
+@Api(value = "Serie", tags = Array("Serie Queries"), description = "This API queries the Serie concept.")
 @RestController
 @RequestMapping(value = Array("/api/series"))
 class SerieQueryRestController(@Autowired
@@ -49,6 +49,16 @@ class SerieQueryRestController(@Autowired
   def findSeriesByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = serieQueryService.findSeriesByName(name)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Series by ID", response = classOf[Serie])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findSerieById(@ApiParam(name = "id", value = "The Serie ID.", required = true, example = "1") @RequestParam(name = "id") serieId : Long) : ResponseEntity[_]  = {
+    val result = serieQueryService.findSerieById(serieId)
+    if (result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
 

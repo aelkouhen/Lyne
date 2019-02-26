@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Model", tags = Array("Model"), description = "This API queries the Model concept.")
+@Api(value = "Model", tags = Array("Model Queries"), description = "This API queries the Model concept.")
 @RestController
 @RequestMapping(value = Array("/api/models"))
 class ModelQueryRestController(@Autowired
@@ -50,6 +50,16 @@ class ModelQueryRestController(@Autowired
   def findModelByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = modelQueryService.findModelsByName(name)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Model](classOf[Model])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Models by ID", response = classOf[Car])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findModelById(@ApiParam(name = "id", value = "The Model ID.", required = true, example = "1") @RequestParam(name = "id") modelId : Long) : ResponseEntity[_]  = {
+    val result = modelQueryService.findModelById(modelId)
+    if (result == null) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }
 

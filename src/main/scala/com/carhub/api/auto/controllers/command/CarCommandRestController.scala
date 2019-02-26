@@ -8,8 +8,9 @@ import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpStatus, ResponseEntity}
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
+import org.springframework.web.multipart.MultipartFile
 
-@Api(value = "Car", tags = Array("Car"), description = "This API queries the Car concept.")
+@Api(value = "Car", tags = Array("Car Commands"), description = "This API commands the Car concept.")
 @RestController
 @RequestMapping(value = Array("/api/cars"))
 class CarCommandRestController(@Autowired val carCommandService : CarCommandService,
@@ -508,32 +509,32 @@ class CarCommandRestController(@Autowired val carCommandService : CarCommandServ
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
-  @ApiOperation(value = "Add a Car's related file.", response = classOf[Car])
+  @ApiOperation(value = "Upload a Car's related file.", response = classOf[Car])
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/files"))
-  def updateCarAddFile(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "engine", value = "Relevant documentations (technical specification, brochures...).", required = true) @RequestBody file : File) = {
-    val updated = carCommandService.updateCarAddFile(id, file)
+  def updateCarUploadFile(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "file", value = "Relevant documentations (technical specification, brochures...).", required = true) @RequestParam(name = "file") file : MultipartFile) = {
+    val updated = carCommandService.updateCarUploadFile(id, file)
     if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
-  @ApiOperation(value = "Add a Car's related photo.", response = classOf[Car])
+  @ApiOperation(value = "Upload a Car's related photo.", response = classOf[Car])
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/photos"))
-  def updateCarAddPhoto(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "engine", value = "Images of the vehicle.", required = true) @RequestBody photo : Photo) = {
-    val updated = carCommandService.updateCarAddPhoto(id, photo)
+  def updateCarUploadPhoto(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "photo", value = "An images of the Car.", required = true) @RequestParam(name = "photo") photo : MultipartFile) = {
+    val updated = carCommandService.updateCarUploadPhoto(id, photo)
     if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
-  @ApiOperation(value = "Add a Car's related videos.", response = classOf[Car])
+  @ApiOperation(value = "Upload a Car's related videos.", response = classOf[Car])
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/videos"))
-  def updateCarAddVideo(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "engine", value = "Videos of the vehicle.", required = true) @RequestBody video : Video) = {
-    val updated = carCommandService.updateCarAddVideo(id, video)
+  def updateCarUploadVideo(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "video", value = "A video of the Car.", required = true) @RequestParam(name = "video") video : MultipartFile) = {
+    val updated = carCommandService.updateCarUploadVideo(id, video)
     if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }

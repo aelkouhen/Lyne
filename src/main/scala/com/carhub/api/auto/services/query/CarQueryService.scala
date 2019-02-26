@@ -29,4 +29,12 @@ class CarQueryService(carRepository: CarRepository){
   def getModelCars(modelId : Long) = carRepository.getModelCars(modelId)
 
   def findCarsByName(name : String) = carRepository.findCarsByName(name)
+
+  def findCarById(carId : Long) = carRepository.findCarById(carId)
+
+  def findCarFiles(carId : Long) = carRepository.findCarById(carId).getFiles
+
+  def findCarPhotos(carId : Long) = carRepository.findCarById(carId).getImages
+
+  def findCarVideos(carId : Long) = carRepository.findCarById(carId).getVideos
 }

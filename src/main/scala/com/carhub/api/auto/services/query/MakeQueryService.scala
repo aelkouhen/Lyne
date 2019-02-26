@@ -23,4 +23,6 @@ class MakeQueryService(makeRepository: MakeRepository) {
   def countAllMakes() = makeRepository.count
 
   def findMakesByName(name : String) = makeRepository.findMakesByName(name)
+
+  def findMakeById(makeId : Long) = makeRepository.findMakeById(makeId)
 }

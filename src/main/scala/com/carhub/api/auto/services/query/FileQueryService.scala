@@ -24,5 +24,7 @@ class FileQueryService(fileRepository : FileRepository) {
 
   def findFilesByName(name : String) = fileRepository.findFilesByName(name)
 
+  def findFileById(fileId : Long) = fileRepository.findFileById(fileId)
+
   def findFilesByExtension(format : String) = fileRepository.findFilesByExtension(format)
 }

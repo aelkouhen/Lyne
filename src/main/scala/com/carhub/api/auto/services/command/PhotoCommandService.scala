@@ -1,17 +1,36 @@
 package com.carhub.api.auto.services.command
 
-import java.util.Date
+import java.awt.image.BufferedImage
+import java.util.{Calendar, Date}
 
 import com.carhub.api.auto.domain.Photo
 import com.carhub.api.auto.repositories.PhotoRepository
+import com.google.common.io.Files
+import javax.imageio.ImageIO
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 @Autowired
 @Transactional
 @Service
 class PhotoCommandService(photoRepository : PhotoRepository){
+
+  def addPhoto(photo : MultipartFile) : Photo = {
+    val photoMeta = new Photo
+    photoMeta.size = photo.getSize
+    photoMeta.name = Files.getNameWithoutExtension(photo.getOriginalFilename)
+    photoMeta.format = Files.getFileExtension(photo.getOriginalFilename)
+    photoMeta.content = photo.getBytes
+    photoMeta.created = Calendar.getInstance().getTime()
+
+    val bimg : BufferedImage = ImageIO.read(photo.getInputStream)
+    photoMeta.width = bimg.getWidth
+    photoMeta.height = bimg.getHeight
+
+    addPhoto(photoMeta)
+  }
 
   def addPhoto(photo : Photo) = photoRepository.save(photo)
 
@@ -23,6 +42,8 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoToUpdate.format = photo.format
     photoToUpdate.url = photo.url
     photoToUpdate.size = photo.size
+    photoToUpdate.height = photo.height
+    photoToUpdate.width = photo.width
 
     photoRepository.save(photoToUpdate)
   }
@@ -58,13 +79,6 @@ class PhotoCommandService(photoRepository : PhotoRepository){
   def UpdatePhotoLink(photo : Photo, url : String) = {
     val photoToUpdate = photoRepository.getOne(photo.id)
     photoToUpdate.url = url
-
-    photoRepository.save(photoToUpdate)
-  }
-
-  def UpdatePhotoSize(photo : Photo, size : Long) = {
-    val photoToUpdate = photoRepository.getOne(photo.id)
-    photoToUpdate.size = size
 
     photoRepository.save(photoToUpdate)
   }

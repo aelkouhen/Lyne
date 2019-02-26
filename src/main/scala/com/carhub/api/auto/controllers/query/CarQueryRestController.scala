@@ -2,7 +2,7 @@ package com.carhub.api.auto.controllers.query
 
 import java.util
 
-import com.carhub.api.auto.domain.Car
+import com.carhub.api.auto.domain.{Car, File, Photo, Video}
 import com.carhub.api.auto.services.query.CarQueryService
 import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Car", tags = Array("Car"), description = "This API queries the Car concept.")
+@Api(value = "Car", tags = Array("Car Queries"), description = "This API queries the Car concept.")
 @RestController
 @RequestMapping(value = Array("/api/cars"))
 class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
@@ -47,6 +47,46 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   def findCarByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = carQueryService.findCarsByName(name)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Car](classOf[Car])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Cars by ID", response = classOf[Car])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findCarById(@ApiParam(name = "id", value = "The Car ID.", required = true, example = "1") @RequestParam(name = "id") carId : Long) : ResponseEntity[_]  = {
+    val result = carQueryService.findCarById(carId)
+    if (result == null) throw new ElementNotFoundException[Car](classOf[Car])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Get Car's related files.", responseContainer = "List")
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @ResponseBody
+  @GetMapping(value = Array("/{id}/files"))
+  def getCarsFiles(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") carId : Long) = {
+    val result = carQueryService.findCarFiles(carId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[File](classOf[File])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Get Car's related photos.", responseContainer = "List")
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @ResponseBody
+  @GetMapping(value = Array("/{id}/photos"))
+  def getCarsPhotos(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") carId : Long) = {
+    val result = carQueryService.findCarPhotos(carId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Get Car's related videos.", responseContainer = "List")
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @ResponseBody
+  @GetMapping(value = Array("/{id}/videos"))
+  def getCarsVideos(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") carId : Long) = {
+    val result = carQueryService.findCarVideos(carId)
+    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
 }

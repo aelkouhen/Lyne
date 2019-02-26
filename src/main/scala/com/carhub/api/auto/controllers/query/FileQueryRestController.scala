@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "File", tags = Array("File"), description = "This API queries the File concept.")
+@Api(value = "File", tags = Array("File Queries"), description = "This API queries the File concept.")
 @RestController
 @RequestMapping(value = Array("/api/files"))
 class FileQueryRestController(@Autowired val fileQueryService : FileQueryService) {
@@ -57,6 +57,16 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   def findFilesByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFilesByExtension(format)
     if (result.isEmpty || result == null) throw new ElementNotFoundException[File](classOf[File])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Files by ID", response = classOf[File])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findFileById(@ApiParam(name = "id", value = "The File ID.", required = true, example = "1") @RequestParam(name = "id") fileId : Long) : ResponseEntity[_]  = {
+    val result = fileQueryService.findFileById(fileId)
+    if (result == null) throw new ElementNotFoundException[File](classOf[File])
     ResponseEntity.ok(result)
   }
 }

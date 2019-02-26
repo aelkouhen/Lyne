@@ -1,19 +1,31 @@
 package com.carhub.api.auto.services.command
 
-import java.util.Date
+import java.util.{Calendar, Date}
 
-import com.carhub.api.auto.domain.{Car, File}
+import com.carhub.api.auto.domain.File
 import com.carhub.api.auto.repositories.FileRepository
+import com.google.common.io.Files
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 @Autowired
 @Transactional
 @Service
 class FileCommandService(fileRepository : FileRepository) {
 
-  def addFile(file : File) = fileRepository.save(file)
+  def addFile(file : MultipartFile) : File = {
+    val fileMeta = new File
+    fileMeta.size = file.getSize
+    fileMeta.name = Files.getNameWithoutExtension(file.getOriginalFilename)
+    fileMeta.format = Files.getFileExtension(file.getOriginalFilename)
+    fileMeta.content = file.getBytes
+    fileMeta.created = Calendar.getInstance().getTime()
+    addFile(fileMeta)
+  }
+
+  def addFile(file : File) : File = fileRepository.save(file)
 
   def UpdateFile(file : File) = {
     val fileToUpdate = fileRepository.getOne(file.id)

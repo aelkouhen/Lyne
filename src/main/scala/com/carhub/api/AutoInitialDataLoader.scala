@@ -99,7 +99,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
       photo.size = picture.contentLength
-      photo.name = picture.getFilename
+      photo.name = Files.getNameWithoutExtension(picture.getFilename)
       photo.format = Files.getFileExtension(picture.getFilename)
       photo.caption = "Xtrail"
       photo.created = Calendar.getInstance().getTime()
@@ -136,14 +136,14 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
     photo.size = picture.contentLength
-    photo.name = picture.getFilename
+    photo.name = Files.getNameWithoutExtension(picture.getFilename)
     photo.format = Files.getFileExtension(picture.getFilename)
     photo.caption = "Xtrail"
     photo.created = Calendar.getInstance().getTime()
     photo.content = arrayPic
     photoCommandService.addPhoto(photo)
 
-    carCommandService.updateCarAddPhoto(car.id, photo)
+    carCommandService.updateCarUploadPhoto(car.id, photo)
 
 
     val video = new Video
@@ -153,14 +153,14 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     video.url = "https://youtu.be/9u9x4kveojU"
     videoCommandService.addVideo(video)
 
-    carCommandService.updateCarAddVideo(car.id, video)
+    carCommandService.updateCarUploadVideo(car.id, video)
 
     val file = new File
     val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
     inputStream = brochure.getInputStream
     arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
-    file.name = brochure.getFilename
+    file.name = Files.getNameWithoutExtension(brochure.getFilename)
     file.size = brochure.contentLength
     file.format = Files.getFileExtension(brochure.getFilename)
     file.caption = "Brochure"
@@ -169,7 +169,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     fileCommandService.addFile(file)
 
 
-    carCommandService.updateCarAddFile(car.id, file)
+    carCommandService.updateCarUploadFile(car.id, file)
   }
 
   private def createPhoto() = {
@@ -183,7 +183,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
     photo.size = picture.contentLength
-    photo.name = picture.getFilename
+    photo.name = Files.getNameWithoutExtension(picture.getFilename)
     photo.format = Files.getFileExtension(picture.getFilename)
     photo.caption = "Nissan's logo"
     photo.created = Calendar.getInstance().getTime()

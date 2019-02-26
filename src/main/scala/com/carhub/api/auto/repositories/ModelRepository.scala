@@ -16,4 +16,7 @@ trait ModelRepository extends JpaRepository[Model, Long] {
 
   @Query(value = "SELECT m.* FROM model m WHERE m.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findModelsByName(@Param("name") name : String) : util.List[Model]
+
+  @Query(value = "SELECT m.* FROM model m WHERE m.id = :id", nativeQuery=true)
+  def findModelById(@Param("id") id : Long) : util.List[Model]
 }

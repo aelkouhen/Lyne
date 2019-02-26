@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository
 @Repository
 trait VideoRepository extends JpaRepository[Video, Long] {
 
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'VIDEO' AND r.id = :id", nativeQuery=true)
+  def findVideoById(@Param("id") id : Long) : util.List[Video]
+
   @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'VIDEO' AND r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findVideosByName(@Param("name") name : String) : util.List[Video]
 

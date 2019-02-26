@@ -1,13 +1,12 @@
 package com.carhub.api.auto.services.command
 
-import java.util
-
 import com.carhub.api.auto.domain._
 import com.carhub.api.auto.repositories.CarRepository
 import com.carhub.api.auto.services.query._
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
+import org.springframework.web.multipart.MultipartFile
 
 @Autowired
 @Transactional
@@ -329,7 +328,7 @@ class CarCommandService(carRepository: CarRepository,
   }
 
   def updateCarSerie(carId : Long, serieId : Long) = {
-    val serie = serieQueryService.findSeriesById(serieId)
+    val serie = serieQueryService.findSerieById(serieId)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.serie = serie
 
@@ -413,21 +412,42 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(carToUpdate)
   }
 
-  def updateCarAddFile(carId : Long, file: File) = {
+  def updateCarUploadFile(carId : Long, file: MultipartFile) = {
     val fileToAdd = fileCommandService.addFile(file)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.files.add(fileToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarAddPhoto(carId : Long, photo : Photo) = {
+  def updateCarUploadPhoto(carId : Long, photo : MultipartFile) = {
     val photoToAdd = photoCommandService.addPhoto(photo)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.images.add(photoToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarAddVideo(carId : Long, video : Video) = {
+  def updateCarUploadVideo(carId : Long, video : MultipartFile) = {
+    val videoToAdd = videoCommandService.addVideo(video)
+    val carToUpdate = carRepository.getOne(carId)
+    carToUpdate.videos.add(videoToAdd)
+    carRepository.save(carToUpdate)
+  }
+
+  def updateCarUploadFile(carId : Long, file: File) = {
+    val fileToAdd = fileCommandService.addFile(file)
+    val carToUpdate = carRepository.getOne(carId)
+    carToUpdate.files.add(fileToAdd)
+    carRepository.save(carToUpdate)
+  }
+
+  def updateCarUploadPhoto(carId : Long, photo : Photo) = {
+    val photoToAdd = photoCommandService.addPhoto(photo)
+    val carToUpdate = carRepository.getOne(carId)
+    carToUpdate.images.add(photoToAdd)
+    carRepository.save(carToUpdate)
+  }
+
+  def updateCarUploadVideo(carId : Long, video : Video) = {
     val videoToAdd = videoCommandService.addVideo(video)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.videos.add(videoToAdd)

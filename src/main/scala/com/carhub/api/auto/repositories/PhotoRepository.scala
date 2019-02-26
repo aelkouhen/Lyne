@@ -11,6 +11,9 @@ import org.springframework.stereotype.Repository
 @Repository
 trait PhotoRepository extends JpaRepository[Photo, Long] {
 
+  @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'PHOTO' AND r.id = :id", nativeQuery=true)
+  def findPhotoById(@Param("id") id : Long) : util.List[Photo]
+
   @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'PHOTO' AND r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findPhotosByName(@Param("name") name : String) : util.List[Photo]
 

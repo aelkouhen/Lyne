@@ -22,6 +22,8 @@ class ResourceQueryService(resourceRepository : ResourceRepository) {
 
   def countAllResources() = resourceRepository.count
 
+  def findResourceById(resourceId : Long) = resourceRepository.findResourceById(resourceId)
+
   def findResourcesByName(name : String) = resourceRepository.findResourcesByName(name)
 
   def findResourcesByExtension(ext : String) = resourceRepository.findResourcesByExtension(ext)

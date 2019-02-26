@@ -23,4 +23,7 @@ trait CarRepository extends JpaRepository[Car, Long] {
 
   @Query(value = "SELECT v.* FROM vehicle v where v.vehicle_type = 'CAR' AND v.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findCarsByName(@Param("name") name : String) : util.List[Car]
+
+  @Query(value = "SELECT v.* FROM vehicle v where v.vehicle_type = 'CAR' AND v.id = :id", nativeQuery=true)
+  def findCarById(@Param("id") id : Long) : Car
 }

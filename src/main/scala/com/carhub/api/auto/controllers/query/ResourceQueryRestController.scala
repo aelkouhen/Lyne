@@ -11,7 +11,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
-@Api(value = "Resource", tags = Array("Resource"), description = "This API queries the Resource concept.")
+@Api(value = "Resource", tags = Array("Resource Queries"), description = "This API queries the Resource concept.")
 @RestController
 @RequestMapping(value = Array("/api/resources"))
 class ResourceQueryRestController(@Autowired val resourceQueryService : ResourceQueryService) {
@@ -47,6 +47,16 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
   def findResourceByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = resourceQueryService.findResourcesByName(name)
     if (result.isEmpty || result == null) throw new ElementNotFoundException(classOf[Resource])
+    ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter Resources by ID", response = classOf[Resource])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/find"), params = Array("id"))
+  @ResponseBody
+  def findResourceById(@ApiParam(name = "id", value = "The Resource ID.", required = true, example = "1") @RequestParam(name = "id") resourceId : Long) : ResponseEntity[_]  = {
+    val result = resourceQueryService.findResourceById(resourceId)
+    if (result == null) throw new ElementNotFoundException[Resource](classOf[Resource])
     ResponseEntity.ok(result)
   }
 
