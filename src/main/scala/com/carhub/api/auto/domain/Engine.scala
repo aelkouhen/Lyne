@@ -116,7 +116,7 @@ class Engine extends Serializable {
   @BeanProperty
   var engineDisplacement: Double = _
 
-  //The power of the vehicle's engine. Typical unit code(s): KWT for kilowatt
+  //The power of the vehicle's engine. Typical unit code(s): KWT for kilowatt.
   @BeanProperty
   var enginePower: Double  = _
 
@@ -127,7 +127,7 @@ class Engine extends Serializable {
   @JsonDeserialize(using = classOf[Injection.InjectionJsonDeserializer])
   var injection: Injection.System = _
 
-  //The type of fuel injection system powering the engine.
+  //The type of turbine system in the engine.
   @BeanProperty
   @Type(`type` = "com.carhub.api.auto.domain.TurbineSystemType")
   @JsonSerialize(using = classOf[Turbine.TurbineJsonSerializer])
@@ -161,7 +161,7 @@ class Engine extends Serializable {
   @BeanProperty
   var cylinderBore: Double = _
 
-  //The Piston Stroke
+  //The Piston Stroke.
   @BeanProperty
   var pistonStroke: Double = _
 

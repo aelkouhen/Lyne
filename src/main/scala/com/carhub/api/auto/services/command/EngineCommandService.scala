@@ -13,8 +13,8 @@ class EngineCommandService(engineRepository: EngineRepository) {
 
   def addEngine(engine : Engine)= engineRepository.save(engine)
 
-  def updateEngine(engine : Engine)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngine(engineId : Long, engine : Engine)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.compressionRatio = engine.compressionRatio
     engineToUpdate.coolantCapacity = engine.coolantCapacity
     engineToUpdate.cylinderBore = engine.cylinderBore
@@ -34,110 +34,113 @@ class EngineCommandService(engineRepository: EngineRepository) {
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineCompressionRatio(engine : Engine, compressionRatio : Double)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineCompressionRatio(engineId : Long, compressionRatio : Double)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.compressionRatio = compressionRatio
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineCoolantCapacity(engine : Engine, coolantCapacity : Double)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineCoolantCapacity(engineId : Long, coolantCapacity : Double)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.coolantCapacity = coolantCapacity
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineCylinderBore(engine : Engine, cylinderBore : Double)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineCylinderBore(engineId : Long, cylinderBore : Double)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.cylinderBore = cylinderBore
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineDisplacement(engine : Engine, engineDisplacement : Double)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineDisplacement(engineId : Long, engineDisplacement : Double)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.engineDisplacement = engineDisplacement
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEnginePower(engine : Engine, enginePower : Double)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEnginePower(engineId : Long, enginePower : Double)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.enginePower = enginePower
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineFuelType(engine : Engine, fuelType : String)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineFuelType(engineId : Long, fuelType : String)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.fuel = Fuel.valueOf(fuelType)
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineInjectionSystem(engine : Engine, injectionSystem : String)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineInjectionSystem(engineId : Long, injectionSystem : String)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.injection = Injection.valueOf(injectionSystem)
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineName(engine : Engine, name : String)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineName(engineId : Long, name : String)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.name = name
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineNumberOfCylinder(engine : Engine, numberOfCylinders : Int)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineNumberOfCylinder(engineId : Long, numberOfCylinders : Int)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.numberOfCylinders = numberOfCylinders
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineOilCapacity(engine : Engine, oilCapacity : Double)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineOilCapacity(engineId : Long, oilCapacity : Double)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.oilCapacity = oilCapacity
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEnginePistonStroke(engine : Engine, pistonStroke : Double)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEnginePistonStroke(engineId : Long, pistonStroke : Double)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.pistonStroke = pistonStroke
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEnginePositionOfCylinder(engine : Engine, positionOfCylinders : String)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEnginePositionOfCylinder(engineId : Long, positionOfCylinders : String)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.cylinders = Cylinder.valueOf(positionOfCylinders)
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineTorque(engine : Engine, torque : Int)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineTorque(engineId : Long, torque : Int)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.torque = torque
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineTurbineSystem(engine : Engine, turbine : String)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineTurbineSystem(engineId : Long, turbine : String)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.turbine = Turbine.valueOf(turbine)
 
     engineRepository.save(engineToUpdate)
   }
 
-  def updateEngineValvesPerCylynder(engine : Engine, valvesPerCylinder : Int)= {
-    val engineToUpdate = engineRepository.getOne(engine.id)
+  def updateEngineValvesPerCylynder(engineId : Long, valvesPerCylinder : Int)= {
+    val engineToUpdate = engineRepository.getOne(engineId)
     engineToUpdate.valvesPerCylinder = valvesPerCylinder
 
     engineRepository.save(engineToUpdate)
   }
 
-  def deleteEngine(engine : Engine)= engineRepository.delete(engine)
+  def deleteEngine(engineId : Long)= {
+    val engineToDelete = engineRepository.getOne(engineId)
+    if (engineToDelete != null) engineRepository.delete(engineToDelete)
+  }
 }
