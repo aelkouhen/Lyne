@@ -56,9 +56,15 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoRepository.save(photoToUpdate)
   }
 
-  def updatePhotoContent(photoId : Long, content : Array[Byte]) = {
+  def updatePhotoContent(photoId : Long, file : MultipartFile) = {
     val photoToUpdate = photoRepository.getOne(photoId)
-    photoToUpdate.content = content
+    photoToUpdate.content = file.getBytes
+    photoToUpdate.size = file.getSize
+    photoToUpdate.name = Files.getNameWithoutExtension(file.getOriginalFilename)
+    photoToUpdate.format = Files.getFileExtension(file.getOriginalFilename)
+    val bimg : BufferedImage = ImageIO.read(file.getInputStream)
+    photoToUpdate.width = bimg.getWidth
+    photoToUpdate.height = bimg.getHeight
 
     photoRepository.save(photoToUpdate)
   }

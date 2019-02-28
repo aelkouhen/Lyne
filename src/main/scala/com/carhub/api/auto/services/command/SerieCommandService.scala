@@ -15,8 +15,8 @@ class SerieCommandService(serieRepository : SerieRepository){
 
   def addSerie(serie : Serie) = serieRepository.save(serie)
 
-  def UpdateSerie (serie : Serie) = {
-    val serieToUpdate = serieRepository.getOne(serie.id)
+  def updateSerie (serieId: Long, serie : Serie) = {
+    val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.model = serie.model
     serieToUpdate.name = serie.name
     serieToUpdate.productionEndYear = serie.productionEndYear
@@ -26,46 +26,46 @@ class SerieCommandService(serieRepository : SerieRepository){
     serieRepository.save(serieToUpdate)
   }
 
-  def UpdateSerieModel (serie: Serie, model : Model) = {
-    val serieToUpdate = serieRepository.getOne(model.id)
+  def updateSerieModel (serieId: Long, model : Model) = {
+    val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.model = model
     serieRepository.save(serieToUpdate)
   }
 
-  def UpdateSerieName (serie : Serie, name : String) = {
-    val serieToUpdate = serieRepository.getOne(serie.id)
+  def updateSerieName (serieId: Long, name : String) = {
+    val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.name = name
 
     serieRepository.save(serieToUpdate)
   }
 
-  def UpdateSerieStartYear (serie : Serie, productionStartYear : Int) = {
-    val serieToUpdate = serieRepository.getOne(serie.id)
+  def updateSerieStartYear (serieId: Long, productionStartYear : Int) = {
+    val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.productionStartYear = productionStartYear
 
     serieRepository.save(serieToUpdate)
   }
 
-  def UpdateSerieEndYear (serie : Serie, productionEndYear : Int) = {
-    val serieToUpdate = serieRepository.getOne(serie.id)
+  def updateSerieEndYear (serieId: Long, productionEndYear : Int) = {
+    val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.productionEndYear = productionEndYear
 
     serieRepository.save(serieToUpdate)
   }
 
-  def UpdateSerieVehicles (serie : Serie, vehicles : util.List[Vehicle]) = {
-    val serieToUpdate = serieRepository.getOne(serie.id)
+  def updateSerieVehicles (serieId: Long, vehicles : util.List[Vehicle]) = {
+    val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.vehicles.addAll(vehicles)
 
     serieRepository.save(serieToUpdate)
   }
 
-  def UpdateSerieAddVehicle (serie : Serie, vehicle : Vehicle) = {
-    val serieToUpdate = serieRepository.getOne(serie.id)
+  def updateSerieAddVehicle (serieId: Long, vehicle : Vehicle) = {
+    val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.vehicles.add(vehicle)
 
     serieRepository.save(serieToUpdate)
   }
 
-  def deleteSerie(serie : Serie) = serieRepository.delete(serie)
+  def deleteSerie(serieId: Long) = serieRepository.delete(serieId)
 }

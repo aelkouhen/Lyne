@@ -46,9 +46,12 @@ class FileCommandService(fileRepository : FileRepository) {
     fileRepository.save(fileToUpdate)
   }
 
-  def updateFileContent(fileId : Long, content : Array[Byte]) = {
+  def updateFileContent(fileId : Long, file : MultipartFile) = {
     val fileToUpdate = fileRepository.getOne(fileId)
-    fileToUpdate.content = content
+    fileToUpdate.content = file.getBytes
+    fileToUpdate.size = file.getSize
+    fileToUpdate.name = Files.getNameWithoutExtension(file.getOriginalFilename)
+    fileToUpdate.format = Files.getFileExtension(file.getOriginalFilename)
 
     fileRepository.save(fileToUpdate)
   }

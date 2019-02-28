@@ -65,7 +65,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
   def updatePhotoContent(@ApiParam(name = "id", value = "The Photo's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "photo", value = "The photo's content.", required = true) @RequestParam(name = "photo") photo : MultipartFile) = {
-    val updated = photoCommandService.updatePhotoContent(id, photo.getBytes)
+    val updated = photoCommandService.updatePhotoContent(id, photo)
     if(updated == null) throw new ElementNotUpdatedException[Photo](classOf[Photo])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }

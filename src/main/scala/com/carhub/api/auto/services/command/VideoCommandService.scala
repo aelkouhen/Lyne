@@ -55,9 +55,15 @@ class VideoCommandService(videoRepository : VideoRepository) {
     videoRepository.save(videoToUpdate)
   }
 
-  def updateVideoContent(videoId : Long, content : Array[Byte]) = {
+  def updateVideoContent(videoId : Long, file : MultipartFile) = {
     val videoToUpdate = videoRepository.getOne(videoId)
-    videoToUpdate.content = content
+    videoToUpdate.content = file.getBytes
+    videoToUpdate.size = file.getSize
+    videoToUpdate.name = Files.getNameWithoutExtension(file.getOriginalFilename)
+    videoToUpdate.format = Files.getFileExtension(file.getOriginalFilename)
+    val bimg : BufferedImage = ImageIO.read(file.getInputStream)
+    videoToUpdate.width = bimg.getWidth
+    videoToUpdate.height = bimg.getHeight
 
     videoRepository.save(videoToUpdate)
   }

@@ -65,7 +65,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
   def updateFileContent(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "file", value = "The file's content.", required = true) @RequestParam(name = "file") file : MultipartFile) = {
-    val updated = fileCommandService.updateFileContent(id, file.getBytes)
+    val updated = fileCommandService.updateFileContent(id, file)
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }

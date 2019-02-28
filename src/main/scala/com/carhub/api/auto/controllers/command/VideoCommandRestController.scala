@@ -65,7 +65,7 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
   def updateVideoContent(@ApiParam(name = "id", value = "The Video's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "video", value = "The video's content.", required = true) @RequestParam(name = "video") video : MultipartFile) = {
-    val updated = videoCommandService.updateVideoContent(id, video.getBytes)
+    val updated = videoCommandService.updateVideoContent(id, video)
     if(updated == null) throw new ElementNotUpdatedException[Video](classOf[Video])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
