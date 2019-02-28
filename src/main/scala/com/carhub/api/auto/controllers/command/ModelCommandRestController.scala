@@ -1,5 +1,99 @@
 package com.carhub.api.auto.controllers.command
 
-class ModelCommandRestController {
+import java.text.SimpleDateFormat
+import java.util.Locale
 
+import com.carhub.api.auto.domain.{Model, Serie}
+import com.carhub.api.auto.services.command.ModelCommandService
+import com.carhub.api.auto.utils.exception.{ElementNotCreatedException, ElementNotUpdatedException}
+import io.swagger.annotations.{Api, ApiOperation, ApiParam}
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.http.{HttpStatus, ResponseEntity}
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.web.bind.annotation._
+
+@Api(value = "Model", tags = Array("Model Commands"), description = "This API commands the Model concept.")
+@RestController
+@RequestMapping(value = Array("/api/models"))
+class ModelCommandRestController(@Autowired val modelCommandService: ModelCommandService) {
+
+  @ApiOperation(value = "Create a model.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseStatus(HttpStatus.CREATED)
+  @ResponseBody
+  @PostMapping(value = Array("/"))
+  def createModel(@ApiParam(name = "model", value = "A Model object.", required = true) @RequestBody model: Model): ResponseEntity[_] = {
+    val created = modelCommandService.addModel(model)
+    if (created == null) throw new ElementNotCreatedException[Model](classOf[Model])
+    ResponseEntity.status(HttpStatus.CREATED).body(created)
+  }
+
+  @ApiOperation(value = "Update a model.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PutMapping(value = Array("/{id}"))
+  def updateModel(@ApiParam(name = "id", value = "The Model's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @RequestBody model: Model) {
+    val updated = modelCommandService.updateModel(id, model)
+    if(updated == null) throw new ElementNotUpdatedException[Model](classOf[Model])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the model's make.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("make"))
+  def updateModelMake(@ApiParam(name = "id", value = "The Model's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "make", value = "The make of the model.", required = true, example = "1") @RequestParam(name = "make") makeId : Long) = {
+    val updated = modelCommandService.updateModelMake(id, makeId)
+    if(updated == null) throw new ElementNotUpdatedException[Model](classOf[Model])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Model's name.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("name"))
+  def updateModelName(@ApiParam(name = "id", value = "The Model's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "name", value = "The Model's name.", required = true) @RequestParam(name = "name") name : String) = {
+    val updated = modelCommandService.updateModelName(id, name)
+    if(updated == null) throw new ElementNotUpdatedException[Model](classOf[Model])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Model's generation.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("generation"))
+  def updateModelGeneration(@ApiParam(name = "id", value = "The Model's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "generation", value = "The Model's generation.", required = true) @RequestParam(name = "generation") generation : String) = {
+    val updated = modelCommandService.updateModelGeneration(id, generation)
+    if(updated == null) throw new ElementNotUpdatedException[Model](classOf[Model])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Update the Model's creation date.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"), params = Array("creation"))
+  def updateModelCreationDate(@ApiParam(name = "id", value = "The Model's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "creation", value = "The creation date.", required = true) @RequestParam(name = "creation") creationDate : String) = {
+    val updated = modelCommandService.updateModelCreationDate(id, new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(creationDate))
+    if(updated == null) throw new ElementNotUpdatedException[Model](classOf[Model])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Add a Model serie.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @PatchMapping(value = Array("/{id}"))
+  def updateModelAddSerie(@ApiParam(name = "id", value = "The Model's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "serie", value = "The serie associated to the model.", required = true) @RequestBody serie : Serie) = {
+    val updated = modelCommandService.updateModelAddSerie(id, serie)
+    if(updated == null) throw new ElementNotUpdatedException[Model](classOf[Model])
+    ResponseEntity.status(HttpStatus.OK).body(updated)
+  }
+
+  @ApiOperation(value = "Delete the Model.", response = classOf[Model])
+  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @ResponseBody
+  @DeleteMapping(Array("/{id}"))
+  def deleteModel(@ApiParam(name = "id", value = "The Model ID.", required = true, example = "1") @PathVariable(value = "id") id : Long) = {
+    modelCommandService.deleteModel(id)
+    ResponseEntity.status(HttpStatus.NO_CONTENT).build()
+  }
 }

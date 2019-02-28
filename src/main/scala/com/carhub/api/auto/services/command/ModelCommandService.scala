@@ -1,10 +1,9 @@
 package com.carhub.api.auto.services.command
 
-import java.util
 import java.util.Date
 
 import com.carhub.api.auto.domain.{Make, Model, Serie}
-import com.carhub.api.auto.repositories.ModelRepository
+import com.carhub.api.auto.repositories.{MakeRepository, ModelRepository}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -12,12 +11,12 @@ import org.springframework.transaction.annotation.Transactional
 @Autowired
 @Transactional
 @Service
-class ModelCommandService(modelRepository : ModelRepository) {
+class ModelCommandService(modelRepository : ModelRepository, makeRepository: MakeRepository, serieCommandService: SerieCommandService) {
 
   def addModel(model : Model) = modelRepository.save(model)
 
-  def UpdateModel (model : Model) = {
-    val modelToUpdate = modelRepository.getOne(model.id)
+  def updateModel (modelId : Long, model : Model) = {
+    val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.creationDate = model.creationDate
     modelToUpdate.generation = model.generation
     modelToUpdate.make = model.make
@@ -27,47 +26,50 @@ class ModelCommandService(modelRepository : ModelRepository) {
     modelRepository.save(modelToUpdate)
   }
 
-  def UpdateModelMake (model : Model, make : Make) = {
-    val modelToUpdate = modelRepository.getOne(model.id)
+  def updateModelMake (modelId : Long, makeId : Long) : Model = {
+    val make = makeRepository.getOne(makeId)
+    updateModelMake(modelId, make)
+  }
+
+  def updateModelMake (modelId : Long, make : Make) : Model = {
+    val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.make = make
 
     modelRepository.save(modelToUpdate)
   }
 
-  def UpdateModelName (model : Model, name : String) = {
-    val modelToUpdate = modelRepository.getOne(model.id)
+  def updateModelName (modelId : Long, name : String) : Model  = {
+    val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.name = name
 
     modelRepository.save(modelToUpdate)
   }
 
-  def UpdateModelGeneration(model : Model, generation : String) = {
-    val modelToUpdate = modelRepository.getOne(model.id)
+  def updateModelGeneration(modelId : Long, generation : String) : Model  = {
+    val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.generation = generation
 
     modelRepository.save(modelToUpdate)
   }
 
-  def UpdateModelCreationDate (model : Model, creationDate : Date) = {
-    val modelToUpdate = modelRepository.getOne(model.id)
+  def updateModelCreationDate (modelId : Long, creationDate : Date) : Model  = {
+    val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.creationDate = creationDate
 
     modelRepository.save(modelToUpdate)
   }
 
-  def UpdateModelSeries (model : Model, series : util.List[Serie]) = {
-    val modelToUpdate = modelRepository.getOne(model.id)
-    modelToUpdate.series.addAll(series)
-
-    modelRepository.save(modelToUpdate)
-  }
-
-  def UpdateModelAddSerie (model : Model, serie : Serie) = {
-    val modelToUpdate = modelRepository.getOne(model.id)
+  def updateModelAddSerie (modelId : Long, serie : Serie) : Model  = {
+    val serieCreated = serieCommandService.addSerie(serie)
+    val modelToUpdate = modelRepository.getOne(modelId)
+    serieCommandService.updateSerieModel(serieCreated.id, modelToUpdate)
     modelToUpdate.series.add(serie)
 
     modelRepository.save(modelToUpdate)
   }
 
-  def deleteModel(model : Model) = modelRepository.delete(model)
+  def deleteModel(modelId : Long) = {
+    val modelToDelete = modelRepository.getOne(modelId)
+    modelRepository.delete(modelToDelete)
+  }
 }
