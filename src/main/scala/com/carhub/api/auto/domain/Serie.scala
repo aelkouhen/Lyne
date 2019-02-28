@@ -32,7 +32,7 @@ class Serie extends Serializable {
   //The vehicles of the Serie.
   @BeanProperty
   @JsonIgnore
-  @OneToMany(mappedBy = "serie", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "serie", fetch = FetchType.LAZY, cascade = Array(CascadeType.ALL))
   var vehicles: util.List[Vehicle] = new util.ArrayList[Vehicle]()
 
   //Begin year of production

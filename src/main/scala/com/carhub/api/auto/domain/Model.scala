@@ -34,7 +34,7 @@ class Model extends Serializable {
   //The series of the model.
   @BeanProperty
   @JsonIgnore
-  @OneToMany(mappedBy = "model", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "model", fetch = FetchType.LAZY, cascade = Array(CascadeType.ALL))
   var series: util.List[Serie] = new util.ArrayList[Serie]()
 
   //The Make of the model.

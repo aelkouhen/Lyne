@@ -39,10 +39,10 @@ class Make extends Serializable {
   var foundationDate: Date = _
 
   @BeanProperty
-  var isClosed: Boolean = _
+  var closed: Boolean = _
 
   @BeanProperty
-  @OneToOne
+  @OneToOne(cascade = Array(CascadeType.REMOVE))
   @JsonIgnore
   var logo: Photo = _
 
@@ -52,6 +52,6 @@ class Make extends Serializable {
   //The series of the model.
   @BeanProperty
   @JsonIgnore
-  @OneToMany(mappedBy = "make", fetch = FetchType.LAZY)
+  @OneToMany(mappedBy = "make", fetch = FetchType.LAZY, cascade = Array(CascadeType.ALL))
   var models: util.List[Model] = new util.ArrayList[Model]()
 }
