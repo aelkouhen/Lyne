@@ -34,9 +34,10 @@ class PhotoCommandService(photoRepository : PhotoRepository){
 
   def addPhoto(photo : Photo) = photoRepository.save(photo)
 
-  def UpdatePhoto(photo : Photo) = {
-    val photoToUpdate = photoRepository.getOne(photo.id)
+  def updatePhoto(photoId : Long, photo : Photo) = {
+    val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.caption = photo.caption
+    photoToUpdate.name = photo.name
     photoToUpdate.content = photo.content
     photoToUpdate.created = photo.created
     photoToUpdate.format = photo.format
@@ -48,40 +49,43 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoRepository.save(photoToUpdate)
   }
 
-  def UpdatePhotoCaption(photo : Photo, caption : String) = {
-    val photoToUpdate = photoRepository.getOne(photo.id)
+  def updatePhotoCaption(photoId : Long, caption : String) = {
+    val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.caption = caption
 
     photoRepository.save(photoToUpdate)
   }
 
-  def UpdatePhotoContent(photo : Photo, content : Array[Byte]) = {
-    val photoToUpdate = photoRepository.getOne(photo.id)
+  def updatePhotoContent(photoId : Long, content : Array[Byte]) = {
+    val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.content = content
 
     photoRepository.save(photoToUpdate)
   }
 
-  def UpdatePhotoCreationDate(photo : Photo, date : Date) = {
-    val photoToUpdate = photoRepository.getOne(photo.id)
+  def updatePhotoCreationDate(photoId : Long, date : Date) = {
+    val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.created = date
 
     photoRepository.save(photoToUpdate)
   }
 
-  def UpdatePhotoExtension(photo : Photo, format : String) = {
-    val photoToUpdate = photoRepository.getOne(photo.id)
+  def updatePhotoExtension(photoId : Long, format : String) = {
+    val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.format = format
 
     photoRepository.save(photoToUpdate)
   }
 
-  def UpdatePhotoLink(photo : Photo, url : String) = {
-    val photoToUpdate = photoRepository.getOne(photo.id)
+  def updatePhotoLink(photoId : Long, url : String) = {
+    val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.url = url
 
     photoRepository.save(photoToUpdate)
   }
 
-  def deletePhoto(photo : Photo) = photoRepository.delete(photo)
+  def deletePhoto(photoId : Long) = {
+    val photoToDelete = photoRepository.getOne(photoId)
+    photoRepository.delete(photoToDelete)
+  }
 }
