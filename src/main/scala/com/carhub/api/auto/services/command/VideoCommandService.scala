@@ -34,8 +34,8 @@ class VideoCommandService(videoRepository : VideoRepository) {
 
   def addVideo(video : Video) = videoRepository.save(video)
 
-  def UpdatePhoto(video: Video) = {
-    val videoToUpdate = videoRepository.getOne(video.id)
+  def updateVideo(videoId : Long, video: Video) = {
+    val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.caption = video.caption
     videoToUpdate.content = video.content
     videoToUpdate.created = video.created
@@ -48,40 +48,43 @@ class VideoCommandService(videoRepository : VideoRepository) {
     videoRepository.save(videoToUpdate)
   }
 
-  def UpdateVideoCaption(video : Video, caption : String) = {
-    val videoToUpdate = videoRepository.getOne(video.id)
+  def updateVideoCaption(videoId : Long, caption : String) = {
+    val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.caption = caption
 
     videoRepository.save(videoToUpdate)
   }
 
-  def UpdateVideoContent(video : Video, content : Array[Byte]) = {
-    val videoToUpdate = videoRepository.getOne(video.id)
+  def updateVideoContent(videoId : Long, content : Array[Byte]) = {
+    val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.content = content
 
     videoRepository.save(videoToUpdate)
   }
 
-  def UpdateVideoCreationDate(video : Video, date : Date) = {
-    val videoToUpdate = videoRepository.getOne(video.id)
+  def updateVideoCreationDate(videoId : Long, date : Date) = {
+    val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.created = date
 
     videoRepository.save(videoToUpdate)
   }
 
-  def UpdateVideoExtension(video : Video, format : String) = {
-    val videoToUpdate = videoRepository.getOne(video.id)
+  def updateVideoExtension(videoId : Long, format : String) = {
+    val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.format = format
 
     videoRepository.save(videoToUpdate)
   }
 
-  def UpdateVideoLink(video : Video, url : String) = {
-    val videoToUpdate = videoRepository.getOne(video.id)
+  def updateVideoLink(videoId : Long, url : String) = {
+    val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.url = url
 
     videoRepository.save(videoToUpdate)
   }
 
-  def deleteVideo(video: Video) = videoRepository.delete(video)
+  def deleteVideo(videoId : Long) = {
+    val videoToDelete = videoRepository.getOne(videoId)
+    videoRepository.delete(videoToDelete)
+  }
 }
