@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository
 trait FileRepository extends JpaRepository[File, Long] {
 
   @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'FILE' AND r.id = :id", nativeQuery=true)
-  def findFileById(@Param("id") id : Long) : util.List[File]
+  def findFileById(@Param("id") id : Long) : File
 
   @Query(value = "SELECT r.* FROM resource r where r.resource_type = 'FILE' AND r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findFilesByName(@Param("name") name : String) : util.List[File]

@@ -327,12 +327,16 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(carToUpdate)
   }
 
-  def updateCarSerie(carId : Long, serieId : Long) = {
+  def updateCarSerie(carId : Long, serieId : Long) : Car = {
     val serie = serieQueryService.findSerieById(serieId)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.serie = serie
 
     carRepository.save(carToUpdate)
+  }
+
+  def updateCarSerie(carId : Long, serie: Serie) : Car = {
+    updateCarSerie(carId, serie.id)
   }
 
   def updateCarTireSize(carId : Long, tireSize : String) = {

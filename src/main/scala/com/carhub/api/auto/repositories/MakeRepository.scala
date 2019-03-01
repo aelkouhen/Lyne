@@ -15,5 +15,5 @@ trait MakeRepository extends JpaRepository[Make, Long] {
   def findMakesByName(@Param("name") name : String) : util.List[Make]
 
   @Query(value = "SELECT m.* FROM make m WHERE m.id = :id", nativeQuery=true)
-  def findMakeById(@Param("id") id : Long) : util.List[Make]
+  def findMakeById(@Param("id") id : Long) : Make
 }

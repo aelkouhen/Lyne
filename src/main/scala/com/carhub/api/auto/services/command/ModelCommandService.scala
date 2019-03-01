@@ -3,7 +3,8 @@ package com.carhub.api.auto.services.command
 import java.util.Date
 
 import com.carhub.api.auto.domain.{Make, Model, Serie}
-import com.carhub.api.auto.repositories.{MakeRepository, ModelRepository}
+import com.carhub.api.auto.repositories.ModelRepository
+import com.carhub.api.auto.services.query.MakeQueryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,7 +12,9 @@ import org.springframework.transaction.annotation.Transactional
 @Autowired
 @Transactional
 @Service
-class ModelCommandService(modelRepository : ModelRepository, makeRepository: MakeRepository, serieCommandService: SerieCommandService) {
+class ModelCommandService(modelRepository : ModelRepository,
+                          makeQueryService: MakeQueryService,
+                          serieCommandService: SerieCommandService) {
 
   def addModel(model : Model) = modelRepository.save(model)
 
@@ -27,7 +30,7 @@ class ModelCommandService(modelRepository : ModelRepository, makeRepository: Mak
   }
 
   def updateModelMake (modelId : Long, makeId : Long) : Model = {
-    val make = makeRepository.getOne(makeId)
+    val make = makeQueryService.findMakeById(makeId)
     updateModelMake(modelId, make)
   }
 

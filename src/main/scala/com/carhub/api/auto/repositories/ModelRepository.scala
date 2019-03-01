@@ -18,5 +18,5 @@ trait ModelRepository extends JpaRepository[Model, Long] {
   def findModelsByName(@Param("name") name : String) : util.List[Model]
 
   @Query(value = "SELECT m.* FROM model m WHERE m.id = :id", nativeQuery=true)
-  def findModelById(@Param("id") id : Long) : util.List[Model]
+  def findModelById(@Param("id") id : Long) : Model
 }

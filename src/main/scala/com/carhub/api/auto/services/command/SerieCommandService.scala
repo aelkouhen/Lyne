@@ -1,9 +1,8 @@
 package com.carhub.api.auto.services.command
 
-import java.util
-
-import com.carhub.api.auto.domain.{Model, Serie, Vehicle}
+import com.carhub.api.auto.domain.{Car, Model, Serie}
 import com.carhub.api.auto.repositories.SerieRepository
+import com.carhub.api.auto.services.query.ModelQueryService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -11,7 +10,9 @@ import org.springframework.transaction.annotation.Transactional
 @Autowired
 @Transactional
 @Service
-class SerieCommandService(serieRepository : SerieRepository){
+class SerieCommandService(serieRepository : SerieRepository,
+                          modelQueryService: ModelQueryService,
+                          carCommandService: CarCommandService){
 
   def addSerie(serie : Serie) = serieRepository.save(serie)
 
@@ -26,9 +27,15 @@ class SerieCommandService(serieRepository : SerieRepository){
     serieRepository.save(serieToUpdate)
   }
 
-  def updateSerieModel (serieId: Long, model : Model) = {
+  def updateSerieModel (serieId : Long, modelId : Long) : Serie = {
+    val model = modelQueryService.findModelById(modelId)
+    updateSerieModel(serieId, model)
+  }
+
+  def updateSerieModel (serieId: Long, model : Model) : Serie = {
     val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.model = model
+
     serieRepository.save(serieToUpdate)
   }
 
@@ -53,19 +60,18 @@ class SerieCommandService(serieRepository : SerieRepository){
     serieRepository.save(serieToUpdate)
   }
 
-  def updateSerieVehicles (serieId: Long, vehicles : util.List[Vehicle]) = {
+
+  def updateSerieAddCar (serieId: Long, car: Car) = {
+    val carCreated = carCommandService.addCar(car)
     val serieToUpdate = serieRepository.getOne(serieId)
-    serieToUpdate.vehicles.addAll(vehicles)
+    carCommandService.updateCarSerie(carCreated.id, serieToUpdate)
+    serieToUpdate.vehicles.add(car)
 
     serieRepository.save(serieToUpdate)
   }
 
-  def updateSerieAddVehicle (serieId: Long, vehicle : Vehicle) = {
-    val serieToUpdate = serieRepository.getOne(serieId)
-    serieToUpdate.vehicles.add(vehicle)
-
-    serieRepository.save(serieToUpdate)
+  def deleteSerie(serieId: Long) = {
+    val serieToDelete = serieRepository.getOne(serieId)
+    serieRepository.delete(serieToDelete)
   }
-
-  def deleteSerie(serieId: Long) = serieRepository.delete(serieId)
 }

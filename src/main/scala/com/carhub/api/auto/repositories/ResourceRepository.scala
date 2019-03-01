@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository
 trait ResourceRepository extends JpaRepository[Resource, Long] {
 
   @Query(value = "SELECT r.* FROM resource r where r.id = :id", nativeQuery=true)
-  def findResourceById(@Param("id") id : Long) : util.List[Resource]
+  def findResourceById(@Param("id") id : Long) : Resource
 
   @Query(value = "SELECT r.* FROM resource r where r.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findResourcesByName(@Param("name") name : String) : util.List[Resource]

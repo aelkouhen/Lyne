@@ -12,7 +12,7 @@ import org.springframework.stereotype.Repository
 trait EngineRepository extends JpaRepository[Engine, Long] {
 
   @Query(value = "SELECT e.* FROM engine e where e.id = :id", nativeQuery=true)
-  def findEngineById(@Param("id") id : Long) : util.List[Engine]
+  def findEngineById(@Param("id") id : Long) : Engine
 
   @Query(value = "SELECT e.* FROM engine e where e.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findEnginesByName(@Param("name") name : String) : util.List[Engine]
