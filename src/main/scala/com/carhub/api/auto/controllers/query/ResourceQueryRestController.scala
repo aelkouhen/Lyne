@@ -4,10 +4,10 @@ import java.util
 
 import com.carhub.api.auto.domain.Resource
 import com.carhub.api.auto.services.query.ResourceQueryService
-import com.carhub.api.auto.utils.exception.ElementNotFoundException
+import com.carhub.api.auto.utils.exception.{ContentNotFoundException, ElementNotFoundException}
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
+import org.springframework.http.{HttpHeaders, ResponseEntity}
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
@@ -30,7 +30,7 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
       case "asc" => result = resourceQueryService.getResourceListAsc(page, size, sort)
       case _ => result = resourceQueryService.getResourceListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Resource](classOf[Resource])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Resource](classOf[Resource])
     ResponseEntity.ok(result)
   }
 
@@ -46,7 +46,7 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
   @ResponseBody
   def findResourceByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = resourceQueryService.findResourcesByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException(classOf[Resource])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException(classOf[Resource])
     ResponseEntity.ok(result)
   }
 
@@ -60,13 +60,25 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
     ResponseEntity.ok(result)
   }
 
+  @ApiOperation(value = "Filter Resource content by ID", response = classOf[Array[Byte]])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/content/{id}"))
+  @ResponseBody
+  def findResourceContentById(@ApiParam(name = "id", value = "The Resource ID.", required = true, example = "1") @PathVariable(name = "id") resourceId : Long) : ResponseEntity[_]  = {
+    val result = resourceQueryService.findResourceById(resourceId)
+    if (result == null) throw new ElementNotFoundException[Resource](classOf[Resource])
+    if (result.content == null || result.content.isEmpty) throw new ContentNotFoundException[Resource](classOf[Resource])
+    ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+      "attachment; filename=\"" + result.name + "." + result.format + "\"").body(result.content)
+  }
+
   @ApiOperation(value = "Filter Resources by format", response = classOf[util.List[Resource]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("format"))
   @ResponseBody
   def findResourceByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {
     val result = resourceQueryService.findResourcesByExtension(format)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Resource](classOf[Resource])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Resource](classOf[Resource])
     ResponseEntity.ok(result)
   }
 }

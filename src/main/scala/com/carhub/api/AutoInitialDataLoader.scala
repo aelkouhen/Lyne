@@ -1,6 +1,7 @@
 package com.carhub.api
 
 import java.awt.image.BufferedImage
+import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
@@ -98,6 +99,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       inputStream = picture.getInputStream
       val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
       inputStream.close()
+      val connection = picture.getURL.openConnection
+      photo.mimeType = connection.getContentType
       photo.size = picture.contentLength
       photo.name = Files.getNameWithoutExtension(picture.getFilename)
       photo.format = Files.getFileExtension(picture.getFilename)
@@ -136,6 +139,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
     photo.size = picture.contentLength
+    var connection = picture.getURL.openConnection
+    photo.mimeType = connection.getContentType
     photo.name = Files.getNameWithoutExtension(picture.getFilename)
     photo.format = Files.getFileExtension(picture.getFilename)
     photo.caption = "Xtrail"
@@ -163,6 +168,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     file.name = Files.getNameWithoutExtension(brochure.getFilename)
     file.size = brochure.contentLength
     file.format = Files.getFileExtension(brochure.getFilename)
+    connection = brochure.getURL.openConnection
+    file.mimeType = connection.getContentType
     file.caption = "Brochure"
     file.created = Calendar.getInstance().getTime()
     file.content = arrayPic
@@ -182,6 +189,8 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     photo.height = bimg.getHeight
     val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
     inputStream.close()
+    val connection = picture.getURL.openConnection
+    photo.mimeType = connection.getContentType
     photo.size = picture.contentLength
     photo.name = Files.getNameWithoutExtension(picture.getFilename)
     photo.format = Files.getFileExtension(picture.getFilename)

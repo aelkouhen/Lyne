@@ -30,7 +30,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
       case "asc" => result = engineQueryService.getEnginesListAsc(page, size, sort)
       case _ => result = engineQueryService.getEnginesListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }
 
@@ -46,7 +46,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   @ResponseBody
   def findEngineByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }
 
@@ -56,7 +56,7 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   @ResponseBody
   def findEngineByFuelType(@ApiParam(name = "fuel", value = "The filtering expression.", required = true) @RequestParam fuel : String) : ResponseEntity[_]  = {
     val result = engineQueryService.findEnginesByFuelType(fuel)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }
 

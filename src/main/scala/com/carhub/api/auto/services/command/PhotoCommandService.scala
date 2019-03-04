@@ -23,6 +23,7 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoMeta.name = Files.getNameWithoutExtension(photo.getOriginalFilename)
     photoMeta.format = Files.getFileExtension(photo.getOriginalFilename)
     photoMeta.content = photo.getBytes
+    photoMeta.mimeType = photo.getContentType
     photoMeta.created = Calendar.getInstance().getTime()
 
     val bimg : BufferedImage = ImageIO.read(photo.getInputStream)
@@ -41,6 +42,7 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoToUpdate.content = photo.content
     photoToUpdate.created = photo.created
     photoToUpdate.format = photo.format
+    photoToUpdate.mimeType = photo.mimeType
     photoToUpdate.url = photo.url
     photoToUpdate.size = photo.size
     photoToUpdate.height = photo.height
@@ -56,13 +58,14 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoRepository.save(photoToUpdate)
   }
 
-  def updatePhotoContent(photoId : Long, file : MultipartFile) = {
+  def updatePhotoContent(photoId : Long, photo : MultipartFile) = {
     val photoToUpdate = photoRepository.getOne(photoId)
-    photoToUpdate.content = file.getBytes
-    photoToUpdate.size = file.getSize
-    photoToUpdate.name = Files.getNameWithoutExtension(file.getOriginalFilename)
-    photoToUpdate.format = Files.getFileExtension(file.getOriginalFilename)
-    val bimg : BufferedImage = ImageIO.read(file.getInputStream)
+    photoToUpdate.content = photo.getBytes
+    photoToUpdate.size = photo.getSize
+    photoToUpdate.name = Files.getNameWithoutExtension(photo.getOriginalFilename)
+    photoToUpdate.format = Files.getFileExtension(photo.getOriginalFilename)
+    photoToUpdate.mimeType = photo.getContentType
+    val bimg : BufferedImage = ImageIO.read(photo.getInputStream)
     photoToUpdate.width = bimg.getWidth
     photoToUpdate.height = bimg.getHeight
 

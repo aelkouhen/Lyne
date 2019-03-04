@@ -32,7 +32,7 @@ class SerieQueryRestController(@Autowired
       case "asc" => result = serieQueryService.getSeriesListAsc(page, size, sort)
       case _ => result = serieQueryService.getSeriesListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
 
@@ -48,7 +48,7 @@ class SerieQueryRestController(@Autowired
   @ResponseBody
   def findSeriesByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = serieQueryService.findSeriesByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
 
@@ -68,7 +68,7 @@ class SerieQueryRestController(@Autowired
   @ResponseBody
   def getSerieCars(@ApiParam(name = "id", example = "1", value = "The Model ID.", required = true) @PathVariable(value = "id") serieId : Long) : ResponseEntity[_] = {
     val result  = carQueryService.getSerieCars(serieId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
 }

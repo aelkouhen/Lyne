@@ -4,10 +4,10 @@ import java.util
 
 import com.carhub.api.auto.domain.File
 import com.carhub.api.auto.services.query.FileQueryService
-import com.carhub.api.auto.utils.exception.ElementNotFoundException
+import com.carhub.api.auto.utils.exception.{ContentNotFoundException, ElementNotFoundException}
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
+import org.springframework.http.{HttpHeaders, ResponseEntity}
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
@@ -30,7 +30,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
       case "asc" => result = fileQueryService.getFilesListAsc(page, size, sort)
       case _ => result = fileQueryService.getFilesListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[File](classOf[File])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[File](classOf[File])
     ResponseEntity.ok(result)
   }
 
@@ -56,7 +56,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   @ResponseBody
   def findFilesByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFilesByExtension(format)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[File](classOf[File])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[File](classOf[File])
     ResponseEntity.ok(result)
   }
 
@@ -68,5 +68,17 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
     val result = fileQueryService.findFileById(fileId)
     if (result == null) throw new ElementNotFoundException[File](classOf[File])
     ResponseEntity.ok(result)
+  }
+
+  @ApiOperation(value = "Filter File content by ID", response = classOf[Array[Byte]])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/content/{id}"))
+  @ResponseBody
+  def findFileContentById(@ApiParam(name = "id", value = "The File ID.", required = true, example = "1") @PathVariable(name = "id") fileId : Long) : ResponseEntity[_]  = {
+    val result = fileQueryService.findFileById(fileId)
+    if (result == null) throw new ElementNotFoundException[File](classOf[File])
+    if (result.content == null || result.content.isEmpty) throw new ContentNotFoundException[File](classOf[File])
+    ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+      "attachment; filename=\"" + result.name + "." + result.format + "\"").body(result.content)
   }
 }

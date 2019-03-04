@@ -33,7 +33,7 @@ class ModelQueryRestController(@Autowired
         case "asc" =>  result = modelQueryService.getModelsListAsc(page, size, sort)
         case _ =>  result = modelQueryService.getModelsListDesc(page, size, sort)
       }
-    if (result.isEmpty) throw new ElementNotFoundException[Model](classOf[Model])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }
 
@@ -49,7 +49,7 @@ class ModelQueryRestController(@Autowired
   @ResponseBody
   def findModelByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = modelQueryService.findModelsByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Model](classOf[Model])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }
 
@@ -69,7 +69,7 @@ class ModelQueryRestController(@Autowired
   @ResponseBody
   def getModelsSeries(@ApiParam(name = "id", example = "1", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
     val result = serieQueryService.getModelSeries(modelId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Model](classOf[Model])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }
 
@@ -79,7 +79,7 @@ class ModelQueryRestController(@Autowired
   @ResponseBody
   def getModelsCars(@ApiParam(name = "id", example = "1", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
     val result : util.List[Car] = carQueryService.getModelCars(modelId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Model](classOf[Model])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }
 }

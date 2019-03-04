@@ -7,7 +7,7 @@ import com.carhub.api.auto.services.query._
 import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
+import org.springframework.http.{HttpHeaders, ResponseEntity}
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
@@ -101,7 +101,8 @@ class MakeQueryRestController(@Autowired
   @ResponseBody
   def getMakeIcon(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
     val result = photoQueryService.getMakeIcon(makeId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
-    ResponseEntity.ok(result)
+    if (result == null || result.content.isEmpty || result.content == null) throw new ElementNotFoundException[Make](classOf[Make])
+    ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+      "attachment; filename=\"" + result.name + "." + result.format + "\"").body(result.content)
   }
 }

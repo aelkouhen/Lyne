@@ -4,10 +4,10 @@ import java.util
 
 import com.carhub.api.auto.domain.Photo
 import com.carhub.api.auto.services.query.PhotoQueryService
-import com.carhub.api.auto.utils.exception.ElementNotFoundException
+import com.carhub.api.auto.utils.exception.{ContentNotFoundException, ElementNotFoundException}
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.ResponseEntity
+import org.springframework.http.{HttpHeaders, ResponseEntity}
 import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
@@ -30,7 +30,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
       case "asc" => result = photoQueryService.getPhotosListAsc(page, size, sort)
       case _ => result = photoQueryService.getPhotosListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok(result)
   }
 
@@ -46,7 +46,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   @ResponseBody
   def findPhotosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = photoQueryService.findPhotosByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok(result)
   }
 
@@ -60,13 +60,25 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
     ResponseEntity.ok(result)
   }
 
+  @ApiOperation(value = "Filter Photo content by ID", response = classOf[Array[Byte]])
+  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @GetMapping(value = Array("/content/{id}"))
+  @ResponseBody
+  def findPhotoContentById(@ApiParam(name = "id", value = "The Photo ID.", required = true, example = "1") @PathVariable(name = "id") photoId : Long) : ResponseEntity[_]  = {
+    val result = photoQueryService.findPhotoById(photoId)
+    if (result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
+    if (result.content == null || result.content.isEmpty) throw new ContentNotFoundException[Photo](classOf[Photo])
+    ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
+      "attachment; filename=\"" + result.name + "." + result.format + "\"").body(result.content)
+  }
+
   @ApiOperation(value = "Filter Photos by format", response = classOf[util.List[Photo]], responseContainer = "List")
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("format"))
   @ResponseBody
   def findPhotosByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {
     val result = photoQueryService.findPhotosByExtension(format)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok(result)
   }
 }

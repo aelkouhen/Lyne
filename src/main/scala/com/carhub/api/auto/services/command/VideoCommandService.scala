@@ -18,18 +18,19 @@ import org.springframework.web.multipart.MultipartFile
 class VideoCommandService(videoRepository : VideoRepository) {
 
   def addVideo(video : MultipartFile) : Video = {
-    val VideoMeta = new Video
-    VideoMeta.size = video.getSize
-    VideoMeta.name = Files.getNameWithoutExtension(video.getOriginalFilename)
-    VideoMeta.format = Files.getFileExtension(video.getOriginalFilename)
-    VideoMeta.content = video.getBytes
-    VideoMeta.created = Calendar.getInstance().getTime()
+    val videoMeta = new Video
+    videoMeta.size = video.getSize
+    videoMeta.name = Files.getNameWithoutExtension(video.getOriginalFilename)
+    videoMeta.format = Files.getFileExtension(video.getOriginalFilename)
+    videoMeta.content = video.getBytes
+    videoMeta.created = Calendar.getInstance().getTime()
+    videoMeta.mimeType = video.getContentType
 
     val bimg : BufferedImage = ImageIO.read(video.getInputStream)
-    VideoMeta.width = bimg.getWidth
-    VideoMeta.height = bimg.getHeight
+    videoMeta.width = bimg.getWidth
+    videoMeta.height = bimg.getHeight
 
-    addVideo(VideoMeta)
+    addVideo(videoMeta)
   }
 
   def addVideo(video : Video) = videoRepository.save(video)
@@ -40,6 +41,7 @@ class VideoCommandService(videoRepository : VideoRepository) {
     videoToUpdate.content = video.content
     videoToUpdate.created = video.created
     videoToUpdate.format = video.format
+    videoToUpdate.mimeType = video.mimeType
     videoToUpdate.url = video.url
     videoToUpdate.size = video.size
     videoToUpdate.height = video.height
@@ -59,6 +61,7 @@ class VideoCommandService(videoRepository : VideoRepository) {
     val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.content = file.getBytes
     videoToUpdate.size = file.getSize
+    videoToUpdate.mimeType = file.getContentType
     videoToUpdate.name = Files.getNameWithoutExtension(file.getOriginalFilename)
     videoToUpdate.format = Files.getFileExtension(file.getOriginalFilename)
     val bimg : BufferedImage = ImageIO.read(file.getInputStream)

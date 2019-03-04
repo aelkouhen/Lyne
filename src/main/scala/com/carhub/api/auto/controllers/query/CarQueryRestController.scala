@@ -30,7 +30,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
         case "asc" => result = carQueryService.getCarsListAsc(page, size, sort)
         case _ => result = carQueryService.getCarsListDesc(page, size, sort)
     }
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car](classOf[Car])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Car](classOf[Car])
     ResponseEntity.ok(result)
   }
 
@@ -46,7 +46,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @ResponseBody
   def findCarByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = carQueryService.findCarsByName(name)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Car](classOf[Car])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Car](classOf[Car])
     ResponseEntity.ok(result)
   }
 
@@ -66,7 +66,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @GetMapping(value = Array("/{id}/files"))
   def getCarsFiles(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") carId : Long) = {
     val result = carQueryService.findCarFiles(carId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[File](classOf[File])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[File](classOf[File])
     ResponseEntity.ok(result)
   }
 
@@ -76,7 +76,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @GetMapping(value = Array("/{id}/photos"))
   def getCarsPhotos(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") carId : Long) = {
     val result = carQueryService.findCarPhotos(carId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok(result)
   }
 
@@ -86,7 +86,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @GetMapping(value = Array("/{id}/videos"))
   def getCarsVideos(@ApiParam(name = "id", value = "The Car's ID.", required = true, example = "1") @PathVariable(value = "id") carId : Long) = {
     val result = carQueryService.findCarVideos(carId)
-    if (result.isEmpty || result == null) throw new ElementNotFoundException[Video](classOf[Video])
+    if (result == null || result.isEmpty) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
 }

@@ -21,6 +21,7 @@ class FileCommandService(fileRepository : FileRepository) {
     fileMeta.name = Files.getNameWithoutExtension(file.getOriginalFilename)
     fileMeta.format = Files.getFileExtension(file.getOriginalFilename)
     fileMeta.content = file.getBytes
+    fileMeta.mimeType = file.getContentType
     fileMeta.created = Calendar.getInstance().getTime()
     addFile(fileMeta)
   }
@@ -33,6 +34,7 @@ class FileCommandService(fileRepository : FileRepository) {
     fileToUpdate.content = file.content
     fileToUpdate.created = file.created
     fileToUpdate.format = file.format
+    fileToUpdate.mimeType = file.mimeType
     fileToUpdate.url = file.url
     fileToUpdate.size = file.size
 
@@ -52,6 +54,7 @@ class FileCommandService(fileRepository : FileRepository) {
     fileToUpdate.size = file.getSize
     fileToUpdate.name = Files.getNameWithoutExtension(file.getOriginalFilename)
     fileToUpdate.format = Files.getFileExtension(file.getOriginalFilename)
+    fileToUpdate.mimeType = file.getContentType
 
     fileRepository.save(fileToUpdate)
   }
