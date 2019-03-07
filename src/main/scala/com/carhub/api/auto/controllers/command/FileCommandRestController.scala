@@ -1,7 +1,7 @@
 package com.carhub.api.auto.controllers.command
 
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.{Locale, UUID}
 
 import com.carhub.api.auto.domain.File
 import com.carhub.api.auto.services.command.FileCommandService
@@ -44,8 +44,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
-  def updateFile(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @RequestBody file: File): ResponseEntity[_] = {
-    val updated = fileCommandService.updateFile(id, file)
+  def updateFile(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody file: File): ResponseEntity[_] = {
+    val updated = fileCommandService.updateFile(UUID.fromString(id), file)
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -54,8 +54,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("caption"))
-  def updateFileCaption(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "caption", value = "The file's description.", required = true) @RequestParam(name = "caption") caption : String) = {
-    val updated = fileCommandService.updateFileCaption(id, caption)
+  def updateFileCaption(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "caption", value = "The file's description.", required = true) @RequestParam(name = "caption") caption : String) = {
+    val updated = fileCommandService.updateFileCaption(UUID.fromString(id), caption)
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -64,8 +64,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
-  def updateFileContent(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "file", value = "The file's content.", required = true) @RequestParam(name = "file") file : MultipartFile) = {
-    val updated = fileCommandService.updateFileContent(id, file)
+  def updateFileContent(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "file", value = "The file's content.", required = true) @RequestParam(name = "file") file : MultipartFile) = {
+    val updated = fileCommandService.updateFileContent(UUID.fromString(id), file)
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -74,8 +74,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("date"))
-  def updateFileCreationDate(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "date", value = "The file's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
-    val updated = fileCommandService.updateFileCreationDate(id, new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(date))
+  def updateFileCreationDate(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "date", value = "The file's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
+    val updated = fileCommandService.updateFileCreationDate(UUID.fromString(id), new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(date))
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -84,8 +84,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("format"))
-  def updateFileExtension(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "format", value = "The file's format.", required = true) @RequestParam(name = "format") format : String) = {
-    val updated = fileCommandService.updateFileExtension(id, format)
+  def updateFileExtension(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "format", value = "The file's format.", required = true) @RequestParam(name = "format") format : String) = {
+    val updated = fileCommandService.updateFileExtension(UUID.fromString(id), format)
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -94,8 +94,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("url"))
-  def updateFileLink(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "url", value = "The file's URL.", required = true) @RequestParam(name = "url") url : String) = {
-    val updated = fileCommandService.updateFileLink(id, url)
+  def updateFileLink(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "url", value = "The file's URL.", required = true) @RequestParam(name = "url") url : String) = {
+    val updated = fileCommandService.updateFileLink(UUID.fromString(id), url)
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -104,8 +104,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("size"))
-  def updateFileSize(@ApiParam(name = "id", value = "The File's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "size", value = "The file's URL.", required = true, example = "0") @RequestParam(name = "size") size : Long) = {
-    val updated = fileCommandService.updateFileSize(id, size)
+  def updateFileSize(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "size", value = "The file's URL.", required = true, example = "0") @RequestParam(name = "size") size : Long) = {
+    val updated = fileCommandService.updateFileSize(UUID.fromString(id), size)
     if(updated == null) throw new ElementNotUpdatedException[File](classOf[File])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -114,8 +114,8 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
-  def deleteFile(@ApiParam(name = "id", value = "The File ID.", required = true, example = "1") @PathVariable(value = "id") fileId : Long) = {
-    fileCommandService.deleteFile(fileId)
+  def deleteFile(@ApiParam(name = "id", value = "The File ID.", required = true) @PathVariable(value = "id") fileId : String) = {
+    fileCommandService.deleteFile(UUID.fromString(fileId))
     ResponseEntity.status(HttpStatus.NO_CONTENT).build()
   }
 }

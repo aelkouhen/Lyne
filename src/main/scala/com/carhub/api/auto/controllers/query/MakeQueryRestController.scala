@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.{Car, Make, Model, Serie}
 import com.carhub.api.auto.services.query._
@@ -59,8 +60,8 @@ class MakeQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findMakeById(@ApiParam(name = "id", value = "The Make ID.", required = true, example = "1") @RequestParam(name = "id") makeId : Long) : ResponseEntity[_]  = {
-    val result = makeQueryService.findMakeById(makeId)
+  def findMakeById(@ApiParam(name = "id", value = "The Make ID.", required = true) @RequestParam(name = "id") makeId : String) : ResponseEntity[_]  = {
+    val result = makeQueryService.findMakeById(UUID.fromString(makeId))
     if (result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
@@ -69,8 +70,8 @@ class MakeQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/models"))
   @ResponseBody
-  def getMakeModels(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
-    val result = modelQueryService.getMakeModels(makeId)
+  def getMakeModels(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
+    val result = modelQueryService.getMakeModels(UUID.fromString(makeId))
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
@@ -79,8 +80,8 @@ class MakeQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/series"))
   @ResponseBody
-  def getMakeSeries(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
-    val result = serieQueryService.getMakeSeries(makeId)
+  def getMakeSeries(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
+    val result = serieQueryService.getMakeSeries(UUID.fromString(makeId))
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
@@ -89,8 +90,8 @@ class MakeQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/cars"))
   @ResponseBody
-  def getMakeCars(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
-    val result = carQueryService.getMakeCars(makeId)
+  def getMakeCars(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
+    val result = carQueryService.getMakeCars(UUID.fromString(makeId))
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
   }
@@ -99,8 +100,8 @@ class MakeQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/icon"))
   @ResponseBody
-  def getMakeIcon(@ApiParam(name = "id", example = "1", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : Long) : ResponseEntity[_] = {
-    val result = photoQueryService.getMakeIcon(makeId)
+  def getMakeIcon(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
+    val result = photoQueryService.getMakeIcon(UUID.fromString(makeId))
     if (result == null || result.content.isEmpty || result.content == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
       "attachment; filename=\"" + result.name + "." + result.format + "\"").body(result.content)

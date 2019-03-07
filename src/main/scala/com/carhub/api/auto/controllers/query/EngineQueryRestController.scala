@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.Engine
 import com.carhub.api.auto.services.query.EngineQueryService
@@ -64,8 +65,8 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findEngineById(@ApiParam(name = "id", value = "The Engine ID.", required = true, example = "1") @RequestParam(name = "id") engineId : Long) : ResponseEntity[_]  = {
-    val result = engineQueryService.findEngineById(engineId)
+  def findEngineById(@ApiParam(name = "id", value = "The Engine ID.", required = true) @RequestParam(name = "id") engineId : String) : ResponseEntity[_]  = {
+    val result = engineQueryService.findEngineById(UUID.fromString(engineId))
     if (result == null) throw new ElementNotFoundException[Engine](classOf[Engine])
     ResponseEntity.ok(result)
   }

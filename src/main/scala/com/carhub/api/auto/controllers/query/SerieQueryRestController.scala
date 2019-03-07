@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.{Car, Serie}
 import com.carhub.api.auto.services.query.{CarQueryService, SerieQueryService}
@@ -56,8 +57,8 @@ class SerieQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findSerieById(@ApiParam(name = "id", value = "The Serie ID.", required = true, example = "1") @RequestParam(name = "id") serieId : Long) : ResponseEntity[_]  = {
-    val result = serieQueryService.findSerieById(serieId)
+  def findSerieById(@ApiParam(name = "id", value = "The Serie ID.", required = true) @RequestParam(name = "id") serieId : String) : ResponseEntity[_]  = {
+    val result = serieQueryService.findSerieById(UUID.fromString(serieId))
     if (result == null) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }
@@ -66,8 +67,8 @@ class SerieQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(Array("/{id}/cars"))
   @ResponseBody
-  def getSerieCars(@ApiParam(name = "id", example = "1", value = "The Model ID.", required = true) @PathVariable(value = "id") serieId : Long) : ResponseEntity[_] = {
-    val result  = carQueryService.getSerieCars(serieId)
+  def getSerieCars(@ApiParam(name = "id", value = "The Serie ID.", required = true) @PathVariable(value = "id") serieId : String) : ResponseEntity[_] = {
+    val result  = carQueryService.getSerieCars(UUID.fromString(serieId))
     if (result == null || result.isEmpty) throw new ElementNotFoundException[Serie](classOf[Serie])
     ResponseEntity.ok(result)
   }

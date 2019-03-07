@@ -1,7 +1,7 @@
 package com.carhub.api.auto.repositories
 
-import java.lang.Long
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.Engine
 import org.springframework.data.jpa.repository.{JpaRepository, Query}
@@ -9,10 +9,7 @@ import org.springframework.data.repository.query.Param
 import org.springframework.stereotype.Repository
 
 @Repository
-trait EngineRepository extends JpaRepository[Engine, Long] {
-
-  @Query(value = "SELECT e.* FROM engine e where e.id = :id", nativeQuery=true)
-  def findEngineById(@Param("id") id : Long) : Engine
+trait EngineRepository extends JpaRepository[Engine, UUID] {
 
   @Query(value = "SELECT e.* FROM engine e where e.name like CONCAT('%',:name,'%')", nativeQuery=true)
   def findEnginesByName(@Param("name") name : String) : util.List[Engine]

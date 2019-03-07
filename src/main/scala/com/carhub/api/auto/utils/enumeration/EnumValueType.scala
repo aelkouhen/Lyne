@@ -4,7 +4,7 @@ package com.carhub.api.auto.utils.enumeration
 import java.io.Serializable
 import java.sql.{PreparedStatement, ResultSet, Types}
 
-import org.hibernate.engine.spi.SessionImplementor
+import org.hibernate.engine.spi.SharedSessionContractImplementor
 import org.hibernate.usertype.UserType
 
 /**
@@ -21,7 +21,7 @@ abstract class EnumValueType(val et: Enumeration with EnumValue) extends UserTyp
 
   override def hashCode(x: Object) = x.hashCode()
 
-  override def nullSafeGet(resultSet: ResultSet, names: Array[String], session: SessionImplementor, owner: Any): AnyRef = {
+  override def nullSafeGet(resultSet: ResultSet, names: Array[String], session: SharedSessionContractImplementor, owner: Any): AnyRef = {
     val value = resultSet.getString(names(0))
     if (resultSet.wasNull()) return null
     else {
@@ -29,7 +29,7 @@ abstract class EnumValueType(val et: Enumeration with EnumValue) extends UserTyp
     }
   }
 
-  override def nullSafeSet(statement: PreparedStatement, value: Any, index: Int, session: SessionImplementor): Unit = {
+  override def nullSafeSet(statement: PreparedStatement, value: Any, index: Int, session: SharedSessionContractImplementor): Unit = {
     if (value == null) {
       statement.setNull(index, Types.VARCHAR)
     } else {

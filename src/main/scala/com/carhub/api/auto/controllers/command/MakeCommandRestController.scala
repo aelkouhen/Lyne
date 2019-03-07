@@ -1,7 +1,7 @@
 package com.carhub.api.auto.controllers.command
 
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.{Locale, UUID}
 
 import com.carhub.api.auto.domain.{Make, Model}
 import com.carhub.api.auto.services.command.MakeCommandService
@@ -33,8 +33,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
-  def updateMake(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @RequestBody make: Make) {
-    val updated = makeCommandService.updateMake(id, make)
+  def updateMake(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody make: Make) {
+    val updated = makeCommandService.updateMake(UUID.fromString(id), make)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -43,8 +43,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("description"))
-  def updateMakeDescription(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "description", value = "A plain text about the make.", required = true) @RequestParam(name = "description") description : String) = {
-    val updated = makeCommandService.updateMakeDescription(id, description)
+  def updateMakeDescription(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "description", value = "A plain text about the make.", required = true) @RequestParam(name = "description") description : String) = {
+    val updated = makeCommandService.updateMakeDescription(UUID.fromString(id), description)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -53,8 +53,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("foundation"))
-  def updateMakeFoundationDate(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "foundation", value = "The foundation date.", required = true) @RequestParam(name = "foundation") foundationDate : String) = {
-    val updated = makeCommandService.updateMakeFoundationDate(id, new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(foundationDate))
+  def updateMakeFoundationDate(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "foundation", value = "The foundation date.", required = true) @RequestParam(name = "foundation") foundationDate : String) = {
+    val updated = makeCommandService.updateMakeFoundationDate(UUID.fromString(id), new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(foundationDate))
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -63,8 +63,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("founder"))
-  def updateMakeFounder(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "founder", value = "The founder name.", required = true) @RequestParam(name = "founder") founder : String) = {
-    val updated = makeCommandService.updateMakeFounder(id, founder)
+  def updateMakeFounder(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "founder", value = "The founder name.", required = true) @RequestParam(name = "founder") founder : String) = {
+    val updated = makeCommandService.updateMakeFounder(UUID.fromString(id), founder)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -73,8 +73,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("headquarter"))
-  def updateMakeHQLocation(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "headquarter", value = "The headquarter location.", required = true) @RequestParam(name = "headquarter") headquarter : String) = {
-    val updated = makeCommandService.updateMakeHQLocation(id, headquarter)
+  def updateMakeHQLocation(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "headquarter", value = "The headquarter location.", required = true) @RequestParam(name = "headquarter") headquarter : String) = {
+    val updated = makeCommandService.updateMakeHQLocation(UUID.fromString(id), headquarter)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -83,8 +83,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("closed"))
-  def updateMakeIsClosed(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "closed", value = "Is closed.", required = true) @RequestParam(name = "closed") closed : Boolean) = {
-    val updated = makeCommandService.updateMakeClosed(id, closed)
+  def updateMakeIsClosed(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "closed", value = "Is closed.", required = true) @RequestParam(name = "closed") closed : Boolean) = {
+    val updated = makeCommandService.updateMakeClosed(UUID.fromString(id), closed)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -93,8 +93,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/logo"))
-  def uploadMakeLogo(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "logo", value = "The make's logo.", required = true) @RequestParam(name = "logo") logo : MultipartFile) = {
-    val updated = makeCommandService.updateMakeLogo(id, logo)
+  def uploadMakeLogo(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "logo", value = "The make's logo.", required = true) @RequestParam(name = "logo") logo : MultipartFile) = {
+    val updated = makeCommandService.updateMakeLogo(UUID.fromString(id), logo)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -103,8 +103,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("name"))
-  def updateMakeName(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "name", value = "The Make's name.", required = true) @RequestParam(name = "name") name : String) = {
-    val updated = makeCommandService.updateMakeName(id, name)
+  def updateMakeName(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "name", value = "The Make's name.", required = true) @RequestParam(name = "name") name : String) = {
+    val updated = makeCommandService.updateMakeName(UUID.fromString(id), name)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -113,8 +113,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("oldName"))
-  def updateMakeOldName(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "oldName", value = "The Make's former name.", required = true) @RequestParam(name = "oldName") oldName : String) = {
-    val updated = makeCommandService.updateMakeOldName(id, oldName)
+  def updateMakeOldName(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "oldName", value = "The Make's former name.", required = true) @RequestParam(name = "oldName") oldName : String) = {
+    val updated = makeCommandService.updateMakeOldName(UUID.fromString(id), oldName)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -123,8 +123,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"))
-  def updateMakeAddModel(@ApiParam(name = "id", value = "The Make's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "model", value = "The model associated to the make.", required = true) @RequestBody model : Model) = {
-    val updated = makeCommandService.updateMakeAddModel(id, model)
+  def updateMakeAddModel(@ApiParam(name = "id", value = "The Make's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "model", value = "The model associated to the make.", required = true) @RequestBody model : Model) = {
+    val updated = makeCommandService.updateMakeAddModel(UUID.fromString(id), model)
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -133,8 +133,8 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
-  def deleteMake(@ApiParam(name = "id", value = "The Make ID.", required = true, example = "1") @PathVariable(value = "id") id : Long) = {
-    makeCommandService.deleteMake(id)
+  def deleteMake(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") id : String) = {
+    makeCommandService.deleteMake(UUID.fromString(id))
     ResponseEntity.status(HttpStatus.NO_CONTENT).build()
   }
 }

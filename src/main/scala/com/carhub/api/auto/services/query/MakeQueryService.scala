@@ -1,5 +1,7 @@
 package com.carhub.api.auto.services.query
 
+import java.util.UUID
+
 import com.carhub.api.auto.repositories.MakeRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
@@ -12,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class MakeQueryService(makeRepository: MakeRepository) {
 
   def getMakesPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
-    makeRepository.findAll(new PageRequest(page, size, sortDirection, sort))
+    makeRepository.findAll(PageRequest.of(page, size, sortDirection, sort))
 
   def getMakesListAsc(page : Int, size: Int, sort : String) =
     getMakesPage(page, size, Sort.Direction.ASC, sort).getContent
@@ -24,5 +26,5 @@ class MakeQueryService(makeRepository: MakeRepository) {
 
   def findMakesByName(name : String) = makeRepository.findMakesByName(name)
 
-  def findMakeById(makeId : Long) = makeRepository.findMakeById(makeId)
+  def findMakeById(makeId : UUID) = makeRepository.findById(makeId).get
 }

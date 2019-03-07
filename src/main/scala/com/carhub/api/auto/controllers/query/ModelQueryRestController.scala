@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.{Car, Model, Serie}
 import com.carhub.api.auto.services.query.{CarQueryService, ModelQueryService, SerieQueryService}
@@ -57,8 +58,8 @@ class ModelQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findModelById(@ApiParam(name = "id", value = "The Model ID.", required = true, example = "1") @RequestParam(name = "id") modelId : Long) : ResponseEntity[_]  = {
-    val result = modelQueryService.findModelById(modelId)
+  def findModelById(@ApiParam(name = "id", value = "The Model ID.", required = true) @RequestParam(name = "id") modelId : String) : ResponseEntity[_]  = {
+    val result = modelQueryService.findModelById(UUID.fromString(modelId))
     if (result == null) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }
@@ -67,8 +68,8 @@ class ModelQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/series"))
   @ResponseBody
-  def getModelsSeries(@ApiParam(name = "id", example = "1", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
-    val result = serieQueryService.getModelSeries(modelId)
+  def getModelsSeries(@ApiParam(name = "id", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : String) : ResponseEntity[_] = {
+    val result = serieQueryService.getModelSeries(UUID.fromString(modelId))
     if (result == null || result.isEmpty) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }
@@ -77,8 +78,8 @@ class ModelQueryRestController(@Autowired
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/cars"))
   @ResponseBody
-  def getModelsCars(@ApiParam(name = "id", example = "1", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : Long) : ResponseEntity[_] = {
-    val result : util.List[Car] = carQueryService.getModelCars(modelId)
+  def getModelsCars(@ApiParam(name = "id", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : String) : ResponseEntity[_] = {
+    val result : util.List[Car] = carQueryService.getModelCars(UUID.fromString(modelId))
     if (result == null || result.isEmpty) throw new ElementNotFoundException[Model](classOf[Model])
     ResponseEntity.ok(result)
   }

@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.Photo
 import com.carhub.api.auto.services.query.PhotoQueryService
@@ -54,8 +55,8 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findPhotoById(@ApiParam(name = "id", value = "The Photo ID.", required = true, example = "1") @RequestParam(name = "id") photoId : Long) : ResponseEntity[_]  = {
-    val result = photoQueryService.findPhotoById(photoId)
+  def findPhotoById(@ApiParam(name = "id", value = "The Photo ID.", required = true) @RequestParam(name = "id") photoId : String) : ResponseEntity[_]  = {
+    val result = photoQueryService.findPhotoById(UUID.fromString(photoId))
     if (result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok(result)
   }
@@ -64,8 +65,8 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/content/{id}"))
   @ResponseBody
-  def findPhotoContentById(@ApiParam(name = "id", value = "The Photo ID.", required = true, example = "1") @PathVariable(name = "id") photoId : Long) : ResponseEntity[_]  = {
-    val result = photoQueryService.findPhotoById(photoId)
+  def findPhotoContentById(@ApiParam(name = "id", value = "The Photo ID.", required = true) @PathVariable(name = "id") photoId : String) : ResponseEntity[_]  = {
+    val result = photoQueryService.findPhotoById(UUID.fromString(photoId))
     if (result == null) throw new ElementNotFoundException[Photo](classOf[Photo])
     if (result.content == null || result.content.isEmpty) throw new ContentNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,

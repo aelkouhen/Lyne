@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.Video
 import com.carhub.api.auto.services.query.VideoQueryService
@@ -54,8 +55,8 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findVideoById(@ApiParam(name = "id", value = "The Video ID.", required = true, example = "1") @RequestParam(name = "id") videoId : Long) : ResponseEntity[_]  = {
-    val result = videoQueryService.findVideoById(videoId)
+  def findVideoById(@ApiParam(name = "id", value = "The Video ID.", required = true) @RequestParam(name = "id") videoId : String) : ResponseEntity[_]  = {
+    val result = videoQueryService.findVideoById(UUID.fromString(videoId))
     if (result == null) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
@@ -64,8 +65,8 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/content/{id}"))
   @ResponseBody
-  def findVideoContentById(@ApiParam(name = "id", value = "The Video ID.", required = true, example = "1") @PathVariable(name = "id") videoId : Long) : ResponseEntity[_]  = {
-    val result = videoQueryService.findVideoById(videoId)
+  def findVideoContentById(@ApiParam(name = "id", value = "The Video ID.", required = true) @PathVariable(name = "id") videoId : String) : ResponseEntity[_]  = {
+    val result = videoQueryService.findVideoById(UUID.fromString(videoId))
     if (result == null) throw new ElementNotFoundException[Video](classOf[Video])
     if (result.content == null || result.content.isEmpty) throw new ContentNotFoundException[Video](classOf[Video])
     ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,

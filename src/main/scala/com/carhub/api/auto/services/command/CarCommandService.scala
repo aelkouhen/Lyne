@@ -1,5 +1,7 @@
 package com.carhub.api.auto.services.command
 
+import java.util.UUID
+
 import com.carhub.api.auto.domain._
 import com.carhub.api.auto.repositories.CarRepository
 import com.carhub.api.auto.services.query._
@@ -23,7 +25,7 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(car)
   }
 
-  def updateCar(carId : Long, car : Car) = {
+  def updateCar(carId : UUID, car : Car) = {
     val carToUpdate = carRepository.getOne(carId)
     if(car.engine != null) engineCommandService.addEngine(car.engine)
     carToUpdate.engine = car.engine
@@ -82,252 +84,252 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(carToUpdate)
   }
 
-  def updateCarAccelerationTime(carId : Long, accelerationTime : Double) = {
+  def updateCarAccelerationTime(carId : UUID, accelerationTime : Double) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.accelerationTime = accelerationTime
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarApproachAngle(carId : Long, approachAngle : Double) = {
+  def updateCarApproachAngle(carId : UUID, approachAngle : Double) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.approachAngle = approachAngle
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarFuelConsumption(carId : Long, avgFuelConsumption : Double) = {
+  def updateCarFuelConsumption(carId : UUID, avgFuelConsumption : Double) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.avgFuelConsumption = avgFuelConsumption
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarBackTrack(carId : Long, backTrack : Int) = {
+  def updateCarBackTrack(carId : UUID, backTrack : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.backTrack = backTrack
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarBody(carId : Long, body : String) = {
+  def updateCarBody(carId : UUID, body : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.body = Body.valueOf(body)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarClimbAngle(carId : Long, climbAngle : Double) = {
+  def updateCarClimbAngle(carId : UUID, climbAngle : Double) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.climbAngle = climbAngle
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarDepartureAngle(carId : Long, departureAngle : Double) = {
+  def updateCarDepartureAngle(carId : UUID, departureAngle : Double) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.departureAngle = departureAngle
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarDragCoefficient(carId : Long, dragCoefficient : Double) = {
+  def updateCarDragCoefficient(carId : UUID, dragCoefficient : Double) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.dragCoefficient = dragCoefficient
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarDriveWheelConfiguration(carId : Long, driveWheelConfiguration : String) = {
+  def updateCarDriveWheelConfiguration(carId : UUID, driveWheelConfiguration : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.driveWheelConfiguration = WDEnum.valueOf(driveWheelConfiguration)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarEmissionCO2(carId : Long, emissionCO2 : Int) = {
+  def updateCarEmissionCO2(carId : UUID, emissionCO2 : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.emissionsCO2 = emissionCO2
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarEnginePosition(carId : Long, position : String) = {
+  def updateCarEnginePosition(carId : UUID, position : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.enginePosition = EnginePosition.valueOf(position)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarFrontBreak(carId : Long, frontBreak : String) = {
+  def updateCarFrontBreak(carId : UUID, frontBreak : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.frontBreak = Break.valueOf(frontBreak)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarFrontOverhang(carId : Long, frontOverhang : Int) = {
+  def updateCarFrontOverhang(carId : UUID, frontOverhang : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.frontOverhang = frontOverhang
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarFrontSuspension(carId : Long, frontSuspension : String) = {
+  def updateCarFrontSuspension(carId : UUID, frontSuspension : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.frontSuspension = Suspension.valueOf(frontSuspension)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarFrontTrack(carId : Long, frontTrack : Int) = {
+  def updateCarFrontTrack(carId : UUID, frontTrack : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.frontTrack = frontTrack
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarFuelCapacity(carId : Long, fuelCapacity : Int) = {
+  def updateCarFuelCapacity(carId : UUID, fuelCapacity : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.fuelCapacity = fuelCapacity
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarHeight(carId : Long, height : Int) = {
+  def updateCarHeight(carId : UUID, height : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.height = height
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarKerbWeight(carId : Long, kerbWeight : Int) = {
+  def updateCarKerbWeight(carId : UUID, kerbWeight : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.kerbWeight = kerbWeight
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarLength(carId : Long, length : Int) = {
+  def updateCarLength(carId : UUID, length : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.length = length
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarMaxSpeed(carId : Long, maxSpeed : Int) = {
+  def updateCarMaxSpeed(carId : UUID, maxSpeed : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.maxSpeed = maxSpeed
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarMaxWeight(carId : Long, maxWeight : Int) = {
+  def updateCarMaxWeight(carId : UUID, maxWeight : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.maxWeight = maxWeight
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarModelYear(carId : Long, modelYear : Int) = {
+  def updateCarModelYear(carId : UUID, modelYear : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.modelYear = modelYear
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarName(carId : Long, name : String) = {
+  def updateCarName(carId : UUID, name : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.name = name
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarNumberOfAirbags(carId : Long, numberOfAirbags : Int) = {
+  def updateCarNumberOfAirbags(carId : UUID, numberOfAirbags : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.numberOfAirbags = numberOfAirbags
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarNumberOfAxles(carId : Long, numberOfAxles : Int) = {
+  def updateCarNumberOfAxles(carId : UUID, numberOfAxles : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.numberOfAxles = numberOfAxles
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarNumberOfDoors(carId : Long, numberOfDoors : Int) = {
+  def updateCarNumberOfDoors(carId : UUID, numberOfDoors : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.numberOfDoors = numberOfDoors
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarNumberOfForwardGears(carId : Long, numberOfForwardGears : Int) = {
+  def updateCarNumberOfForwardGears(carId : UUID, numberOfForwardGears : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.numberOfForwardGears = numberOfForwardGears
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarPayload(carId : Long, payload : Int) = {
+  def updateCarPayload(carId : UUID, payload : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.payload = payload
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarRampAngle(carId : Long, rampAngle : Double) = {
+  def updateCarRampAngle(carId : UUID, rampAngle : Double) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.rampAngle = rampAngle
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarRearBreak(carId : Long, rearBreak : String) = {
+  def updateCarRearBreak(carId : UUID, rearBreak : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.rearBreak = Break.valueOf(rearBreak)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarRearOverhang(carId : Long, rearOverhang : Int) = {
+  def updateCarRearOverhang(carId : UUID, rearOverhang : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.rearOverhang = rearOverhang
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarRearSuspension(carId : Long, rearSuspension : String) = {
+  def updateCarRearSuspension(carId : UUID, rearSuspension : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.rearSuspension = Suspension.valueOf(rearSuspension)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarRideHeight(carId : Long, rideHeight : Int) = {
+  def updateCarRideHeight(carId : UUID, rideHeight : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.rideHeight = rideHeight
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarRimSize(carId : Long, rimsSize : String) = {
+  def updateCarRimSize(carId : UUID, rimsSize : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.rimsSize = rimsSize
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarSeatingCapacity(carId : Long, seatingCapacity : Int) = {
+  def updateCarSeatingCapacity(carId : UUID, seatingCapacity : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.seatingCapacity = seatingCapacity
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarSerie(carId : Long, serieId : Long) : Car = {
+  def updateCarSerie(carId : UUID, serieId : UUID) : Car = {
     val serie = serieQueryService.findSerieById(serieId)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.serie = serie
@@ -335,130 +337,130 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(carToUpdate)
   }
 
-  def updateCarSerie(carId : Long, serie: Serie) : Car = {
+  def updateCarSerie(carId : UUID, serie: Serie) : Car = {
     updateCarSerie(carId, serie.id)
   }
 
-  def updateCarTireSize(carId : Long, tireSize : String) = {
+  def updateCarTireSize(carId : UUID, tireSize : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.tireSize = tireSize
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarTongueWeight(carId : Long, tongueWeight : Int) = {
+  def updateCarTongueWeight(carId : UUID, tongueWeight : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.tongueWeight = tongueWeight
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarTrailerWeight(carId : Long, trailerWeight : Int) = {
+  def updateCarTrailerWeight(carId : UUID, trailerWeight : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.trailerWeight = trailerWeight
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarConfiguration(carId : Long, configuration : String) = {
+  def updateCarConfiguration(carId : UUID, configuration : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.vehicleConfiguration = configuration
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarTransmission(carId : Long, transmission : String) = {
+  def updateCarTransmission(carId : UUID, transmission : String) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.vehicleTransmission = Transmission.valueOf(transmission)
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarWadingDepth(carId : Long, wadingDepth : Int) = {
+  def updateCarWadingDepth(carId : UUID, wadingDepth : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.wadingDepth = wadingDepth
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarWheelBase(carId : Long, wheelBase : Int) = {
+  def updateCarWheelBase(carId : UUID, wheelBase : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.wheelBase = wheelBase
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarWidth(carId : Long, width : Int) = {
+  def updateCarWidth(carId : UUID, width : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.width = width
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarWidthFolded(carId : Long, widthFolded : Int) = {
+  def updateCarWidthFolded(carId : UUID, widthFolded : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.widthFolded = widthFolded
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarCargoVolume(carId : Long, cargoVolume : Int) = {
+  def updateCarCargoVolume(carId : UUID, cargoVolume : Int) = {
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.cargoVolume = cargoVolume
 
     carRepository.save(carToUpdate)
   }
 
-  def updateCarEngine(carId : Long, engine : Engine) = {
+  def updateCarEngine(carId : UUID, engine : Engine) = {
     val engineToAdd = engineCommandService.addEngine(engine)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.engine = engineToAdd
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadFile(carId : Long, file: MultipartFile) = {
+  def updateCarUploadFile(carId : UUID, file: MultipartFile) = {
     val fileToAdd = fileCommandService.addFile(file)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.files.add(fileToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadPhoto(carId : Long, photo : MultipartFile) = {
+  def updateCarUploadPhoto(carId : UUID, photo : MultipartFile) = {
     val photoToAdd = photoCommandService.addPhoto(photo)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.images.add(photoToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadVideo(carId : Long, video : MultipartFile) = {
+  def updateCarUploadVideo(carId : UUID, video : MultipartFile) = {
     val videoToAdd = videoCommandService.addVideo(video)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.videos.add(videoToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadFile(carId : Long, file: File) = {
+  def updateCarUploadFile(carId : UUID, file: File) = {
     val fileToAdd = fileCommandService.addFile(file)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.files.add(fileToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadPhoto(carId : Long, photo : Photo) = {
+  def updateCarUploadPhoto(carId : UUID, photo : Photo) = {
     val photoToAdd = photoCommandService.addPhoto(photo)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.images.add(photoToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadVideo(carId : Long, video : Video) = {
+  def updateCarUploadVideo(carId : UUID, video : Video) = {
     val videoToAdd = videoCommandService.addVideo(video)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.videos.add(videoToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def deleteCar(carId : Long) = {
+  def deleteCar(carId : UUID) = {
     val carToDelete = carRepository.getOne(carId)
     if (carToDelete != null) carRepository.delete(carToDelete)
   }

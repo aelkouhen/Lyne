@@ -1,7 +1,7 @@
 package com.carhub.api.auto.controllers.command
 
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.{Locale, UUID}
 
 import com.carhub.api.auto.domain.Video
 import com.carhub.api.auto.services.command.VideoCommandService
@@ -44,8 +44,8 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
-  def updateVideo(@ApiParam(name = "id", value = "The Video's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @RequestBody video: Video): ResponseEntity[_] = {
-    val updated = videoCommandService.updateVideo(id, video)
+  def updateVideo(@ApiParam(name = "id", value = "The Video's ID.", required = true) @PathVariable(value = "id") videoId : String, @RequestBody video: Video): ResponseEntity[_] = {
+    val updated = videoCommandService.updateVideo(UUID.fromString(videoId), video)
     if(updated == null) throw new ElementNotUpdatedException[Video](classOf[Video])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -54,8 +54,8 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("caption"))
-  def updateVideoCaption(@ApiParam(name = "id", value = "The Video's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "caption", value = "The video's description.", required = true) @RequestParam(name = "caption") caption : String) = {
-    val updated = videoCommandService.updateVideoCaption(id, caption)
+  def updateVideoCaption(@ApiParam(name = "id", value = "The Video's ID.", required = true) @PathVariable(value = "id") videoId : String, @ApiParam(name = "caption", value = "The video's description.", required = true) @RequestParam(name = "caption") caption : String) = {
+    val updated = videoCommandService.updateVideoCaption(UUID.fromString(videoId), caption)
     if(updated == null) throw new ElementNotUpdatedException[Video](classOf[Video])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -64,8 +64,8 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
-  def updateVideoContent(@ApiParam(name = "id", value = "The Video's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "video", value = "The video's content.", required = true) @RequestParam(name = "video") video : MultipartFile) = {
-    val updated = videoCommandService.updateVideoContent(id, video)
+  def updateVideoContent(@ApiParam(name = "id", value = "The Video's ID.", required = true) @PathVariable(value = "id") videoId : String, @ApiParam(name = "video", value = "The video's content.", required = true) @RequestParam(name = "video") video : MultipartFile) = {
+    val updated = videoCommandService.updateVideoContent(UUID.fromString(videoId), video)
     if(updated == null) throw new ElementNotUpdatedException[Video](classOf[Video])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -74,8 +74,8 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("date"))
-  def updateVideoCreationDate(@ApiParam(name = "id", value = "The Video's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "date", value = "The video's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
-    val updated = videoCommandService.updateVideoCreationDate(id, new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(date))
+  def updateVideoCreationDate(@ApiParam(name = "id", value = "The Video's ID.", required = true) @PathVariable(value = "id") videoId : String, @ApiParam(name = "date", value = "The video's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
+    val updated = videoCommandService.updateVideoCreationDate(UUID.fromString(videoId), new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(date))
     if(updated == null) throw new ElementNotUpdatedException[Video](classOf[Video])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -84,8 +84,8 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("format"))
-  def updateVideoFormat(@ApiParam(name = "id", value = "The Video's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "format", value = "The video's format.", required = true) @RequestParam(name = "format") format : String) = {
-    val updated = videoCommandService.updateVideoExtension(id, format)
+  def updateVideoFormat(@ApiParam(name = "id", value = "The Video's ID.", required = true) @PathVariable(value = "id") videoId : String, @ApiParam(name = "format", value = "The video's format.", required = true) @RequestParam(name = "format") format : String) = {
+    val updated = videoCommandService.updateVideoExtension(UUID.fromString(videoId), format)
     if(updated == null) throw new ElementNotUpdatedException[Video](classOf[Video])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -94,8 +94,8 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("url"))
-  def updateVideoLink(@ApiParam(name = "id", value = "The Video's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "url", value = "The video's URL.", required = true) @RequestParam(name = "url") url : String) = {
-    val updated = videoCommandService.updateVideoLink(id, url)
+  def updateVideoLink(@ApiParam(name = "id", value = "The Video's ID.", required = true) @PathVariable(value = "id") videoId : String, @ApiParam(name = "url", value = "The video's URL.", required = true) @RequestParam(name = "url") url : String) = {
+    val updated = videoCommandService.updateVideoLink(UUID.fromString(videoId), url)
     if(updated == null) throw new ElementNotUpdatedException[Video](classOf[Video])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -104,8 +104,8 @@ class VideoCommandRestController(@Autowired val videoCommandService: VideoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
-  def deleteVideo(@ApiParam(name = "id", value = "The Video ID.", required = true, example = "1") @PathVariable(value = "id") videoId : Long) = {
-    videoCommandService.deleteVideo(videoId)
+  def deleteVideo(@ApiParam(name = "id", value = "The Video ID.", required = true) @PathVariable(value = "id") videoId : String) = {
+    videoCommandService.deleteVideo(UUID.fromString(videoId))
     ResponseEntity.status(HttpStatus.NO_CONTENT).build()
   }
 }

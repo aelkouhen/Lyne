@@ -1,6 +1,6 @@
 package com.carhub.api.auto.services.command
 
-import java.util.Date
+import java.util.{Date, UUID}
 
 import com.carhub.api.auto.domain.{Make, Model}
 import com.carhub.api.auto.repositories.MakeRepository
@@ -18,7 +18,7 @@ class MakeCommandService(makeRepository : MakeRepository,
 
   def addMake(make : Make) = makeRepository.save(make)
 
-  def updateMake (makeId : Long, make : Make) = {
+  def updateMake (makeId : UUID, make : Make) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.about = make.about
     makeToUpdate.foundationDate = make.foundationDate
@@ -33,42 +33,42 @@ class MakeCommandService(makeRepository : MakeRepository,
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeDescription (makeId : Long, description : String) = {
+  def updateMakeDescription (makeId : UUID, description : String) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.about = description
 
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeFoundationDate (makeId : Long, foundationDate : Date) = {
+  def updateMakeFoundationDate (makeId : UUID, foundationDate : Date) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.foundationDate = foundationDate
 
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeFounder (makeId : Long, founder : String) = {
+  def updateMakeFounder (makeId : UUID, founder : String) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.founder = founder
 
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeHQLocation (makeId : Long, headquarterLocation : String) = {
+  def updateMakeHQLocation (makeId : UUID, headquarterLocation : String) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.headquarterLocation = headquarterLocation
 
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeClosed (makeId : Long, isClosed : Boolean) = {
+  def updateMakeClosed (makeId : UUID, isClosed : Boolean) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.closed = isClosed
 
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeLogo (makeId : Long, logo : MultipartFile) = {
+  def updateMakeLogo (makeId : UUID, logo : MultipartFile) = {
     val logoCreated = photoCommandService.addPhoto(logo)
     val makeToUpdate = makeRepository.getOne(makeId)
     photoCommandService.updatePhotoCaption(logoCreated.id, "The " + makeToUpdate.name + "'s logo")
@@ -77,21 +77,21 @@ class MakeCommandService(makeRepository : MakeRepository,
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeName (makeId : Long, name : String) = {
+  def updateMakeName (makeId : UUID, name : String) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.name = name
 
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeOldName (makeId : Long, oldName : String) = {
+  def updateMakeOldName (makeId : UUID, oldName : String) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.oldName = oldName
 
     makeRepository.save(makeToUpdate)
   }
 
-  def updateMakeAddModel (makeId : Long, model : Model) = {
+  def updateMakeAddModel (makeId : UUID, model : Model) = {
     val modelCreated = modelCommandService.addModel(model)
     val makeToUpdate = makeRepository.getOne(makeId)
     modelCommandService.updateModelMake(modelCreated.id, makeToUpdate)
@@ -100,7 +100,7 @@ class MakeCommandService(makeRepository : MakeRepository,
     makeRepository.save(makeToUpdate)
   }
 
-  def deleteMake(makeId : Long) = {
+  def deleteMake(makeId : UUID) = {
     val makeToDelete = makeRepository.getOne(makeId)
     makeRepository.delete(makeToDelete)
   }

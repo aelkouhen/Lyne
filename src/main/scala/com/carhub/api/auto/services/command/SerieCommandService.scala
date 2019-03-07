@@ -1,5 +1,7 @@
 package com.carhub.api.auto.services.command
 
+import java.util.UUID
+
 import com.carhub.api.auto.domain.{Car, Model, Serie}
 import com.carhub.api.auto.repositories.SerieRepository
 import com.carhub.api.auto.services.query.ModelQueryService
@@ -16,7 +18,7 @@ class SerieCommandService(serieRepository : SerieRepository,
 
   def addSerie(serie : Serie) = serieRepository.save(serie)
 
-  def updateSerie (serieId: Long, serie : Serie) = {
+  def updateSerie (serieId: UUID, serie : Serie) = {
     val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.model = serie.model
     serieToUpdate.name = serie.name
@@ -27,33 +29,33 @@ class SerieCommandService(serieRepository : SerieRepository,
     serieRepository.save(serieToUpdate)
   }
 
-  def updateSerieModel (serieId : Long, modelId : Long) : Serie = {
+  def updateSerieModel (serieId : UUID, modelId : UUID) : Serie = {
     val model = modelQueryService.findModelById(modelId)
     updateSerieModel(serieId, model)
   }
 
-  def updateSerieModel (serieId: Long, model : Model) : Serie = {
+  def updateSerieModel (serieId: UUID, model : Model) : Serie = {
     val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.model = model
 
     serieRepository.save(serieToUpdate)
   }
 
-  def updateSerieName (serieId: Long, name : String) = {
+  def updateSerieName (serieId: UUID, name : String) = {
     val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.name = name
 
     serieRepository.save(serieToUpdate)
   }
 
-  def updateSerieStartYear (serieId: Long, productionStartYear : Int) = {
+  def updateSerieStartYear (serieId: UUID, productionStartYear : Int) = {
     val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.productionStartYear = productionStartYear
 
     serieRepository.save(serieToUpdate)
   }
 
-  def updateSerieEndYear (serieId: Long, productionEndYear : Int) = {
+  def updateSerieEndYear (serieId: UUID, productionEndYear : Int) = {
     val serieToUpdate = serieRepository.getOne(serieId)
     serieToUpdate.productionEndYear = productionEndYear
 
@@ -61,7 +63,7 @@ class SerieCommandService(serieRepository : SerieRepository,
   }
 
 
-  def updateSerieAddCar (serieId: Long, car: Car) = {
+  def updateSerieAddCar (serieId: UUID, car: Car) = {
     val carCreated = carCommandService.addCar(car)
     val serieToUpdate = serieRepository.getOne(serieId)
     carCommandService.updateCarSerie(carCreated.id, serieToUpdate)
@@ -70,7 +72,7 @@ class SerieCommandService(serieRepository : SerieRepository,
     serieRepository.save(serieToUpdate)
   }
 
-  def deleteSerie(serieId: Long) = {
+  def deleteSerie(serieId: UUID) = {
     val serieToDelete = serieRepository.getOne(serieId)
     serieRepository.delete(serieToDelete)
   }

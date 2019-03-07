@@ -1,12 +1,14 @@
 package com.carhub.api.auto.domain
 
+import java.util.UUID
+
 import com.carhub.api.auto.utils.enumeration.{EnumValue, EnumValueType}
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import com.fasterxml.jackson.core.{JsonGenerator, JsonParser}
 import com.fasterxml.jackson.databind.annotation.{JsonDeserialize, JsonSerialize}
 import com.fasterxml.jackson.databind.{DeserializationContext, JsonDeserializer, JsonSerializer, SerializerProvider}
 import javax.persistence._
-import org.hibernate.annotations.Type
+import org.hibernate.annotations.{GenericGenerator, Type}
 
 import scala.beans.BeanProperty
 
@@ -102,10 +104,12 @@ class Engine extends Serializable {
 
   @Id
   @BeanProperty
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @JsonApiId
-  var id: Long = _
+  @Type(`type` = "uuid-char")
+  var id: UUID = _
 
   //The name of the engine.
   @BeanProperty

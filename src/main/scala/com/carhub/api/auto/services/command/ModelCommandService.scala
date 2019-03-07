@@ -1,6 +1,6 @@
 package com.carhub.api.auto.services.command
 
-import java.util.Date
+import java.util.{Date, UUID}
 
 import com.carhub.api.auto.domain.{Make, Model, Serie}
 import com.carhub.api.auto.repositories.ModelRepository
@@ -18,7 +18,7 @@ class ModelCommandService(modelRepository : ModelRepository,
 
   def addModel(model : Model) = modelRepository.save(model)
 
-  def updateModel (modelId : Long, model : Model) = {
+  def updateModel (modelId : UUID, model : Model) = {
     val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.creationDate = model.creationDate
     modelToUpdate.generation = model.generation
@@ -29,40 +29,40 @@ class ModelCommandService(modelRepository : ModelRepository,
     modelRepository.save(modelToUpdate)
   }
 
-  def updateModelMake (modelId : Long, makeId : Long) : Model = {
+  def updateModelMake (modelId : UUID, makeId : UUID) : Model = {
     val make = makeQueryService.findMakeById(makeId)
     updateModelMake(modelId, make)
   }
 
-  def updateModelMake (modelId : Long, make : Make) : Model = {
+  def updateModelMake (modelId : UUID, make : Make) : Model = {
     val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.make = make
 
     modelRepository.save(modelToUpdate)
   }
 
-  def updateModelName (modelId : Long, name : String) : Model  = {
+  def updateModelName (modelId : UUID, name : String) : Model  = {
     val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.name = name
 
     modelRepository.save(modelToUpdate)
   }
 
-  def updateModelGeneration(modelId : Long, generation : String) : Model  = {
+  def updateModelGeneration(modelId : UUID, generation : String) : Model  = {
     val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.generation = generation
 
     modelRepository.save(modelToUpdate)
   }
 
-  def updateModelCreationDate (modelId : Long, creationDate : Date) : Model  = {
+  def updateModelCreationDate (modelId : UUID, creationDate : Date) : Model  = {
     val modelToUpdate = modelRepository.getOne(modelId)
     modelToUpdate.creationDate = creationDate
 
     modelRepository.save(modelToUpdate)
   }
 
-  def updateModelAddSerie (modelId : Long, serie : Serie) : Model  = {
+  def updateModelAddSerie (modelId : UUID, serie : Serie) : Model  = {
     val serieCreated = serieCommandService.addSerie(serie)
     val modelToUpdate = modelRepository.getOne(modelId)
     serieCommandService.updateSerieModel(serieCreated.id, modelToUpdate)
@@ -71,7 +71,7 @@ class ModelCommandService(modelRepository : ModelRepository,
     modelRepository.save(modelToUpdate)
   }
 
-  def deleteModel(modelId : Long) = {
+  def deleteModel(modelId : UUID) = {
     val modelToDelete = modelRepository.getOne(modelId)
     modelRepository.delete(modelToDelete)
   }

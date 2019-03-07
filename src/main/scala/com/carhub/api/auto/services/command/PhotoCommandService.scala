@@ -1,7 +1,7 @@
 package com.carhub.api.auto.services.command
 
 import java.awt.image.BufferedImage
-import java.util.{Calendar, Date}
+import java.util.{Calendar, Date, UUID}
 
 import com.carhub.api.auto.domain.Photo
 import com.carhub.api.auto.repositories.PhotoRepository
@@ -35,7 +35,7 @@ class PhotoCommandService(photoRepository : PhotoRepository){
 
   def addPhoto(photo : Photo) = photoRepository.save(photo)
 
-  def updatePhoto(photoId : Long, photo : Photo) = {
+  def updatePhoto(photoId : UUID, photo : Photo) = {
     val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.caption = photo.caption
     photoToUpdate.name = photo.name
@@ -51,14 +51,14 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoRepository.save(photoToUpdate)
   }
 
-  def updatePhotoCaption(photoId : Long, caption : String) = {
+  def updatePhotoCaption(photoId : UUID, caption : String) = {
     val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.caption = caption
 
     photoRepository.save(photoToUpdate)
   }
 
-  def updatePhotoContent(photoId : Long, photo : MultipartFile) = {
+  def updatePhotoContent(photoId : UUID, photo : MultipartFile) = {
     val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.content = photo.getBytes
     photoToUpdate.size = photo.getSize
@@ -72,28 +72,28 @@ class PhotoCommandService(photoRepository : PhotoRepository){
     photoRepository.save(photoToUpdate)
   }
 
-  def updatePhotoCreationDate(photoId : Long, date : Date) = {
+  def updatePhotoCreationDate(photoId : UUID, date : Date) = {
     val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.created = date
 
     photoRepository.save(photoToUpdate)
   }
 
-  def updatePhotoExtension(photoId : Long, format : String) = {
+  def updatePhotoExtension(photoId : UUID, format : String) = {
     val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.format = format
 
     photoRepository.save(photoToUpdate)
   }
 
-  def updatePhotoLink(photoId : Long, url : String) = {
+  def updatePhotoLink(photoId : UUID, url : String) = {
     val photoToUpdate = photoRepository.getOne(photoId)
     photoToUpdate.url = url
 
     photoRepository.save(photoToUpdate)
   }
 
-  def deletePhoto(photoId : Long) = {
+  def deletePhoto(photoId : UUID) = {
     val photoToDelete = photoRepository.getOne(photoId)
     photoRepository.delete(photoToDelete)
   }

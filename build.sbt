@@ -21,5 +21,6 @@ libraryDependencies ++= Seq (
   "io.springfox" % "springfox-swagger2" % "2.9.2",
   "io.springfox" % "springfox-swagger-ui" % "2.9.2",
   "com.fasterxml.jackson.core" % "jackson-core" % "2.9.8",
-  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.8"
+  "com.fasterxml.jackson.module" %% "jackson-module-scala" % "2.9.8",
+  "org.springframework.cloud" % "spring-cloud-security" % "2.1.1.RELEASE"
 )

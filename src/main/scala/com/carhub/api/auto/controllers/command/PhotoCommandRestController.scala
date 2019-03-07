@@ -1,7 +1,7 @@
 package com.carhub.api.auto.controllers.command
 
 import java.text.SimpleDateFormat
-import java.util.Locale
+import java.util.{Locale, UUID}
 
 import com.carhub.api.auto.domain.Photo
 import com.carhub.api.auto.services.command.PhotoCommandService
@@ -44,8 +44,8 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
-  def updatePhoto(@ApiParam(name = "id", value = "The Photo's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @RequestBody photo: Photo): ResponseEntity[_] = {
-    val updated = photoCommandService.updatePhoto(id, photo)
+  def updatePhoto(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody photo: Photo): ResponseEntity[_] = {
+    val updated = photoCommandService.updatePhoto(UUID.fromString(id), photo)
     if(updated == null) throw new ElementNotUpdatedException[Photo](classOf[Photo])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -54,8 +54,8 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("caption"))
-  def updatePhotoCaption(@ApiParam(name = "id", value = "The Photo's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "caption", value = "The photo's description.", required = true) @RequestParam(name = "caption") caption : String) = {
-    val updated = photoCommandService.updatePhotoCaption(id, caption)
+  def updatePhotoCaption(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "caption", value = "The photo's description.", required = true) @RequestParam(name = "caption") caption : String) = {
+    val updated = photoCommandService.updatePhotoCaption(UUID.fromString(id), caption)
     if(updated == null) throw new ElementNotUpdatedException[Photo](classOf[Photo])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -64,8 +64,8 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
-  def updatePhotoContent(@ApiParam(name = "id", value = "The Photo's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "photo", value = "The photo's content.", required = true) @RequestParam(name = "photo") photo : MultipartFile) = {
-    val updated = photoCommandService.updatePhotoContent(id, photo)
+  def updatePhotoContent(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "photo", value = "The photo's content.", required = true) @RequestParam(name = "photo") photo : MultipartFile) = {
+    val updated = photoCommandService.updatePhotoContent(UUID.fromString(id), photo)
     if(updated == null) throw new ElementNotUpdatedException[Photo](classOf[Photo])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -74,8 +74,8 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("date"))
-  def updatePhotoCreationDate(@ApiParam(name = "id", value = "The Photo's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "date", value = "The photo's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
-    val updated = photoCommandService.updatePhotoCreationDate(id, new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(date))
+  def updatePhotoCreationDate(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "date", value = "The photo's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
+    val updated = photoCommandService.updatePhotoCreationDate(UUID.fromString(id), new SimpleDateFormat("dd/MM/yyyy", Locale.FRANCE).parse(date))
     if(updated == null) throw new ElementNotUpdatedException[Photo](classOf[Photo])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -84,8 +84,8 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("format"))
-  def updatePhotoFormat(@ApiParam(name = "id", value = "The Photo's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "format", value = "The photo's format.", required = true) @RequestParam(name = "format") format : String) = {
-    val updated = photoCommandService.updatePhotoExtension(id, format)
+  def updatePhotoFormat(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "format", value = "The photo's format.", required = true) @RequestParam(name = "format") format : String) = {
+    val updated = photoCommandService.updatePhotoExtension(UUID.fromString(id), format)
     if(updated == null) throw new ElementNotUpdatedException[Photo](classOf[Photo])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -94,8 +94,8 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("url"))
-  def updatePhotoLink(@ApiParam(name = "id", value = "The Photo's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "url", value = "The photo's URL.", required = true) @RequestParam(name = "url") url : String) = {
-    val updated = photoCommandService.updatePhotoLink(id, url)
+  def updatePhotoLink(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "url", value = "The photo's URL.", required = true) @RequestParam(name = "url") url : String) = {
+    val updated = photoCommandService.updatePhotoLink(UUID.fromString(id), url)
     if(updated == null) throw new ElementNotUpdatedException[Photo](classOf[Photo])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -104,8 +104,8 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
-  def deletePhoto(@ApiParam(name = "id", value = "The Photo ID.", required = true, example = "1") @PathVariable(value = "id") photoId : Long) = {
-    photoCommandService.deletePhoto(photoId)
+  def deletePhoto(@ApiParam(name = "id", value = "The Photo ID.", required = true) @PathVariable(value = "id") photoId : String) = {
+    photoCommandService.deletePhoto(UUID.fromString(photoId))
     ResponseEntity.status(HttpStatus.NO_CONTENT).build()
   }
 }

@@ -1,10 +1,12 @@
 package com.carhub.api.auto.domain
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence._
+import org.hibernate.annotations.{GenericGenerator, Type}
 
 import scala.beans.BeanProperty
 
@@ -15,10 +17,12 @@ class Serie extends Serializable {
 
   @Id
   @BeanProperty
-  @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "ID")
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @JsonApiId
-  var id: Long = _
+  @Type(`type` = "uuid-char")
+  var id: UUID = _
 
   @BeanProperty
   var name:String  = _

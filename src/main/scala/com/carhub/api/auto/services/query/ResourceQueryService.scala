@@ -1,5 +1,7 @@
 package com.carhub.api.auto.services.query
 
+import java.util.UUID
+
 import com.carhub.api.auto.repositories.ResourceRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
@@ -12,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class ResourceQueryService(resourceRepository : ResourceRepository) {
 
   def getResourcePage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
-    resourceRepository.findAll(new PageRequest(page, size, sortDirection, sort))
+    resourceRepository.findAll(PageRequest.of(page, size, sortDirection, sort))
 
   def getResourceListAsc(page : Int, size: Int, sort : String) =
     getResourcePage(page, size, Sort.Direction.ASC, sort).getContent
@@ -22,7 +24,7 @@ class ResourceQueryService(resourceRepository : ResourceRepository) {
 
   def countAllResources() = resourceRepository.count
 
-  def findResourceById(resourceId : Long) = resourceRepository.findResourceById(resourceId)
+  def findResourceById(resourceId : UUID) = resourceRepository.findById(resourceId).get
 
   def findResourcesByName(name : String) = resourceRepository.findResourcesByName(name)
 

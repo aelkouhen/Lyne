@@ -13,7 +13,6 @@ import org.springframework.web.context.request.WebRequest
 import org.springframework.web.context.request.async.AsyncRequestTimeoutException
 import org.springframework.web.multipart.support.MissingServletRequestPartException
 import org.springframework.web.servlet.NoHandlerFoundException
-import org.springframework.web.servlet.mvc.multiaction.NoSuchRequestHandlingMethodException
 
 
 @Order(0)
@@ -25,11 +24,9 @@ class ApiErrorHandler {
     classOf[ElementNotFoundException[_]],
     classOf[ElementNotCreatedException[_]],
     classOf[ElementNotUpdatedException[_]],
-    classOf[NoSuchRequestHandlingMethodException],
     classOf[HttpRequestMethodNotSupportedException],
     classOf[HttpMediaTypeNotSupportedException],
     classOf[HttpMediaTypeNotAcceptableException],
-    classOf[NoSuchRequestHandlingMethodException],
     classOf[MissingPathVariableException],
     classOf[MissingServletRequestParameterException],
     classOf[ServletRequestBindingException],
@@ -47,7 +44,6 @@ class ApiErrorHandler {
       case ex : ContentNotFoundException[_] => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : ElementNotCreatedException[_] => buildResponseEntity(new ApiError(HttpStatus.EXPECTATION_FAILED,"error" , ex))
       case ex : ElementNotUpdatedException[_] => buildResponseEntity(new ApiError(HttpStatus.EXPECTATION_FAILED,"error" , ex))
-      case ex : NoSuchRequestHandlingMethodException => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : HttpRequestMethodNotSupportedException => buildResponseEntity(new ApiError(HttpStatus.METHOD_NOT_ALLOWED,"error" , ex))
       case ex : HttpMediaTypeNotSupportedException => buildResponseEntity(new ApiError(HttpStatus.UNSUPPORTED_MEDIA_TYPE,"error" , ex))
       case ex : HttpMediaTypeNotAcceptableException => buildResponseEntity(new ApiError(HttpStatus.NOT_ACCEPTABLE,"error" , ex))

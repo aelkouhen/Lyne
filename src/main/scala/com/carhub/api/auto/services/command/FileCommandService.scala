@@ -1,6 +1,6 @@
 package com.carhub.api.auto.services.command
 
-import java.util.{Calendar, Date}
+import java.util.{Calendar, Date, UUID}
 
 import com.carhub.api.auto.domain.File
 import com.carhub.api.auto.repositories.FileRepository
@@ -28,7 +28,7 @@ class FileCommandService(fileRepository : FileRepository) {
 
   def addFile(file : File) : File = fileRepository.save(file)
 
-  def updateFile(fileId : Long, file : File) = {
+  def updateFile(fileId : UUID, file : File) = {
     val fileToUpdate = fileRepository.getOne(fileId)
     fileToUpdate.caption = file.caption
     fileToUpdate.content = file.content
@@ -41,14 +41,14 @@ class FileCommandService(fileRepository : FileRepository) {
     fileRepository.save(fileToUpdate)
   }
 
-  def updateFileCaption(fileId : Long, caption : String) = {
+  def updateFileCaption(fileId : UUID, caption : String) = {
     val fileToUpdate = fileRepository.getOne(fileId)
     fileToUpdate.caption = caption
 
     fileRepository.save(fileToUpdate)
   }
 
-  def updateFileContent(fileId : Long, file : MultipartFile) = {
+  def updateFileContent(fileId : UUID, file : MultipartFile) = {
     val fileToUpdate = fileRepository.getOne(fileId)
     fileToUpdate.content = file.getBytes
     fileToUpdate.size = file.getSize
@@ -59,35 +59,35 @@ class FileCommandService(fileRepository : FileRepository) {
     fileRepository.save(fileToUpdate)
   }
 
-  def updateFileCreationDate(fileId : Long, date : Date) = {
+  def updateFileCreationDate(fileId : UUID, date : Date) = {
     val fileToUpdate = fileRepository.getOne(fileId)
     fileToUpdate.created = date
 
     fileRepository.save(fileToUpdate)
   }
 
-  def updateFileExtension(fileId : Long, format : String) = {
+  def updateFileExtension(fileId : UUID, format : String) = {
     val fileToUpdate = fileRepository.getOne(fileId)
     fileToUpdate.format = format
 
     fileRepository.save(fileToUpdate)
   }
 
-  def updateFileLink(fileId : Long, url : String) = {
+  def updateFileLink(fileId : UUID, url : String) = {
     val fileToUpdate = fileRepository.getOne(fileId)
     fileToUpdate.url = url
 
     fileRepository.save(fileToUpdate)
   }
 
-  def updateFileSize(fileId : Long, size : Long) = {
+  def updateFileSize(fileId : UUID, size : Long) = {
     val fileToUpdate = fileRepository.getOne(fileId)
     fileToUpdate.size = size
 
     fileRepository.save(fileToUpdate)
   }
 
-  def deleteFile(fileId : Long) = {
+  def deleteFile(fileId : UUID) = {
     val fileToDelete = fileRepository.getOne(fileId)
     fileRepository.delete(fileToDelete)
   }

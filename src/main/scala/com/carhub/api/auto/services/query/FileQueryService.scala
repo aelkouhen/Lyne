@@ -1,5 +1,7 @@
 package com.carhub.api.auto.services.query
 
+import java.util.UUID
+
 import com.carhub.api.auto.repositories.FileRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
@@ -12,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class FileQueryService(fileRepository : FileRepository) {
 
   def getFilesPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
-    fileRepository.findAll(new PageRequest(page, size, sortDirection, sort))
+    fileRepository.findAll(PageRequest.of(page, size, sortDirection, sort))
 
   def getFilesListAsc(page : Int, size: Int, sort : String) =
     getFilesPage(page, size, Sort.Direction.ASC, sort).getContent
@@ -24,7 +26,7 @@ class FileQueryService(fileRepository : FileRepository) {
 
   def findFilesByName(name : String) = fileRepository.findFilesByName(name)
 
-  def findFileById(fileId : Long) = fileRepository.findFileById(fileId)
+  def findFileById(fileId : UUID) = fileRepository.findById(fileId).get
 
   def findFilesByExtension(format : String) = fileRepository.findFilesByExtension(format)
 }

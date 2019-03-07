@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.File
 import com.carhub.api.auto.services.query.FileQueryService
@@ -64,8 +65,8 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findFileById(@ApiParam(name = "id", value = "The File ID.", required = true, example = "1") @RequestParam(name = "id") fileId : Long) : ResponseEntity[_]  = {
-    val result = fileQueryService.findFileById(fileId)
+  def findFileById(@ApiParam(name = "id", value = "The File ID.", required = true) @RequestParam(name = "id") fileId : String) : ResponseEntity[_]  = {
+    val result = fileQueryService.findFileById(UUID.fromString(fileId))
     if (result == null) throw new ElementNotFoundException[File](classOf[File])
     ResponseEntity.ok(result)
   }
@@ -74,8 +75,8 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/content/{id}"))
   @ResponseBody
-  def findFileContentById(@ApiParam(name = "id", value = "The File ID.", required = true, example = "1") @PathVariable(name = "id") fileId : Long) : ResponseEntity[_]  = {
-    val result = fileQueryService.findFileById(fileId)
+  def findFileContentById(@ApiParam(name = "id", value = "The File ID.", required = true) @PathVariable(name = "id") fileId : String) : ResponseEntity[_]  = {
+    val result = fileQueryService.findFileById(UUID.fromString(fileId))
     if (result == null) throw new ElementNotFoundException[File](classOf[File])
     if (result.content == null || result.content.isEmpty) throw new ContentNotFoundException[File](classOf[File])
     ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,

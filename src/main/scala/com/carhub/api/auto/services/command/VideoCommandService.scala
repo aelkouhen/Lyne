@@ -1,7 +1,7 @@
 package com.carhub.api.auto.services.command
 
 import java.awt.image.BufferedImage
-import java.util.{Calendar, Date}
+import java.util.{Calendar, Date, UUID}
 
 import com.carhub.api.auto.domain.Video
 import com.carhub.api.auto.repositories.VideoRepository
@@ -35,7 +35,7 @@ class VideoCommandService(videoRepository : VideoRepository) {
 
   def addVideo(video : Video) = videoRepository.save(video)
 
-  def updateVideo(videoId : Long, video: Video) = {
+  def updateVideo(videoId : UUID, video: Video) = {
     val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.caption = video.caption
     videoToUpdate.content = video.content
@@ -50,14 +50,14 @@ class VideoCommandService(videoRepository : VideoRepository) {
     videoRepository.save(videoToUpdate)
   }
 
-  def updateVideoCaption(videoId : Long, caption : String) = {
+  def updateVideoCaption(videoId : UUID, caption : String) = {
     val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.caption = caption
 
     videoRepository.save(videoToUpdate)
   }
 
-  def updateVideoContent(videoId : Long, file : MultipartFile) = {
+  def updateVideoContent(videoId : UUID, file : MultipartFile) = {
     val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.content = file.getBytes
     videoToUpdate.size = file.getSize
@@ -71,28 +71,28 @@ class VideoCommandService(videoRepository : VideoRepository) {
     videoRepository.save(videoToUpdate)
   }
 
-  def updateVideoCreationDate(videoId : Long, date : Date) = {
+  def updateVideoCreationDate(videoId : UUID, date : Date) = {
     val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.created = date
 
     videoRepository.save(videoToUpdate)
   }
 
-  def updateVideoExtension(videoId : Long, format : String) = {
+  def updateVideoExtension(videoId : UUID, format : String) = {
     val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.format = format
 
     videoRepository.save(videoToUpdate)
   }
 
-  def updateVideoLink(videoId : Long, url : String) = {
+  def updateVideoLink(videoId : UUID, url : String) = {
     val videoToUpdate = videoRepository.getOne(videoId)
     videoToUpdate.url = url
 
     videoRepository.save(videoToUpdate)
   }
 
-  def deleteVideo(videoId : Long) = {
+  def deleteVideo(videoId : UUID) = {
     val videoToDelete = videoRepository.getOne(videoId)
     videoRepository.delete(videoToDelete)
   }

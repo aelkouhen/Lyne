@@ -1,6 +1,7 @@
 package com.carhub.api.auto.controllers.query
 
 import java.util
+import java.util.UUID
 
 import com.carhub.api.auto.domain.Resource
 import com.carhub.api.auto.services.query.ResourceQueryService
@@ -54,8 +55,8 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
-  def findResourceById(@ApiParam(name = "id", value = "The Resource ID.", required = true, example = "1") @RequestParam(name = "id") resourceId : Long) : ResponseEntity[_]  = {
-    val result = resourceQueryService.findResourceById(resourceId)
+  def findResourceById(@ApiParam(name = "id", value = "The Resource ID.", required = true) @RequestParam(name = "id") resourceId : String) : ResponseEntity[_]  = {
+    val result = resourceQueryService.findResourceById(UUID.fromString(resourceId))
     if (result == null) throw new ElementNotFoundException[Resource](classOf[Resource])
     ResponseEntity.ok(result)
   }
@@ -64,8 +65,8 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
   @PreAuthorize("hasRole('READ_PRIVILEGE')")
   @GetMapping(value = Array("/content/{id}"))
   @ResponseBody
-  def findResourceContentById(@ApiParam(name = "id", value = "The Resource ID.", required = true, example = "1") @PathVariable(name = "id") resourceId : Long) : ResponseEntity[_]  = {
-    val result = resourceQueryService.findResourceById(resourceId)
+  def findResourceContentById(@ApiParam(name = "id", value = "The Resource ID.", required = true) @PathVariable(name = "id") resourceId : String) : ResponseEntity[_]  = {
+    val result = resourceQueryService.findResourceById(UUID.fromString(resourceId))
     if (result == null) throw new ElementNotFoundException[Resource](classOf[Resource])
     if (result.content == null || result.content.isEmpty) throw new ContentNotFoundException[Resource](classOf[Resource])
     ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,

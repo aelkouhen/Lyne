@@ -1,11 +1,12 @@
 package com.carhub.api.auto.domain
 
 import java.io.Serializable
-import java.util.Date
+import java.util.{Date, UUID}
 
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence._
+import org.hibernate.annotations.{GenericGenerator, Type}
 import org.hibernate.validator.constraints.URL
 
 import scala.beans.BeanProperty
@@ -18,10 +19,12 @@ abstract class Resource extends Serializable {
 
   @Id
   @BeanProperty
-  @GeneratedValue(strategy = GenerationType.AUTO)
   @Column(name = "ID")
+  @GeneratedValue(generator = "uuid2")
+  @GenericGenerator(name = "uuid2", strategy = "uuid2")
   @JsonApiId
-  var id: Long = _
+  @Type(`type` = "uuid-char")
+  var id: UUID = _
 
   @BeanProperty
   var name: String = _

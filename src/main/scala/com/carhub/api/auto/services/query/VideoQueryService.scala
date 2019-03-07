@@ -1,5 +1,7 @@
 package com.carhub.api.auto.services.query
 
+import java.util.UUID
+
 import com.carhub.api.auto.repositories.VideoRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
@@ -12,7 +14,7 @@ import org.springframework.transaction.annotation.Transactional
 class VideoQueryService(videoRepository : VideoRepository) {
 
   def getVideosPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
-    videoRepository.findAll(new PageRequest(page, size, sortDirection, sort))
+    videoRepository.findAll(PageRequest.of(page, size, sortDirection, sort))
 
   def getVideosListAsc(page : Int, size: Int, sort : String) =
     getVideosPage(page, size, Sort.Direction.ASC, sort).getContent
@@ -22,7 +24,7 @@ class VideoQueryService(videoRepository : VideoRepository) {
 
   def countAllVideos() = videoRepository.count
 
-  def findVideoById(videoId : Long) = videoRepository.findVideoById(videoId)
+  def findVideoById(videoId : UUID) = videoRepository.findById(videoId).get
 
   def findVideosByName(name : String) = videoRepository.findVideosByName(name)
 

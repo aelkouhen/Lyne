@@ -1,6 +1,8 @@
 package com.carhub.api.auto.services.query
 
-import com.carhub.api.auto.repositories.ModelRepository
+import java.util.UUID
+
+import com.carhub.api.auto.repositories.{MakeRepository, ModelRepository}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
 import org.springframework.stereotype.Service
@@ -9,10 +11,10 @@ import org.springframework.transaction.annotation.Transactional
 @Autowired
 @Transactional(readOnly = true)
 @Service
-class ModelQueryService(modelRepository: ModelRepository) {
+class ModelQueryService(modelRepository: ModelRepository, makeRepository: MakeRepository) {
 
   def getModelsPage(page : Int, size: Int, sortDirection : Sort.Direction, sort : String) =
-    modelRepository.findAll(new PageRequest(page, size, sortDirection, sort))
+    modelRepository.findAll(PageRequest.of(page, size, sortDirection, sort))
 
   def getModelsListAsc(page : Int, size: Int, sort : String) =
     getModelsPage(page, size, Sort.Direction.ASC, sort).getContent
@@ -22,9 +24,9 @@ class ModelQueryService(modelRepository: ModelRepository) {
 
   def countAllModels() = modelRepository.count
 
-  def getMakeModels(makeId : Long) = modelRepository.getMakeModels(makeId)
+  def getMakeModels(makeId : UUID) = makeRepository.findById(makeId).get.models
 
   def findModelsByName(name : String) = modelRepository.findModelsByName(name)
 
-  def findModelById(modelId : Long) = modelRepository.findModelById(modelId)
+  def findModelById(modelId : UUID) = modelRepository.findById(modelId).get
 }

@@ -1,5 +1,7 @@
 package com.carhub.api.auto.controllers.command
 
+import java.util.UUID
+
 import com.carhub.api.auto.domain.{Car, Serie}
 import com.carhub.api.auto.services.command.SerieCommandService
 import com.carhub.api.auto.utils.exception.{ElementNotCreatedException, ElementNotUpdatedException}
@@ -29,8 +31,8 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
-  def updateSerie(@ApiParam(name = "id", value = "The Serie's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @RequestBody serie  :Serie) {
-    val updated = serieCommandService.updateSerie(id, serie)
+  def updateSerie(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody serie  :Serie) {
+    val updated = serieCommandService.updateSerie(UUID.fromString(id), serie)
     if(updated == null) throw new ElementNotUpdatedException[Serie](classOf[Serie])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -39,8 +41,8 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("model"))
-  def updateSerieModel(@ApiParam(name = "id", value = "The Serie's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "model", value = "The model of the serie.", required = true, example = "1") @RequestParam(name = "model") modelId : Long) = {
-    val updated = serieCommandService.updateSerieModel(id, modelId)
+  def updateSerieModel(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "model", value = "The model of the serie.", required = true) @RequestParam(name = "model") modelId : String) = {
+    val updated = serieCommandService.updateSerieModel(UUID.fromString(id), UUID.fromString(modelId))
     if(updated == null) throw new ElementNotUpdatedException[Serie](classOf[Serie])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -49,8 +51,8 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("name"))
-  def updateSerieName(@ApiParam(name = "id", value = "The Serie's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "name", value = "The name of the serie.", required = true) @RequestParam(name = "name") name : String) = {
-    val updated = serieCommandService.updateSerieName(id, name)
+  def updateSerieName(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "name", value = "The name of the serie.", required = true) @RequestParam(name = "name") name : String) = {
+    val updated = serieCommandService.updateSerieName(UUID.fromString(id), name)
     if(updated == null) throw new ElementNotUpdatedException[Serie](classOf[Serie])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -59,8 +61,8 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("start"))
-  def updateSerieStartYear(@ApiParam(name = "id", value = "The Serie's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "start", value = "The production start year of the serie.", required = true, example = "1999") @RequestParam(name = "start") start : Int) = {
-    val updated = serieCommandService.updateSerieStartYear(id, start)
+  def updateSerieStartYear(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "start", value = "The production start year of the serie.", required = true, example = "1999") @RequestParam(name = "start") start : Int) = {
+    val updated = serieCommandService.updateSerieStartYear(UUID.fromString(id), start)
     if(updated == null) throw new ElementNotUpdatedException[Serie](classOf[Serie])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -69,8 +71,8 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("end"))
-  def updateSerieEndYear(@ApiParam(name = "id", value = "The Serie's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "end", value = "The production end year of the serie.", required = true, example = "1999") @RequestParam(name = "end") end : Int) = {
-    val updated = serieCommandService.updateSerieEndYear(id, end)
+  def updateSerieEndYear(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "end", value = "The production end year of the serie.", required = true, example = "1999") @RequestParam(name = "end") end : Int) = {
+    val updated = serieCommandService.updateSerieEndYear(UUID.fromString(id), end)
     if(updated == null) throw new ElementNotUpdatedException[Serie](classOf[Serie])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -79,8 +81,8 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"))
-  def updateSerieAddCar(@ApiParam(name = "id", value = "The Serie's ID.", required = true, example = "1") @PathVariable(value = "id") id : Long, @ApiParam(name = "car", value = "The car attached to the Serie.", required = true) @RequestBody car : Car) = {
-    val updated = serieCommandService.updateSerieAddCar(id, car)
+  def updateSerieAddCar(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "car", value = "The car attached to the Serie.", required = true) @RequestBody car : Car) = {
+    val updated = serieCommandService.updateSerieAddCar(UUID.fromString(id), car)
     if(updated == null) throw new ElementNotUpdatedException[Serie](classOf[Serie])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
@@ -89,8 +91,8 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
-  def deleteSerie(@ApiParam(name = "id", value = "The Serie ID.", required = true, example = "1") @PathVariable(value = "id") id : Long) = {
-    serieCommandService.deleteSerie(id)
+  def deleteSerie(@ApiParam(name = "id", value = "The Serie ID.", required = true) @PathVariable(value = "id") id : String) = {
+    serieCommandService.deleteSerie(UUID.fromString(id))
     ResponseEntity.status(HttpStatus.NO_CONTENT).build()
   }
 }
