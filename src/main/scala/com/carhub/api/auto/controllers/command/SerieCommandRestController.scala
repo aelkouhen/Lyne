@@ -17,7 +17,7 @@ import org.springframework.web.bind.annotation._
 class SerieCommandRestController(@Autowired val serieCommandService: SerieCommandService) {
 
   @ApiOperation(value = "Create a serie.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('CREATE_PRIVILEGE')")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @PostMapping(value = Array("/"))
@@ -28,7 +28,7 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   }
 
   @ApiOperation(value = "Update a serie.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
   def updateSerie(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody serie  :Serie) {
@@ -38,7 +38,7 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   }
 
   @ApiOperation(value = "Update the serie's model.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("model"))
   def updateSerieModel(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "model", value = "The model of the serie.", required = true) @RequestParam(name = "model") modelId : String) = {
@@ -48,7 +48,7 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   }
 
   @ApiOperation(value = "Update the serie's name.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("name"))
   def updateSerieName(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "name", value = "The name of the serie.", required = true) @RequestParam(name = "name") name : String) = {
@@ -58,7 +58,7 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   }
 
   @ApiOperation(value = "Update the serie's production start year.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("start"))
   def updateSerieStartYear(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "start", value = "The production start year of the serie.", required = true, example = "1999") @RequestParam(name = "start") start : Int) = {
@@ -68,7 +68,7 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   }
 
   @ApiOperation(value = "Update the serie's production end year.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("end"))
   def updateSerieEndYear(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "end", value = "The production end year of the serie.", required = true, example = "1999") @RequestParam(name = "end") end : Int) = {
@@ -78,7 +78,7 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   }
 
   @ApiOperation(value = "Add a car to the serie.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"))
   def updateSerieAddCar(@ApiParam(name = "id", value = "The Serie's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "car", value = "The car attached to the Serie.", required = true) @RequestBody car : Car) = {
@@ -88,7 +88,7 @@ class SerieCommandRestController(@Autowired val serieCommandService: SerieComman
   }
 
   @ApiOperation(value = "Delete the Serie.", response = classOf[Serie])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('DELETE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
   def deleteSerie(@ApiParam(name = "id", value = "The Serie ID.", required = true) @PathVariable(value = "id") id : String) = {

@@ -13,11 +13,9 @@ import org.springframework.context.annotation.Primary
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices
 import org.springframework.context.annotation.Bean
 
-
-
 @Configuration
 @EnableResourceServer
-//@EnableGlobalMethodSecurity(prePostEnabled = true)
+@EnableGlobalMethodSecurity(prePostEnabled = true)
 class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 
   @Value("${security.oauth2.resource.id}")

@@ -21,7 +21,7 @@ class ModelQueryRestController(@Autowired
                                val carQueryService : CarQueryService) {
 
   @ApiOperation(value = "List the Models : Retrieve the Models list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Model]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/"))
   @ResponseBody
   def getModelsList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
@@ -39,13 +39,13 @@ class ModelQueryRestController(@Autowired
   }
 
   @ApiOperation(value = "Count the Models.", response = classOf[Long], responseContainer = "Long")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllModels() : Long = modelQueryService.countAllModels
 
   @ApiOperation(value = "Filter Models by name", response = classOf[util.List[Model]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
   def findModelByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
@@ -55,7 +55,7 @@ class ModelQueryRestController(@Autowired
   }
 
   @ApiOperation(value = "Filter Models by ID", response = classOf[Car])
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
   def findModelById(@ApiParam(name = "id", value = "The Model ID.", required = true) @RequestParam(name = "id") modelId : String) : ResponseEntity[_]  = {
@@ -65,7 +65,7 @@ class ModelQueryRestController(@Autowired
   }
 
   @ApiOperation(value = "List the Series of the Model : Retrieve all Series issued within a Model: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Serie]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/series"))
   @ResponseBody
   def getModelsSeries(@ApiParam(name = "id", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : String) : ResponseEntity[_] = {
@@ -75,7 +75,7 @@ class ModelQueryRestController(@Autowired
   }
 
   @ApiOperation(value = "List the Cars of the Model : Retrieve all Cars manufactured within a Model: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Car]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/{id}/cars"))
   @ResponseBody
   def getModelsCars(@ApiParam(name = "id", value = "The Model ID.", required = true) @PathVariable(value = "id") modelId : String) : ResponseEntity[_] = {

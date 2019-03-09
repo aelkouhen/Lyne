@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile
 class PhotoCommandRestController(@Autowired val photoCommandService: PhotoCommandService) {
 
   @ApiOperation(value = "Create a photo.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('CREATE_PRIVILEGE')")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @PostMapping(value = Array("/"))
@@ -30,7 +30,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Upload a photo.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @PostMapping(value = Array("/upload"))
@@ -41,7 +41,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Update a photo.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
   def updatePhoto(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody photo: Photo): ResponseEntity[_] = {
@@ -51,7 +51,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Update a Photo's caption.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("caption"))
   def updatePhotoCaption(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "caption", value = "The photo's description.", required = true) @RequestParam(name = "caption") caption : String) = {
@@ -61,7 +61,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Update a Photo's content.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
   def updatePhotoContent(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "photo", value = "The photo's content.", required = true) @RequestParam(name = "photo") photo : MultipartFile) = {
@@ -71,7 +71,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Update a Photo's creation date.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("date"))
   def updatePhotoCreationDate(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "date", value = "The photo's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
@@ -81,7 +81,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Update a Photo's format.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("format"))
   def updatePhotoFormat(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "format", value = "The photo's format.", required = true) @RequestParam(name = "format") format : String) = {
@@ -91,7 +91,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Update a Photo's URL.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("url"))
   def updatePhotoLink(@ApiParam(name = "id", value = "The Photo's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "url", value = "The photo's URL.", required = true) @RequestParam(name = "url") url : String) = {
@@ -101,7 +101,7 @@ class PhotoCommandRestController(@Autowired val photoCommandService: PhotoComman
   }
 
   @ApiOperation(value = "Delete the Photo.", response = classOf[Photo])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('DELETE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
   def deletePhoto(@ApiParam(name = "id", value = "The Photo ID.", required = true) @PathVariable(value = "id") photoId : String) = {

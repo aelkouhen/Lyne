@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation._
 class ModelCommandRestController(@Autowired val modelCommandService: ModelCommandService) {
 
   @ApiOperation(value = "Create a model.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('CREATE_PRIVILEGE')")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @PostMapping(value = Array("/"))
@@ -29,7 +29,7 @@ class ModelCommandRestController(@Autowired val modelCommandService: ModelComman
   }
 
   @ApiOperation(value = "Update a model.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
   def updateModel(@ApiParam(name = "id", value = "The Model's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody model: Model) {
@@ -39,7 +39,7 @@ class ModelCommandRestController(@Autowired val modelCommandService: ModelComman
   }
 
   @ApiOperation(value = "Update the model's make.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("make"))
   def updateModelMake(@ApiParam(name = "id", value = "The Model's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "make", value = "The make of the model.", required = true) @RequestParam(name = "make") makeId : String) = {
@@ -49,7 +49,7 @@ class ModelCommandRestController(@Autowired val modelCommandService: ModelComman
   }
 
   @ApiOperation(value = "Update the Model's name.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("name"))
   def updateModelName(@ApiParam(name = "id", value = "The Model's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "name", value = "The Model's name.", required = true) @RequestParam(name = "name") name : String) = {
@@ -59,7 +59,7 @@ class ModelCommandRestController(@Autowired val modelCommandService: ModelComman
   }
 
   @ApiOperation(value = "Update the Model's generation.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("generation"))
   def updateModelGeneration(@ApiParam(name = "id", value = "The Model's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "generation", value = "The Model's generation.", required = true) @RequestParam(name = "generation") generation : String) = {
@@ -69,7 +69,7 @@ class ModelCommandRestController(@Autowired val modelCommandService: ModelComman
   }
 
   @ApiOperation(value = "Update the Model's creation date.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("creation"))
   def updateModelCreationDate(@ApiParam(name = "id", value = "The Model's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "creation", value = "The creation date.", required = true) @RequestParam(name = "creation") creationDate : String) = {
@@ -79,7 +79,7 @@ class ModelCommandRestController(@Autowired val modelCommandService: ModelComman
   }
 
   @ApiOperation(value = "Add a Model serie.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"))
   def updateModelAddSerie(@ApiParam(name = "id", value = "The Model's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "serie", value = "The serie associated to the model.", required = true) @RequestBody serie : Serie) = {
@@ -89,7 +89,7 @@ class ModelCommandRestController(@Autowired val modelCommandService: ModelComman
   }
 
   @ApiOperation(value = "Delete the Model.", response = classOf[Model])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('DELETE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
   def deleteModel(@ApiParam(name = "id", value = "The Model ID.", required = true) @PathVariable(value = "id") id : String) = {

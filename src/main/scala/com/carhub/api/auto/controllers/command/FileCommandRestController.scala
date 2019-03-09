@@ -19,7 +19,7 @@ import org.springframework.web.multipart.MultipartFile
 class FileCommandRestController(@Autowired val fileCommandService: FileCommandService) {
 
   @ApiOperation(value = "Create a file.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('CREATE_PRIVILEGE')")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @PostMapping(value = Array("/"))
@@ -30,7 +30,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Upload a file.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseStatus(HttpStatus.CREATED)
   @ResponseBody
   @PostMapping(value = Array("/upload"))
@@ -41,7 +41,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Update a file.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PutMapping(value = Array("/{id}"))
   def updateFile(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @RequestBody file: File): ResponseEntity[_] = {
@@ -51,7 +51,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Update a File's caption.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("caption"))
   def updateFileCaption(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "caption", value = "The file's description.", required = true) @RequestParam(name = "caption") caption : String) = {
@@ -61,7 +61,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Update a File's content.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}/content"))
   def updateFileContent(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "file", value = "The file's content.", required = true) @RequestParam(name = "file") file : MultipartFile) = {
@@ -71,7 +71,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Update a File's creation date.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("date"))
   def updateFileCreationDate(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "date", value = "The file's creation date in the (dd/MM/yyyy) format.", required = true) @RequestParam(name = "date") date : String) = {
@@ -81,7 +81,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Update a File's format.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("format"))
   def updateFileExtension(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "format", value = "The file's format.", required = true) @RequestParam(name = "format") format : String) = {
@@ -91,7 +91,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Update a File's URL.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("url"))
   def updateFileLink(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "url", value = "The file's URL.", required = true) @RequestParam(name = "url") url : String) = {
@@ -101,7 +101,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Update a File's format.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
   @PatchMapping(value = Array("/{id}"), params = Array("size"))
   def updateFileSize(@ApiParam(name = "id", value = "The File's ID.", required = true) @PathVariable(value = "id") id : String, @ApiParam(name = "size", value = "The file's URL.", required = true, example = "0") @RequestParam(name = "size") size : Long) = {
@@ -111,7 +111,7 @@ class FileCommandRestController(@Autowired val fileCommandService: FileCommandSe
   }
 
   @ApiOperation(value = "Delete the File.", response = classOf[File])
-  @PreAuthorize("hasRole('WRITE_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('DELETE_PRIVILEGE')")
   @ResponseBody
   @DeleteMapping(Array("/{id}"))
   def deleteFile(@ApiParam(name = "id", value = "The File ID.", required = true) @PathVariable(value = "id") fileId : String) = {

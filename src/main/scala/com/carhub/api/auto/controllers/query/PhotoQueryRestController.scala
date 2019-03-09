@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation._
 class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryService) {
 
   @ApiOperation(value = "List the Photos : Retrieve the Photos list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Photo]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/"))
   @ResponseBody
   def getPhotosList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
@@ -36,13 +36,13 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   }
 
   @ApiOperation(value = "Count the Photos.", response = classOf[Long], responseContainer = "Long")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllPhotos() : Long = photoQueryService.countAllPhotos
 
   @ApiOperation(value = "Filter Photos by name", response = classOf[util.List[Photo]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
   def findPhotosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
@@ -52,7 +52,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   }
 
   @ApiOperation(value = "Filter Photos by ID", response = classOf[Photo])
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
   def findPhotoById(@ApiParam(name = "id", value = "The Photo ID.", required = true) @RequestParam(name = "id") photoId : String) : ResponseEntity[_]  = {
@@ -62,7 +62,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   }
 
   @ApiOperation(value = "Filter Photo content by ID", response = classOf[Array[Byte]])
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/content/{id}"))
   @ResponseBody
   def findPhotoContentById(@ApiParam(name = "id", value = "The Photo ID.", required = true) @PathVariable(name = "id") photoId : String) : ResponseEntity[_]  = {
@@ -74,7 +74,7 @@ class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryServ
   }
 
   @ApiOperation(value = "Filter Photos by format", response = classOf[util.List[Photo]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("format"))
   @ResponseBody
   def findPhotosByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {

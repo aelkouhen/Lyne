@@ -18,7 +18,7 @@ import org.springframework.web.bind.annotation._
 class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
 
   @ApiOperation(value = "List the Cars : Retrieve the Cars list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Car]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/"))
   @ResponseBody
   def getCarsList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
@@ -36,13 +36,13 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   }
 
   @ApiOperation(value = "Count the Cars.", response = classOf[Long], responseContainer = "Long")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/count"))
   @ResponseBody
   def countAllCars() : Long = carQueryService.countAllCars
 
   @ApiOperation(value = "Filter Cars by name", response = classOf[util.List[Car]], responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("name"))
   @ResponseBody
   def findCarByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
@@ -52,7 +52,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   }
 
   @ApiOperation(value = "Filter Cars by ID", response = classOf[Car])
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/find"), params = Array("id"))
   @ResponseBody
   def findCarById(@ApiParam(name = "id", value = "The Car ID.", required = true) @RequestParam(name = "id") carId : String) : ResponseEntity[_]  = {
@@ -62,7 +62,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   }
 
   @ApiOperation(value = "Get Car's related files.", responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @ResponseBody
   @GetMapping(value = Array("/{id}/files"))
   def getCarsFiles(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") carId : String) = {
@@ -72,7 +72,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   }
 
   @ApiOperation(value = "Get Car's related photos.", responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @ResponseBody
   @GetMapping(value = Array("/{id}/photos"))
   def getCarsPhotos(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") carId : String) = {
@@ -82,7 +82,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   }
 
   @ApiOperation(value = "Get Car's related videos.", responseContainer = "List")
-  @PreAuthorize("hasRole('READ_PRIVILEGE')")
+  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @ResponseBody
   @GetMapping(value = Array("/{id}/videos"))
   def getCarsVideos(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") carId : String) = {
