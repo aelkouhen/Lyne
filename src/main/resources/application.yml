@@ -4,9 +4,9 @@ security:
       token-info-uri: http://localhost:9000/oauth/check_token
       token-type: Bearer
       client:
-        client-id: USER_CLIENT_APP
+        client-id: CLIENT_APP
         client-secret: password
-      id: USER_ADMIN_RESOURCE
+      id: CLIENT_RESOURCE
       jwt:
         key-value: |
           -----BEGIN PUBLIC KEY-----
