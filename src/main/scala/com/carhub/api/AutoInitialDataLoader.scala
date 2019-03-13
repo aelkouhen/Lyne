@@ -1,11 +1,11 @@
 package com.carhub.api
 
 import java.awt.image.BufferedImage
-import java.net.URLConnection
 import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
 import com.carhub.api.auto.domain._
+import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.services.command._
 import com.carhub.api.auto.domain.{File, Photo, Video}
 import com.google.common.io.Files
@@ -67,7 +67,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.maxSpeed = 240
     car.fuelCapacity = 60
     car.modelYear = 2017
-    car.body = Body.SUV
+    car.bodyShape = Body.SUV
     car.seatingCapacity = 7
     car.length = 4690
     car.width = 1820
@@ -75,12 +75,12 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.wheelBase = 2705
     car.rideHeight = 210
     car.enginePosition = EnginePosition.FRONT_TRANSVERSELY
-    car.driveWheelConfiguration = WDEnum.FRONT_2WD
-    car.vehicleTransmission = Transmission.AT
-    car.frontSuspension = Suspension.MCPHERSON_SPRING_WITH_STABILIZER
-    car.rearSuspension = Suspension.MULTI_LINK_SPRING
-    car.frontBreak = Break.VENTILATED_DISC
-    car.rearBreak = Break.VENTILATED_DISC
+    car.driveWheelConfiguration = DriveWheel.FRONT_2WD
+    car.transmissionMode = TransmissionMode.AT
+    car.frontSuspensionSystem = SuspensionSystem.MCPHERSON_SPRING_WITH_STABILIZER
+    car.rearSuspensionSystem = SuspensionSystem.MULTI_LINK_SPRING
+    car.frontBreak = BreakType.VENTILATED_DISC
+    car.rearBreak = BreakType.VENTILATED_DISC
     car.emissionsCO2 = 135
     car.kerbWeight = 1565
     car.maxWeight = 2140
@@ -118,12 +118,12 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     engine.name = "1.6 dCi"
     engine.engineDisplacement = 1598
     engine.torque = 320
-    engine.injection = Injection.CRDI
-    engine.turbine = Turbine.TURBO
-    engine.cylinders = Cylinder.INLINE
+    engine.injectionSystem = InjectionSystem.CRDI
+    engine.turbineSystem = TurbineSystem.TURBO
+    engine.cylinderPosition = CylinderPosition.INLINE
     engine.numberOfCylinders = 4
     engine.valvesPerCylinder = 4
-    engine.fuel = Fuel.DIESEL
+    engine.fuelType = FuelType.DIESEL
 
     engineCommandService.addEngine(engine)
     carCommandService.updateCarEngine(car.id, engine)

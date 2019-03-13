@@ -4,133 +4,12 @@ import java.io.Serializable
 import java.util
 import java.util.UUID
 
-import com.carhub.api.auto.utils.enumeration._
+import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import com.fasterxml.jackson.annotation._
-import com.fasterxml.jackson.core.{JsonGenerator, JsonParser}
-import com.fasterxml.jackson.databind.{DeserializationContext, JsonDeserializer, JsonSerializer, SerializerProvider}
-import com.fasterxml.jackson.databind.annotation.{JsonDeserialize, JsonSerialize}
 import javax.persistence._
 import org.hibernate.annotations.{GenericGenerator, Type}
-
 import scala.beans.BeanProperty
-
-object WDEnum extends Enumeration with EnumValue{
-  type Mode = Value
-  val FRONT_2WD, REAR_2WD, ALL_4WD = Value
-
-  class WDJsonSerializer extends JsonSerializer[Mode] {
-    override def serialize(value: Mode, gen : JsonGenerator, provider: SerializerProvider)= {
-      gen.writeStartObject
-      gen.writeStringField("mode", value.toString);
-      gen.writeEndObject();
-    }
-  }
-
-  class WDJsonDeserializer extends JsonDeserializer[Mode] {
-    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Mode = WDEnum.valueOf(jsonParser.getText)
-  }
-}
-class WDType extends EnumValueType(WDEnum){}
-
-object Transmission extends Enumeration with EnumValue{
-  /*
-  Manual Transmission (MT).
-  Automated Transmission (AT).
-  Semi-Automated Transmission (SAT).
-  Continuously Variable Transmission (CVT).
-  Dual-Clutch Transmission (DCT).
-  DSG (Direct Shift Gearbox).
- */
-  type Mode = Value
-  val MT, AT, SAT, CVT, DCT, DSG = Value
-
-  class TransmissionJsonSerializer extends JsonSerializer[Mode] {
-    override def serialize(value: Mode, gen : JsonGenerator, provider: SerializerProvider)= {
-      gen.writeStartObject
-      gen.writeStringField("mode", value.toString);
-      gen.writeEndObject();
-    }
-  }
-
-  class TransmissionJsonDeserializer extends JsonDeserializer[Mode] {
-    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Mode = Transmission.valueOf(jsonParser.getText)
-  }
-}
-class TransmissionType extends EnumValueType(Transmission){}
-
-object Suspension extends Enumeration with EnumValue{
-  type System = Value
-  val MCPHERSON_STRUT, DEPRECIATED_RACK, HELICAL_SPRING, ANTIROLL_SPRING, SPRING, COIL_SPRING, SUSPENSION_WITH_STEERING_ROD, MULTI_LINK_SPRING, MULTI_LINK_SPRING_WITH_ABSORBERS, MCPHERSON_SPRING_WITH_STABILIZER, SPRING_LOADED_RACK, HYDRAULIC, PNEUMATIC, HYDRO_PNEUMATIC, WISHBONE, DOUBLE_WISHBONE, INCLINED_LEVER, TRAPEZOIDAL_LEVER, BEAM_BRIDGE, ROTARY_FIST, TRANSVERSE_STABILIZER, TRAILING, TORSION, THREADED_TWIST_BEAM, ELASTIC_BEAM, DE_DION = Value
-
-  class SuspensionJsonSerializer extends JsonSerializer[System] {
-    override def serialize(value: System, gen : JsonGenerator, provider: SerializerProvider)= {
-      gen.writeStartObject
-      gen.writeStringField("system", value.toString);
-      gen.writeEndObject();
-    }
-  }
-
-  class SuspensionJsonDeserializer extends JsonDeserializer[System] {
-    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): System = Suspension.valueOf(jsonParser.getText)
-  }
-}
-class SuspensionType extends EnumValueType(Suspension){}
-
-object Break extends Enumeration with EnumValue{
-  type Type = Value
-  val DRUM, DISC, VENTILATED_DISC = Value
-
-  class BreakJsonSerializer extends JsonSerializer[Type] {
-    override def serialize(value: Type, gen : JsonGenerator, provider: SerializerProvider)= {
-      gen.writeStartObject
-      gen.writeStringField("type", value.toString);
-      gen.writeEndObject();
-    }
-  }
-
-  class BreakJsonDeserializer extends JsonDeserializer[Type] {
-    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Type = Break.valueOf(jsonParser.getText)
-  }
-}
-class BreakType extends EnumValueType(Break){}
-
-object Body extends Enumeration with EnumValue{
-  type Category = Value
-  val MICRO, ECONOMY, COMBI, HATCHBACK, FASTBACK, LIFTBACK, COUPE, INTERMEDIATE, MONOSPACE, FULL_SEDAN, LUXURY_SEDAN, ROADSTER, CABRIOLET, CC ,SPORT, SUPER, LIMOUSINE, MINIVAN, VAN, CAMPERVAN, WAGON, CROSSOVER, MPV, CUV, SUV, OFF_ROAD, TARGA, GRAND_TOURER, PICKUP_TRUCK, MINI_TRUCK, MONSTER_TRUCK, TRUCK, BIG_TRUCK = Value
-
-  class BodyJsonSerializer extends JsonSerializer[Category] {
-    override def serialize(value: Category, gen : JsonGenerator, provider: SerializerProvider)= {
-      gen.writeStartObject
-      gen.writeStringField("category", value.toString);
-      gen.writeEndObject();
-    }
-  }
-
-  class BodyJsonDeserializer extends JsonDeserializer[Category] {
-    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Category = Body.valueOf(jsonParser.getText)
-  }
-}
-class BodyType extends EnumValueType(Body)
-
-
-object EnginePosition extends Enumeration with EnumValue{
-  type Position = Value
-  val MIDDLE_TRANSVERSELY, REAR_TRANSVERSELY, FRONT_TRANSVERSELY, MIDDLE_LONGITUDINAL, REAR_LONGITUDINAL, FRONT_LONGITUDINAL = Value
-
-  class PositionJsonSerializer extends JsonSerializer[Position] {
-    override def serialize(value: Position, gen : JsonGenerator, provider: SerializerProvider)= {
-      gen.writeStartObject
-      gen.writeStringField("position", value.toString);
-      gen.writeEndObject();
-    }
-  }
-
-  class PositionJsonDeserializer extends JsonDeserializer[Position] {
-    override def deserialize(jsonParser : JsonParser, context: DeserializationContext): Position = EnginePosition.valueOf(jsonParser.getText)
-  }
-}
-class EnginePositionType extends EnumValueType(EnginePosition){}
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
@@ -155,12 +34,10 @@ abstract class Vehicle extends Serializable {
   @BeanProperty
   var accelerationTime : Double  = _
 
-  //Indicates the design and body style of the vehicle.
+  //Indicates the design and body shape of the vehicle.
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.BodyType")
-  @JsonSerialize(using = classOf[Body.BodyJsonSerializer])
-  @JsonDeserialize(using = classOf[Body.BodyJsonDeserializer])
-  var body : Body.Category = _
+  @Enumerated(EnumType.STRING)
+  var bodyShape : Body = _
 
   //The CO2 emissions in g/km.
   @BeanProperty
@@ -245,10 +122,8 @@ abstract class Vehicle extends Serializable {
 
   //The drive wheel configuration: which wheels will receive torque from the vehicle's engine via the drive train.
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.WDType")
-  @JsonSerialize(using = classOf[WDEnum.WDJsonSerializer])
-  @JsonDeserialize(using = classOf[WDEnum.WDJsonDeserializer])
-  var driveWheelConfiguration : WDEnum.Value = _
+  @Enumerated(EnumType.STRING)
+  var driveWheelConfiguration : DriveWheel = _
 
   //Information about the engine or engines of the vehicle.
   @BeanProperty
@@ -257,45 +132,33 @@ abstract class Vehicle extends Serializable {
 
   //The Position of the engine.
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.EnginePositionType")
-  @JsonSerialize(using = classOf[EnginePosition.PositionJsonSerializer])
-  @JsonDeserialize(using = classOf[EnginePosition.PositionJsonDeserializer])
-  var enginePosition : EnginePosition.Value = _
+  @Enumerated(EnumType.STRING)
+  var enginePosition : EnginePosition = _
 
   //The type of component used for transmitting the power from a rotating power source to the wheels or other relevant component(s) (i.e, "gearbox" for cars).
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.TransmissionType")
-  @JsonSerialize(using = classOf[Transmission.TransmissionJsonSerializer])
-  @JsonDeserialize(using = classOf[Transmission.TransmissionJsonDeserializer])
-  var vehicleTransmission : Transmission.Value = _
+  @Enumerated(EnumType.STRING)
+  var transmissionMode : TransmissionMode = _
 
   //The front suspension system.
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.SuspensionType")
-  @JsonSerialize(using = classOf[Suspension.SuspensionJsonSerializer])
-  @JsonDeserialize(using = classOf[Suspension.SuspensionJsonDeserializer])
-  var frontSuspension : Suspension.Value = _
+  @Enumerated(EnumType.STRING)
+  var frontSuspensionSystem : SuspensionSystem = _
 
   //The rear suspension system.
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.SuspensionType")
-  @JsonSerialize(using = classOf[Suspension.SuspensionJsonSerializer])
-  @JsonDeserialize(using = classOf[Suspension.SuspensionJsonDeserializer])
-  var rearSuspension : Suspension.Value = _
+  @Enumerated(EnumType.STRING)
+  var rearSuspensionSystem : SuspensionSystem = _
 
   //The front break system.
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.BreakType")
-  @JsonSerialize(using = classOf[Break.BreakJsonSerializer])
-  @JsonDeserialize(using = classOf[Break.BreakJsonDeserializer])
-  var frontBreak : Break.Value = _
+  @Enumerated(EnumType.STRING)
+  var frontBreak : BreakType = _
 
   //The rear break system.
   @BeanProperty
-  @Type(`type` = "com.carhub.api.auto.domain.BreakType")
-  @JsonSerialize(using = classOf[Break.BreakJsonSerializer])
-  @JsonDeserialize(using = classOf[Break.BreakJsonDeserializer])
-  var rearBreak : Break.Value = _
+  @Enumerated(EnumType.STRING)
+  var rearBreak : BreakType = _
 
 
   //Measurements

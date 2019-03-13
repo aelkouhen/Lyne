@@ -1,0 +1,5 @@
+package com.carhub.api.auto.domain.enumerations;
+
+public enum EnginePosition {
+    MIDDLE_TRANSVERSELY, REAR_TRANSVERSELY, FRONT_TRANSVERSELY, MIDDLE_LONGITUDINAL, REAR_LONGITUDINAL, FRONT_LONGITUDINAL
+}

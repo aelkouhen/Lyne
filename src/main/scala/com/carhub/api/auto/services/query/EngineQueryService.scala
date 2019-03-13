@@ -2,7 +2,7 @@ package com.carhub.api.auto.services.query
 
 import java.util.UUID
 
-import com.carhub.api.auto.domain.Fuel
+import com.carhub.api.auto.domain.enumerations.FuelType
 import com.carhub.api.auto.repositories.EngineRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.data.domain.{PageRequest, Sort}
@@ -29,5 +29,5 @@ class EngineQueryService(engineRepository: EngineRepository) {
 
   def findEngineById(engineId : UUID) = engineRepository.findById(engineId).get
 
-  def findEnginesByFuelType(fuelType : String) = engineRepository.findEnginesByFuelType(Fuel.valueOf(fuelType.toUpperCase).toString)
+  def findEnginesByFuelType(fuelType : String) = engineRepository.findEnginesByFuelType(FuelType.valueOf(fuelType.toUpperCase).toString)
 }

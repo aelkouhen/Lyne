@@ -3,6 +3,7 @@ package com.carhub.api.auto.services.command
 import java.util.UUID
 
 import com.carhub.api.auto.domain._
+import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.repositories.CarRepository
 import com.carhub.api.auto.services.query._
 import org.springframework.beans.factory.annotation.Autowired
@@ -33,7 +34,7 @@ class CarCommandService(carRepository: CarRepository,
     carToUpdate.approachAngle = car.approachAngle
     carToUpdate.avgFuelConsumption = car.avgFuelConsumption
     carToUpdate.backTrack = car.backTrack
-    carToUpdate.body = car.body
+    carToUpdate.bodyShape = car.bodyShape
     carToUpdate.cargoVolume = car.cargoVolume
     carToUpdate.climbAngle = car.climbAngle
     carToUpdate.departureAngle = car.departureAngle
@@ -43,7 +44,7 @@ class CarCommandService(carRepository: CarRepository,
     carToUpdate.enginePosition = car.enginePosition
     carToUpdate.frontBreak = car.frontBreak
     carToUpdate.frontOverhang = car.frontOverhang
-    carToUpdate.frontSuspension = car.frontSuspension
+    carToUpdate.frontSuspensionSystem = car.frontSuspensionSystem
     carToUpdate.frontTrack = car.frontTrack
     carToUpdate.fuelCapacity = car.fuelCapacity
     carToUpdate.height = car.height
@@ -62,7 +63,7 @@ class CarCommandService(carRepository: CarRepository,
     carToUpdate.rearBreak = car.rearBreak
     carToUpdate.rearOverhang = car.rearOverhang
     carToUpdate.rearBreak = car.rearBreak
-    carToUpdate.rearSuspension = car.rearSuspension
+    carToUpdate.rearSuspensionSystem = car.rearSuspensionSystem
     carToUpdate.rideHeight = car.rideHeight
     carToUpdate.rimsSize = car.rimsSize
     carToUpdate.seatingCapacity = car.seatingCapacity
@@ -71,7 +72,7 @@ class CarCommandService(carRepository: CarRepository,
     carToUpdate.tongueWeight = car.tongueWeight
     carToUpdate.trailerWeight = car.trailerWeight
     carToUpdate.vehicleConfiguration = car.vehicleConfiguration
-    carToUpdate.vehicleTransmission = car.vehicleTransmission
+    carToUpdate.transmissionMode = car.transmissionMode
     carToUpdate.wadingDepth = car.wadingDepth
     carToUpdate.wheelBase = car.wheelBase
     carToUpdate.width = car.width
@@ -114,7 +115,7 @@ class CarCommandService(carRepository: CarRepository,
 
   def updateCarBody(carId : UUID, body : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.body = Body.valueOf(body)
+    carToUpdate.bodyShape = Body.valueOf(body)
 
     carRepository.save(carToUpdate)
   }
@@ -142,7 +143,7 @@ class CarCommandService(carRepository: CarRepository,
 
   def updateCarDriveWheelConfiguration(carId : UUID, driveWheelConfiguration : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.driveWheelConfiguration = WDEnum.valueOf(driveWheelConfiguration)
+    carToUpdate.driveWheelConfiguration = DriveWheel.valueOf(driveWheelConfiguration)
 
     carRepository.save(carToUpdate)
   }
@@ -163,7 +164,7 @@ class CarCommandService(carRepository: CarRepository,
 
   def updateCarFrontBreak(carId : UUID, frontBreak : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.frontBreak = Break.valueOf(frontBreak)
+    carToUpdate.frontBreak = BreakType.valueOf(frontBreak)
 
     carRepository.save(carToUpdate)
   }
@@ -177,7 +178,7 @@ class CarCommandService(carRepository: CarRepository,
 
   def updateCarFrontSuspension(carId : UUID, frontSuspension : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.frontSuspension = Suspension.valueOf(frontSuspension)
+    carToUpdate.frontSuspensionSystem = SuspensionSystem.valueOf(frontSuspension)
 
     carRepository.save(carToUpdate)
   }
@@ -289,7 +290,7 @@ class CarCommandService(carRepository: CarRepository,
 
   def updateCarRearBreak(carId : UUID, rearBreak : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.rearBreak = Break.valueOf(rearBreak)
+    carToUpdate.rearBreak = BreakType.valueOf(rearBreak)
 
     carRepository.save(carToUpdate)
   }
@@ -303,7 +304,7 @@ class CarCommandService(carRepository: CarRepository,
 
   def updateCarRearSuspension(carId : UUID, rearSuspension : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.rearSuspension = Suspension.valueOf(rearSuspension)
+    carToUpdate.rearSuspensionSystem = SuspensionSystem.valueOf(rearSuspension)
 
     carRepository.save(carToUpdate)
   }
@@ -371,7 +372,7 @@ class CarCommandService(carRepository: CarRepository,
 
   def updateCarTransmission(carId : UUID, transmission : String) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.vehicleTransmission = Transmission.valueOf(transmission)
+    carToUpdate.transmissionMode = TransmissionMode.valueOf(transmission)
 
     carRepository.save(carToUpdate)
   }
