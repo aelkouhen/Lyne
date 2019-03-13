@@ -33,9 +33,6 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter{
   @Value("${security.oauth2.resource.client.client-secret}")
   val clientSecret : String = null
 
-  @Autowired
-  val customAccessTokenConverter : CustomAccessTokenConverter = null
-
   override def configure(http: HttpSecurity): Unit = {
     http.authorizeRequests().anyRequest().permitAll().and().cors().disable().csrf().disable().httpBasic().disable()
       .exceptionHandling()
@@ -54,7 +51,6 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter{
   @Bean
   def accessTokenConverter(): JwtAccessTokenConverter = {
     val converter = new JwtAccessTokenConverter
-    converter.setAccessTokenConverter(customAccessTokenConverter)
     converter.setVerifier(new RsaVerifier(publicKey))
     converter
   }
