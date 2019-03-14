@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "File", tags = Array("File Queries"), description = "This API queries the File concept.")
 @RestController
-@RequestMapping(value = Array("/api/files"))
+@RequestMapping(value = Array("/api"))
 class FileQueryRestController(@Autowired val fileQueryService : FileQueryService) {
 
   @ApiOperation(value = "List the Files : Retrieve the Files list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[File]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/"))
+  @GetMapping(value = Array("/files"))
   @ResponseBody
   def getFilesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                    @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -37,13 +37,13 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
 
   @ApiOperation(value = "Count the Files.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/count"))
+  @GetMapping(value = Array("/files/count"))
   @ResponseBody
   def countAllFiles() : Long = fileQueryService.countAllFiles
 
   @ApiOperation(value = "Filter Files by name", response = classOf[util.List[File]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("name"))
+  @GetMapping(value = Array("/files/find"), params = Array("name"))
   @ResponseBody
   def findFilesByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam(value = "name") name : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFilesByName(name)
@@ -53,7 +53,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
 
   @ApiOperation(value = "Filter Files by format", response = classOf[util.List[File]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("format"))
+  @GetMapping(value = Array("/files/find"), params = Array("format"))
   @ResponseBody
   def findFilesByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFilesByExtension(format)
@@ -63,7 +63,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
 
   @ApiOperation(value = "Filter Files by ID", response = classOf[File])
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("id"))
+  @GetMapping(value = Array("/files/find"), params = Array("id"))
   @ResponseBody
   def findFileById(@ApiParam(name = "id", value = "The File ID.", required = true) @RequestParam(name = "id") fileId : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFileById(UUID.fromString(fileId))
@@ -73,7 +73,7 @@ class FileQueryRestController(@Autowired val fileQueryService : FileQueryService
 
   @ApiOperation(value = "Filter File content by ID", response = classOf[Array[Byte]])
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/content/{id}"))
+  @GetMapping(value = Array("/files/{id}/content"))
   @ResponseBody
   def findFileContentById(@ApiParam(name = "id", value = "The File ID.", required = true) @PathVariable(name = "id") fileId : String) : ResponseEntity[_]  = {
     val result = fileQueryService.findFileById(UUID.fromString(fileId))

@@ -54,19 +54,19 @@ abstract class Vehicle extends Serializable {
   //Images of the vehicle.
   @BeanProperty
   @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY)
+  @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
   var images : util.List[Photo] = new util.ArrayList[Photo]()
 
   //Videos of the vehicle.
   @BeanProperty
   @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY)
+  @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
   var videos : util.List[Video] = new util.ArrayList[Video]()
 
   //Relevant documentations (technical specification, brochures...).
   @BeanProperty
   @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY)
+  @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
   var files : util.List[File] = new util.ArrayList[File]()
 
   //The sub-model (serie) of the product.
@@ -127,7 +127,7 @@ abstract class Vehicle extends Serializable {
 
   //Information about the engine or engines of the vehicle.
   @BeanProperty
-  @OneToOne
+  @OneToOne(orphanRemoval = true)
   var engine : Engine = _
 
   //The Position of the engine.

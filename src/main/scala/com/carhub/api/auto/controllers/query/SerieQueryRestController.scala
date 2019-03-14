@@ -14,14 +14,14 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Serie", tags = Array("Serie Queries"), description = "This API queries the Serie concept.")
 @RestController
-@RequestMapping(value = Array("/api/series"))
+@RequestMapping(value = Array("/api"))
 class SerieQueryRestController(@Autowired
                                val serieQueryService : SerieQueryService,
                                val carQueryService : CarQueryService) {
 
   @ApiOperation(value = "List the Series : Retrieve the Series list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Serie]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/"))
+  @GetMapping(value = Array("/series"))
   @ResponseBody
   def getSeriesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                     @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -39,13 +39,13 @@ class SerieQueryRestController(@Autowired
 
   @ApiOperation(value = "Count the Series.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/count"))
+  @GetMapping(value = Array("/series/count"))
   @ResponseBody
   def countAllSeries() : Long = serieQueryService.countAllSeries
 
   @ApiOperation(value = "Filter Series by name", response = classOf[util.List[Serie]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("name"))
+  @GetMapping(value = Array("/series/find"), params = Array("name"))
   @ResponseBody
   def findSeriesByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = serieQueryService.findSeriesByName(name)
@@ -55,7 +55,7 @@ class SerieQueryRestController(@Autowired
 
   @ApiOperation(value = "Filter Series by ID", response = classOf[Serie])
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("id"))
+  @GetMapping(value = Array("/series/find"), params = Array("id"))
   @ResponseBody
   def findSerieById(@ApiParam(name = "id", value = "The Serie ID.", required = true) @RequestParam(name = "id") serieId : String) : ResponseEntity[_]  = {
     val result = serieQueryService.findSerieById(UUID.fromString(serieId))
@@ -65,7 +65,7 @@ class SerieQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Cars of the Serie : Retrieve all Cars manufactured within a Serie: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Car]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(Array("/{id}/cars"))
+  @GetMapping(Array("/series/{id}/cars"))
   @ResponseBody
   def getSerieCars(@ApiParam(name = "id", value = "The Serie ID.", required = true) @PathVariable(value = "id") serieId : String) : ResponseEntity[_] = {
     val result  = carQueryService.getSerieCars(UUID.fromString(serieId))

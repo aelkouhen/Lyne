@@ -14,12 +14,12 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Resource", tags = Array("Resource Queries"), description = "This API queries the Resource concept.")
 @RestController
-@RequestMapping(value = Array("/api/resources"))
+@RequestMapping(value = Array("/api"))
 class ResourceQueryRestController(@Autowired val resourceQueryService : ResourceQueryService) {
 
   @ApiOperation(value = "List the Resources : Retrieve the Resources list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Resource]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/"))
+  @GetMapping(value = Array("/resources"))
   @ResponseBody
   def getResourcesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                    @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -37,13 +37,13 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
 
   @ApiOperation(value = "Count the Resources.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/count"))
+  @GetMapping(value = Array("/resources/count"))
   @ResponseBody
   def countAllResources() : Long = resourceQueryService.countAllResources()
 
   @ApiOperation(value = "Filter Resources by name", response = classOf[util.List[Resource]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("name"))
+  @GetMapping(value = Array("/resources/find"), params = Array("name"))
   @ResponseBody
   def findResourceByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = resourceQueryService.findResourcesByName(name)
@@ -53,7 +53,7 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
 
   @ApiOperation(value = "Filter Resources by ID", response = classOf[Resource])
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("id"))
+  @GetMapping(value = Array("/resources/find"), params = Array("id"))
   @ResponseBody
   def findResourceById(@ApiParam(name = "id", value = "The Resource ID.", required = true) @RequestParam(name = "id") resourceId : String) : ResponseEntity[_]  = {
     val result = resourceQueryService.findResourceById(UUID.fromString(resourceId))
@@ -63,7 +63,7 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
 
   @ApiOperation(value = "Filter Resource content by ID", response = classOf[Array[Byte]])
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/content/{id}"))
+  @GetMapping(value = Array("/resources/content/{id}"))
   @ResponseBody
   def findResourceContentById(@ApiParam(name = "id", value = "The Resource ID.", required = true) @PathVariable(name = "id") resourceId : String) : ResponseEntity[_]  = {
     val result = resourceQueryService.findResourceById(UUID.fromString(resourceId))
@@ -75,7 +75,7 @@ class ResourceQueryRestController(@Autowired val resourceQueryService : Resource
 
   @ApiOperation(value = "Filter Resources by format", response = classOf[util.List[Resource]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("format"))
+  @GetMapping(value = Array("/resources/find"), params = Array("format"))
   @ResponseBody
   def findResourceByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {
     val result = resourceQueryService.findResourcesByExtension(format)

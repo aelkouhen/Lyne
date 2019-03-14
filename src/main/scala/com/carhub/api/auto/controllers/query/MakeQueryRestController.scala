@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Make", tags = Array("Make Queries"), description = "This API queries the Make concept.")
 @RestController
-@RequestMapping(value = Array("/api/makes"))
+@RequestMapping(value = Array("/api"))
 class MakeQueryRestController(@Autowired
                               val makeQueryService : MakeQueryService,
                               val serieQueryService : SerieQueryService,
@@ -24,7 +24,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Makes : Retrieve the Makes list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Make]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/"))
+  @GetMapping(value = Array("/makes"))
   @ResponseBody
   def getMakesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
                    @ApiParam(name = "size", example="10", value = "The size of the page.", required = true) @RequestParam size : Int,
@@ -42,13 +42,13 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "Count the Makes.", response = classOf[Long], responseContainer = "Long")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/count"))
+  @GetMapping(value = Array("/makes/count"))
   @ResponseBody
   def countAllMakes() : Long = makeQueryService.countAllMakes
 
   @ApiOperation(value = "Filter Makes by name", response = classOf[util.List[Make]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("name"))
+  @GetMapping(value = Array("/makes/find"), params = Array("name"))
   @ResponseBody
   def findMakeByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
     val result = makeQueryService.findMakesByName(name)
@@ -58,7 +58,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "Filter Makes by ID", response = classOf[Car])
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/find"), params = Array("id"))
+  @GetMapping(value = Array("/makes/find"), params = Array("id"))
   @ResponseBody
   def findMakeById(@ApiParam(name = "id", value = "The Make ID.", required = true) @RequestParam(name = "id") makeId : String) : ResponseEntity[_]  = {
     val result = makeQueryService.findMakeById(UUID.fromString(makeId))
@@ -68,7 +68,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Models of the Make : Retrieve all models manufactured by a Make: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Model]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/{id}/models"))
+  @GetMapping(value = Array("/makes/{id}/models"))
   @ResponseBody
   def getMakeModels(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
     val result = modelQueryService.getMakeModels(UUID.fromString(makeId))
@@ -78,7 +78,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Series of the Make : Retrieve all Series issued by a Make: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Serie]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/{id}/series"))
+  @GetMapping(value = Array("/makes/{id}/series"))
   @ResponseBody
   def getMakeSeries(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
     val result = serieQueryService.getMakeSeries(UUID.fromString(makeId))
@@ -88,7 +88,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "List the Cars of the Make : Retrieve all Cars manufactured by a Make: A paged and sorted list by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Car]], responseContainer = "List")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/{id}/cars"))
+  @GetMapping(value = Array("/makes/{id}/cars"))
   @ResponseBody
   def getMakeCars(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
     val result = carQueryService.getMakeCars(UUID.fromString(makeId))
@@ -98,7 +98,7 @@ class MakeQueryRestController(@Autowired
 
   @ApiOperation(value = "Returns the icon of the Make.", response = classOf[Array[Byte]], responseContainer = "Array")
   @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
-  @GetMapping(value = Array("/{id}/icon"))
+  @GetMapping(value = Array("/makes/{id}/icon"))
   @ResponseBody
   def getMakeIcon(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
     val result = photoQueryService.getMakeIcon(UUID.fromString(makeId))
