@@ -5,7 +5,7 @@ import org.springframework.web.servlet.config.annotation.{EnableWebMvc, Resource
 
 @Configuration
 @EnableWebMvc
-class WebConfig extends WebMvcConfigurer {
+class WebMvcConfig extends WebMvcConfigurer {
   override def addResourceHandlers(registry: ResourceHandlerRegistry): Unit = {
     registry.addResourceHandler("**/**").addResourceLocations("classpath:/META-INF/resources/")
   }
