@@ -12,6 +12,8 @@ import org.springframework.security.jwt.crypto.sign.RsaVerifier
 import org.springframework.context.annotation.Primary
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices
 import org.springframework.context.annotation.Bean
+import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.cloud.client.discovery.DiscoveryClient
 
 @Configuration
 @EnableResourceServer
@@ -24,8 +26,14 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter{
   @Value("${security.oauth2.resource.jwt.key-value}")
   val publicKey : String = null
 
-  @Value("${security.oauth2.resource.token-info-uri}")
-  val authServer : String = null
+  @Autowired
+  val discoveryClient : DiscoveryClient = null
+
+  @Value("${oauth2.token-check-endpoint}")
+  val checkEndpoint : String = null
+
+  @Value("${oauth2.service.name}")
+  val authServiceName : String = null
 
   @Value("${security.oauth2.resource.client.client-id}")
   val clientId : String = null
@@ -59,7 +67,7 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter{
   @Bean
   def tokenServices(): RemoteTokenServices = {
     val tokenService = new RemoteTokenServices
-    tokenService.setCheckTokenEndpointUrl(authServer)
+    tokenService.setCheckTokenEndpointUrl(discoveryClient.getInstances(authServiceName).get(0).getUri + checkEndpoint)
     tokenService.setAccessTokenConverter(accessTokenConverter)
     tokenService.setClientId(clientId)
     tokenService.setClientSecret(clientSecret)
