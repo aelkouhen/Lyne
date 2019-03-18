@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @Api(value = "Video", tags = Array("Video Commands"), description = "This API commands the Video concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class VideoCommandRestController(@Autowired val videoCommandService: VideoCommandService) {
 
   @ApiOperation(value = "Create a video.", response = classOf[Video])

@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @Api(value = "File", tags = Array("File Commands"), description = "This API commands the File concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class FileCommandRestController(@Autowired val fileCommandService: FileCommandService) {
 
   @ApiOperation(value = "Create a file.", response = classOf[File])

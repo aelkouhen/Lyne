@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Video", tags = Array("Video Queries"), description = "This API queries the Video concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryService) {
 
   @ApiOperation(value = "List the Videos : Retrieve the Videos list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Video]], responseContainer = "List")

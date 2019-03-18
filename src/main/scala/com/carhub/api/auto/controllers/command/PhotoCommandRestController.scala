@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @Api(value = "Photo", tags = Array("Photo Commands"), description = "This API commands the Photo concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class PhotoCommandRestController(@Autowired val photoCommandService: PhotoCommandService) {
 
   @ApiOperation(value = "Create a photo.", response = classOf[Photo])

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "File", tags = Array("File Queries"), description = "This API queries the File concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class FileQueryRestController(@Autowired val fileQueryService : FileQueryService) {
 
   @ApiOperation(value = "List the Files : Retrieve the Files list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[File]], responseContainer = "List")

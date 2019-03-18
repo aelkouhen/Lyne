@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Photo", tags = Array("Photo Queries"), description = "This API queries the Photo concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class PhotoQueryRestController(@Autowired val photoQueryService : PhotoQueryService) {
 
   @ApiOperation(value = "List the Photos : Retrieve the Photos list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Photo]], responseContainer = "List")

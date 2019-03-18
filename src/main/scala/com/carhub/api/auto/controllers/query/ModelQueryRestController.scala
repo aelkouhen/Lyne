@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Model", tags = Array("Model Queries"), description = "This API queries the Model concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class ModelQueryRestController(@Autowired
                                val serieQueryService : SerieQueryService,
                                val modelQueryService : ModelQueryService,

@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Serie", tags = Array("Serie Queries"), description = "This API queries the Serie concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class SerieQueryRestController(@Autowired
                                val serieQueryService : SerieQueryService,
                                val carQueryService : CarQueryService) {

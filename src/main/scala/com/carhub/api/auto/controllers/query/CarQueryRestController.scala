@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Car", tags = Array("Car Queries"), description = "This API queries the Car concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
 
   @ApiOperation(value = "List the Cars : Retrieve the Cars list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Car]], responseContainer = "List")

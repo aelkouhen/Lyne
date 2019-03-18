@@ -15,7 +15,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @Api(value = "Make", tags = Array("Make Commands"), description = "This API commands the Make concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandService) {
 
   @ApiOperation(value = "Create a make.", response = classOf[Make])

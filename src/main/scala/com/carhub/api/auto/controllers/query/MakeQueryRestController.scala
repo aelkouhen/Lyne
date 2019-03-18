@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Make", tags = Array("Make Queries"), description = "This API queries the Make concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class MakeQueryRestController(@Autowired
                               val makeQueryService : MakeQueryService,
                               val serieQueryService : SerieQueryService,

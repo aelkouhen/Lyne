@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Engine", tags = Array("Engine Queries"), description = "This API queries the Engine concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryService) {
 
   @ApiOperation(value = "List the Engines : Retrieve the Engines list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Engine]], responseContainer = "List")

@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Engine", tags = Array("Engine Commands"), description = "This API commands the Engine concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class EngineCommandRestController(@Autowired val engineCommandService : EngineCommandService) {
 
   @ApiOperation(value = "Create an Engine.", response = classOf[Engine])

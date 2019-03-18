@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Model", tags = Array("Model Commands"), description = "This API commands the Model concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class ModelCommandRestController(@Autowired val modelCommandService: ModelCommandService) {
 
   @ApiOperation(value = "Create a model.", response = classOf[Model])

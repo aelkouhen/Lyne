@@ -30,7 +30,7 @@ class SwaggerConfig {
   private val apiVersion: String = None.orNull
 
   val AUTHORIZATION_HEADER = "Authorization"
-  val DEFAULT_INCLUDE_PATTERN = "/api/.*"
+  val DEFAULT_INCLUDE_PATTERN = "/v1/.*"
 
   @Bean
   def api: Docket = new Docket(DocumentationType.SWAGGER_2)

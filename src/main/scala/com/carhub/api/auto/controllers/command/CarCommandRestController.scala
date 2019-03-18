@@ -14,7 +14,7 @@ import org.springframework.web.multipart.MultipartFile
 
 @Api(value = "Car", tags = Array("Car Commands"), description = "This API commands the Car concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class CarCommandRestController(@Autowired val carCommandService : CarCommandService,
                                           val engineCommandService : EngineCommandService)  {
 

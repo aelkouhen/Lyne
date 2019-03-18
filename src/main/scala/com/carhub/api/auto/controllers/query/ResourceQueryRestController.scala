@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Resource", tags = Array("Resource Queries"), description = "This API queries the Resource concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class ResourceQueryRestController(@Autowired val resourceQueryService : ResourceQueryService) {
 
   @ApiOperation(value = "List the Resources : Retrieve the Resources list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Resource]], responseContainer = "List")

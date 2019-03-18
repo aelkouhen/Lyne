@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation._
 
 @Api(value = "Serie", tags = Array("Serie Commands"), description = "This API commands the Serie concept.")
 @RestController
-@RequestMapping(value = Array("/api"))
+@RequestMapping(value = Array("/v1"))
 class SerieCommandRestController(@Autowired val serieCommandService: SerieCommandService) {
 
   @ApiOperation(value = "Create a serie.", response = classOf[Serie])
