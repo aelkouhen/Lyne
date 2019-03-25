@@ -9,7 +9,6 @@ import com.carhub.api.auto.utils.exception.{ContentNotFoundException, ElementNot
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.{HttpHeaders, ResponseEntity}
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
 @Api(value = "Video", tags = Array("Video Queries"), description = "This API queries the Video concept.")
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation._
 class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryService) {
 
   @ApiOperation(value = "List the Videos : Retrieve the Videos list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Video]], responseContainer = "List")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/videos"))
   @ResponseBody
   def getVideosList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
@@ -36,13 +34,11 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   }
 
   @ApiOperation(value = "Count the Videos.", response = classOf[Long], responseContainer = "Long")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/videos/count"))
   @ResponseBody
   def countAllVideos() : Long = videoQueryService.countAllVideos
 
   @ApiOperation(value = "Filter Videos by name", response = classOf[util.List[Video]], responseContainer = "List")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/videos/find"), params = Array("name"))
   @ResponseBody
   def findVideosByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
@@ -52,7 +48,6 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   }
 
   @ApiOperation(value = "Filter Videos by ID", response = classOf[Video])
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/videos/find"), params = Array("id"))
   @ResponseBody
   def findVideoById(@ApiParam(name = "id", value = "The Video ID.", required = true) @RequestParam(name = "id") videoId : String) : ResponseEntity[_]  = {
@@ -62,7 +57,6 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   }
 
   @ApiOperation(value = "Filter Video content by ID", response = classOf[Video])
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/videos/content/{id}"))
   @ResponseBody
   def findVideoContentById(@ApiParam(name = "id", value = "The Video ID.", required = true) @PathVariable(name = "id") videoId : String) : ResponseEntity[_]  = {
@@ -74,7 +68,6 @@ class VideoQueryRestController(@Autowired val videoQueryService : VideoQueryServ
   }
 
   @ApiOperation(value = "Filter Videos by format", response = classOf[util.List[Video]], responseContainer = "List")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/videos/find"), params = Array("format"))
   @ResponseBody
   def findVideosByExtension(@ApiParam(name = "format", value = "The filtering expression.", required = true) @RequestParam format : String) : ResponseEntity[_]  = {

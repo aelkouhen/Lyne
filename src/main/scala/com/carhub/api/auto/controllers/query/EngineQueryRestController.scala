@@ -9,7 +9,6 @@ import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
-import org.springframework.security.access.prepost.PreAuthorize
 import org.springframework.web.bind.annotation._
 
 @Api(value = "Engine", tags = Array("Engine Queries"), description = "This API queries the Engine concept.")
@@ -18,7 +17,6 @@ import org.springframework.web.bind.annotation._
 class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryService) {
 
   @ApiOperation(value = "List the Engines : Retrieve the Engines list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Engine]], responseContainer = "List")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/engines"))
   @ResponseBody
   def getEnginesList(@ApiParam(name = "page", example="0", value = "The page number.", required = true) @RequestParam page : Int,
@@ -36,13 +34,11 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   }
 
   @ApiOperation(value = "Count the Engines.", response = classOf[Long], responseContainer = "Long")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/engines/count"))
   @ResponseBody
   def countAllEngines() : Long = engineQueryService.countAllEngines
 
   @ApiOperation(value = "Filter Engines by name", response = classOf[util.List[Engine]], responseContainer = "List")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/engines/find"), params = Array("name"))
   @ResponseBody
   def findEngineByName(@ApiParam(name = "name", value = "The filtering expression.", required = true) @RequestParam name : String) : ResponseEntity[_]  = {
@@ -52,7 +48,6 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   }
 
   @ApiOperation(value = "Filter Engines by fuel type", response = classOf[util.List[Engine]], responseContainer = "List")
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/engines/find"), params = Array("fuel"))
   @ResponseBody
   def findEngineByFuelType(@ApiParam(name = "fuel", value = "The filtering expression.", required = true) @RequestParam fuel : String) : ResponseEntity[_]  = {
@@ -62,7 +57,6 @@ class EngineQueryRestController(@Autowired val engineQueryService : EngineQueryS
   }
 
   @ApiOperation(value = "Filter Engines by ID", response = classOf[Engine])
-  @PreAuthorize("#oauth2.hasScope('READ_PRIVILEGE')")
   @GetMapping(value = Array("/engines/find"), params = Array("id"))
   @ResponseBody
   def findEngineById(@ApiParam(name = "id", value = "The Engine ID.", required = true) @RequestParam(name = "id") engineId : String) : ResponseEntity[_]  = {
