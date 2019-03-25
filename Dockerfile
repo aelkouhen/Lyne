@@ -1,18 +1,18 @@
 # Pull base image
 FROM openjdk:8-jre-alpine
 
-MAINTAINER aelkouhen@norauto.com
+MAINTAINER amine.elkouhen@gmail.com
 
 RUN mkdir -p /opt/app
 
 # Copy sources
-COPY build/libs/lyne.jar /opt/app/
+COPY build/libs/Lyne.jar /opt/app/
 
 # Define working directory
 WORKDIR /opt/app/
 
 EXPOSE 8083
 
-VOLUME /var/lib/eb-poc-repo
+VOLUME /var/lib/carhub
 
-ENTRYPOINT ["java", "-jar", "/opt/app/lyne.jar"]
+ENTRYPOINT ["java", "-jar", "/opt/app/Lyne.jar"]
