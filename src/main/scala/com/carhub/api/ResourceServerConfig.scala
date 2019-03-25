@@ -13,7 +13,8 @@ import org.springframework.context.annotation.Primary
 import org.springframework.security.oauth2.provider.token.RemoteTokenServices
 import org.springframework.context.annotation.Bean
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.cloud.client.discovery.DiscoveryClient
+import org.springframework.cloud.client.ServiceInstance
+import org.springframework.cloud.client.loadbalancer.LoadBalancerClient
 
 @Configuration
 @EnableResourceServer
@@ -27,10 +28,10 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter{
   val publicKey : String = null
 
   @Autowired
-  val discoveryClient : DiscoveryClient = null
+  val loadBalancer : LoadBalancerClient = null
 
-  @Value("${oauth2.token-check-endpoint}")
-  val checkEndpoint : String = null
+  @Value("${oauth2.token-check-path}")
+  val checkPath : String = null
 
   @Value("${oauth2.service.name}")
   val authServiceName : String = null
@@ -40,6 +41,9 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter{
 
   @Value("${security.oauth2.resource.client.client-secret}")
   val clientSecret : String = null
+
+  @Value("${oauth2.auth-server-uri}")
+  val authServer : String = null
 
   override def configure(http: HttpSecurity): Unit = {
     http.authorizeRequests().anyRequest().permitAll().and().cors().disable().csrf().disable().httpBasic().disable()
@@ -67,7 +71,15 @@ class ResourceServerConfig extends ResourceServerConfigurerAdapter{
   @Bean
   def tokenServices(): RemoteTokenServices = {
     val tokenService = new RemoteTokenServices
-    tokenService.setCheckTokenEndpointUrl(discoveryClient.getInstances(authServiceName).get(0).getUri + checkEndpoint)
+    val authService : ServiceInstance = loadBalancer.choose(authServiceName)
+    var tokenCheckEndpoint : String = ""
+
+    if(authService == null)
+      tokenCheckEndpoint = authServer + checkPath
+    else
+      tokenCheckEndpoint = authService.getUri + checkPath
+
+    tokenService.setCheckTokenEndpointUrl(tokenCheckEndpoint)
     tokenService.setAccessTokenConverter(accessTokenConverter)
     tokenService.setClientId(clientId)
     tokenService.setClientSecret(clientSecret)
