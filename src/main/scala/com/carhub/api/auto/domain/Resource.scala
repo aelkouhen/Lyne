@@ -3,7 +3,6 @@ package com.carhub.api.auto.domain
 import java.io.Serializable
 import java.util.{Date, UUID}
 
-import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 import org.hibernate.annotations.{GenericGenerator, Type}
 import org.hibernate.validator.constraints.URL
@@ -11,7 +10,6 @@ import org.hibernate.validator.constraints.URL
 import scala.beans.BeanProperty
 
 @Entity
-@JsonApi(apiType= "resource")
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
 @DiscriminatorColumn(name="resource_type")
 abstract class Resource extends Serializable {
@@ -21,7 +19,6 @@ abstract class Resource extends Serializable {
   @Column(name = "ID")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
-  @JsonApiId
   @Type(`type` = "uuid-char")
   var id: UUID = _
 

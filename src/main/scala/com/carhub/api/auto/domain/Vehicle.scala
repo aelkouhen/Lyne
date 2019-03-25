@@ -5,7 +5,6 @@ import java.util
 import java.util.UUID
 
 import com.carhub.api.auto.domain.enumerations._
-import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import com.fasterxml.jackson.annotation._
 import javax.persistence._
 import org.hibernate.annotations.{GenericGenerator, Type}
@@ -13,7 +12,6 @@ import scala.beans.BeanProperty
 
 @Entity
 @Inheritance(strategy=InheritanceType.SINGLE_TABLE)
-@JsonApi(apiType= "vehicle")
 @DiscriminatorColumn(name="vehicle_type")
 abstract class Vehicle extends Serializable {
 
@@ -22,7 +20,6 @@ abstract class Vehicle extends Serializable {
   @Column(name = "ID")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
-  @JsonApiId
   @Type(`type` = "uuid-char")
   var id: UUID = _
 

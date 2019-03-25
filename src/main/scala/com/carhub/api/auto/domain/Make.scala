@@ -3,7 +3,6 @@ package com.carhub.api.auto.domain
 import java.util
 import java.util.{Date, UUID}
 
-import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import com.fasterxml.jackson.annotation.JsonIgnore
 import javax.persistence._
 import org.hibernate.annotations.{GenericGenerator, Type}
@@ -12,7 +11,6 @@ import scala.beans.BeanProperty
 
 @Entity
 @Table(name = "make")
-@JsonApi(apiType = "make")
 class Make extends Serializable {
 
   @Id
@@ -20,7 +18,6 @@ class Make extends Serializable {
   @Column(name = "ID")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
-  @JsonApiId
   @Type(`type` = "uuid-char")
   var id: UUID = _
 

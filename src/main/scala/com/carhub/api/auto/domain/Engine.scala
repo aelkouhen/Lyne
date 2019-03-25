@@ -3,7 +3,6 @@ package com.carhub.api.auto.domain
 import java.util.UUID
 
 import com.carhub.api.auto.domain.enumerations._
-import com.carhub.api.auto.utils.jsonapi.annotations.{JsonApi, JsonApiId}
 import javax.persistence._
 import org.hibernate.annotations.{GenericGenerator, Type}
 
@@ -11,7 +10,6 @@ import scala.beans.BeanProperty
 
 @Entity
 @Table(name = "engine")
-@JsonApi(apiType = "engine")
 class Engine extends Serializable {
 
   @Id
@@ -19,7 +17,6 @@ class Engine extends Serializable {
   @Column(name = "ID")
   @GeneratedValue(generator = "uuid2")
   @GenericGenerator(name = "uuid2", strategy = "uuid2")
-  @JsonApiId
   @Type(`type` = "uuid-char")
   var id: UUID = _
 
