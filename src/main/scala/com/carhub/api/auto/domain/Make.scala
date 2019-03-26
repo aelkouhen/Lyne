@@ -42,12 +42,10 @@ class Make extends Serializable {
   var closed: Boolean = _
 
   @BeanProperty
-  @OneToOne(cascade = Array(CascadeType.REMOVE))
-  @JsonIgnore
-  var logo: Photo = _
+  var logoId: UUID = _
 
   @BeanProperty
-  var founder:String = _
+  var founder: String = _
 
   //The series of the model.
   @BeanProperty

@@ -1,8 +1,7 @@
 package com.carhub.api.auto.domain
 
 import java.io.Serializable
-import java.util
-import java.util.UUID
+import java.util._
 
 import com.carhub.api.auto.domain.enumerations._
 import com.fasterxml.jackson.annotation._
@@ -50,21 +49,18 @@ abstract class Vehicle extends Serializable {
 
   //Images of the vehicle.
   @BeanProperty
-  @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-  var images : util.List[Photo] = new util.ArrayList[Photo]()
+  @ElementCollection
+  var images : List[UUID] = new ArrayList[UUID]()
 
   //Videos of the vehicle.
   @BeanProperty
-  @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-  var videos : util.List[Video] = new util.ArrayList[Video]()
+  @ElementCollection
+  var videos : List[UUID] = new ArrayList[UUID]()
 
   //Relevant documentations (technical specification, brochures...).
   @BeanProperty
-  @JsonIgnore
-  @OneToMany(fetch = FetchType.LAZY, orphanRemoval = true)
-  var files : util.List[File] = new util.ArrayList[File]()
+  @ElementCollection
+  var files : List[UUID] = new ArrayList[UUID]()
 
   //The sub-model (serie) of the product.
   @BeanProperty

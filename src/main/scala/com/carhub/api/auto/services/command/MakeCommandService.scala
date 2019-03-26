@@ -13,8 +13,7 @@ import org.springframework.web.multipart.MultipartFile
 @Transactional
 @Service
 class MakeCommandService(makeRepository : MakeRepository,
-                         modelCommandService: ModelCommandService,
-                         photoCommandService: PhotoCommandService)  {
+                         modelCommandService: ModelCommandService)  {
 
   def addMake(make : Make) = makeRepository.save(make)
 
@@ -25,7 +24,7 @@ class MakeCommandService(makeRepository : MakeRepository,
     makeToUpdate.founder = make.founder
     makeToUpdate.headquarterLocation = make.headquarterLocation
     makeToUpdate.closed = make.closed
-    makeToUpdate.logo = make.logo
+    //makeToUpdate.logo = make.logo
     makeToUpdate.name = make.name
     makeToUpdate.oldName = make.oldName
     makeToUpdate.models.addAll(make.models)
@@ -68,6 +67,7 @@ class MakeCommandService(makeRepository : MakeRepository,
     makeRepository.save(makeToUpdate)
   }
 
+  /*
   def updateMakeLogo (makeId : UUID, logo : MultipartFile) = {
     val logoCreated = photoCommandService.addPhoto(logo)
     val makeToUpdate = makeRepository.getOne(makeId)
@@ -76,7 +76,7 @@ class MakeCommandService(makeRepository : MakeRepository,
 
     makeRepository.save(makeToUpdate)
   }
-
+  */
   def updateMakeName (makeId : UUID, name : String) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.name = name

@@ -16,10 +16,7 @@ import org.springframework.web.multipart.MultipartFile
 @Service
 class CarCommandService(carRepository: CarRepository,
                         engineCommandService: EngineCommandService,
-                        serieQueryService: SerieQueryService,
-                        fileCommandService: FileCommandService,
-                        photoCommandService: PhotoCommandService,
-                        videoCommandService: VideoCommandService){
+                        serieQueryService: SerieQueryService){
 
   def addCar (car :Car) = {
     if(car.engine != null) engineCommandService.addEngine(car.engine)
@@ -419,6 +416,7 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(carToUpdate)
   }
 
+  /*
   def updateCarUploadFile(carId : UUID, file: MultipartFile) = {
     val fileToAdd = fileCommandService.addFile(file)
     val carToUpdate = carRepository.getOne(carId)
@@ -461,8 +459,10 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(carToUpdate)
   }
 
+*/
   def deleteCar(carId : UUID) = {
     val carToDelete = carRepository.getOne(carId)
     if (carToDelete != null) carRepository.delete(carToDelete)
   }
+
 }

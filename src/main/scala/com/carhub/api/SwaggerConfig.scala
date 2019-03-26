@@ -94,13 +94,6 @@ class SwaggerConfig {
        |  - MotorizedBicycle.
        |
        |
-       |There is also some util. entities to add some information.
-       |  - Resource : Type of an attached resource (could be a file, a photo or a video).
-       |  - File : Type of an attached file.
-       |  - Photo : Type of an attached photo.
-       |  - Video : Type of an attached video.
-       |
-       |
        |The Api follows the CQRS (Command-Query Responsibility Segregation) patterns and thus is composed of 2 parts :
        |  - Commands: Create, Update, Delete the main concepts.
        |  - Queries: to retrieve the concepts data.

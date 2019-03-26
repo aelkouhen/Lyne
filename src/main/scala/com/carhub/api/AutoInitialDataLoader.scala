@@ -7,7 +7,6 @@ import java.util.{Calendar, Locale}
 import com.carhub.api.auto.domain._
 import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.services.command._
-import com.carhub.api.auto.domain.{File, Photo, Video}
 import com.google.common.io.Files
 import javax.imageio.ImageIO
 import org.springframework.beans.factory.annotation.Autowired
@@ -19,12 +18,9 @@ import org.springframework.stereotype.Component
 @Component
 class AutoInitialDataLoader(carCommandService : CarCommandService,
                             engineCommandService : EngineCommandService,
-                            fileCommandService : FileCommandService,
                             makeCommandService : MakeCommandService,
                             modelCommandService : ModelCommandService,
-                            photoCommandService : PhotoCommandService,
-                            serieCommandService : SerieCommandService,
-                            videoCommandService : VideoCommandService)
+                            serieCommandService : SerieCommandService)
                             extends ApplicationRunner {
 
   def run(args: ApplicationArguments): Unit = {
@@ -36,7 +32,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     make.foundationDate = date
     make.about = "Nissan Motor Company, Limited, Nissan est un constructeur automobile japonais né sous le nom de Datsun. Son siège social est à Yokohama depuis 2010. Il est lié au constructeur français Renault depuis 1999 à travers l'Alliance Renault-Nissan qui est au premier semestre 2017, le premier groupe automobile mondial."
     make.founder = "Yoshisuke Aikawa"
-    make.logo = createPhoto()
+    //make.logo = createPhoto()
 
     makeCommandService.addMake(make)
 
@@ -89,6 +85,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.rimsSize = "R17; R18; R19"
     car.serie = serie
 
+    /*
     car.images.add({
       val photo = new Photo
       val picture = new ClassPathResource("images/nissan-x-trail.jpg")
@@ -110,7 +107,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       photoCommandService.addPhoto(photo)
 
       photo
-    })
+    })*/
 
     carCommandService.addCar(car)
 
@@ -129,6 +126,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     carCommandService.updateCarEngine(car.id, engine)
 
 
+    /*
     val photo = new Photo
     val picture = new ClassPathResource("images/xtrail.jpg")
     var inputStream = picture.getInputStream
@@ -177,8 +175,10 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
 
     carCommandService.updateCarUploadFile(car.id, file)
+    */
   }
 
+  /*
   private def createPhoto() = {
     val photo = new Photo
     val picture = new ClassPathResource("images/nissan_logo.png")
@@ -201,4 +201,5 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     photo
   }
+  */
 }

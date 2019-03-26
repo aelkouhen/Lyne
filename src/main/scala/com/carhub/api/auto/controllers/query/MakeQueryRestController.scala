@@ -18,7 +18,6 @@ class MakeQueryRestController(@Autowired
                               val makeQueryService : MakeQueryService,
                               val serieQueryService : SerieQueryService,
                               val modelQueryService : ModelQueryService,
-                              val photoQueryService : PhotoQueryService,
                               val carQueryService : CarQueryService) {
 
   @ApiOperation(value = "List the Makes : Retrieve the Makes list paged and sorted by field.", notes = "It takes the page number, a size for each page, a sorting order and the field on which the list is sorted.", response = classOf[util.List[Make]], responseContainer = "List")
@@ -86,15 +85,5 @@ class MakeQueryRestController(@Autowired
     val result = carQueryService.getMakeCars(UUID.fromString(makeId))
     if (result.isEmpty || result == null) throw new ElementNotFoundException[Make](classOf[Make])
     ResponseEntity.ok(result)
-  }
-
-  @ApiOperation(value = "Returns the icon of the Make.", response = classOf[Array[Byte]], responseContainer = "Array")
-  @GetMapping(value = Array("/makes/{id}/icon"))
-  @ResponseBody
-  def getMakeIcon(@ApiParam(name = "id", value = "The Make ID.", required = true) @PathVariable(value = "id") makeId : String) : ResponseEntity[_] = {
-    val result = photoQueryService.getMakeIcon(UUID.fromString(makeId))
-    if (result == null || result.content.isEmpty || result.content == null) throw new ElementNotFoundException[Make](classOf[Make])
-    ResponseEntity.ok().header(HttpHeaders.CONTENT_DISPOSITION,
-      "attachment; filename=\"" + result.name + "." + result.format + "\"").body(result.content)
   }
 }

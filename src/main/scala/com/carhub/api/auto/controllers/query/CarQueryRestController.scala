@@ -3,7 +3,7 @@ package com.carhub.api.auto.controllers.query
 import java.util
 import java.util.UUID
 
-import com.carhub.api.auto.domain.{Car, File, Photo, Video}
+import com.carhub.api.auto.domain.Car
 import com.carhub.api.auto.services.query.CarQueryService
 import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
@@ -61,7 +61,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @GetMapping(value = Array("/cars/{id}/files"))
   def getCarsFiles(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") carId : String) = {
     val result = carQueryService.findCarFiles(UUID.fromString(carId))
-    if (result == null || result.isEmpty) throw new ElementNotFoundException[File](classOf[File])
+    //if (result == null || result.isEmpty) throw new ElementNotFoundException[File](classOf[File])
     ResponseEntity.ok(result)
   }
 
@@ -70,7 +70,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @GetMapping(value = Array("/cars/{id}/photos"))
   def getCarsPhotos(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") carId : String) = {
     val result = carQueryService.findCarPhotos(UUID.fromString(carId))
-    if (result == null || result.isEmpty) throw new ElementNotFoundException[Photo](classOf[Photo])
+    //if (result == null || result.isEmpty) throw new ElementNotFoundException[Photo](classOf[Photo])
     ResponseEntity.ok(result)
   }
 
@@ -79,7 +79,7 @@ class CarQueryRestController(@Autowired val carQueryService : CarQueryService) {
   @GetMapping(value = Array("/cars/{id}/videos"))
   def getCarsVideos(@ApiParam(name = "id", value = "The Car's ID.", required = true) @PathVariable(value = "id") carId : String) = {
     val result = carQueryService.findCarVideos(UUID.fromString(carId))
-    if (result == null || result.isEmpty) throw new ElementNotFoundException[Video](classOf[Video])
+    //if (result == null || result.isEmpty) throw new ElementNotFoundException[Video](classOf[Video])
     ResponseEntity.ok(result)
   }
 }
