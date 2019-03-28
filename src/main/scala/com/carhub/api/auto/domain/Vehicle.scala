@@ -50,16 +50,19 @@ abstract class Vehicle extends Serializable {
   //Images of the vehicle.
   @BeanProperty
   @ElementCollection
+  @Type(`type` = "uuid-char")
   var images : List[UUID] = new ArrayList[UUID]()
 
   //Videos of the vehicle.
   @BeanProperty
   @ElementCollection
+  @Type(`type` = "uuid-char")
   var videos : List[UUID] = new ArrayList[UUID]()
 
   //Relevant documentations (technical specification, brochures...).
   @BeanProperty
   @ElementCollection
+  @Type(`type` = "uuid-char")
   var files : List[UUID] = new ArrayList[UUID]()
 
   //The sub-model (serie) of the product.

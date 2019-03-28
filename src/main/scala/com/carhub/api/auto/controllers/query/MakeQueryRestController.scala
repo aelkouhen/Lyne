@@ -8,7 +8,7 @@ import com.carhub.api.auto.services.query._
 import com.carhub.api.auto.utils.exception.ElementNotFoundException
 import io.swagger.annotations.{Api, ApiOperation, ApiParam}
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.http.{HttpHeaders, ResponseEntity}
+import org.springframework.http.ResponseEntity
 import org.springframework.web.bind.annotation._
 
 @Api(value = "Make", tags = Array("Make Queries"), description = "This API queries the Make concept.")

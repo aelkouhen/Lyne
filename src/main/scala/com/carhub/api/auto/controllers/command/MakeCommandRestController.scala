@@ -89,7 +89,7 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
-  /*
+
   @ApiOperation(value = "Upload the Make's logo.", response = classOf[Make])
   @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
@@ -99,7 +99,7 @@ class MakeCommandRestController(@Autowired val makeCommandService: MakeCommandSe
     if(updated == null) throw new ElementNotUpdatedException[Make](classOf[Make])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
-  */
+
 
   @ApiOperation(value = "Update the Make's name.", response = classOf[Make])
   @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")

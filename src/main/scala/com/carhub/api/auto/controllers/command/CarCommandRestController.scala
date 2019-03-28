@@ -511,7 +511,7 @@ class CarCommandRestController(@Autowired val carCommandService : CarCommandServ
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
 
-  /*
+
   @ApiOperation(value = "Upload a Car's related file.", response = classOf[Car])
   @PreAuthorize("#oauth2.hasScope('UPDATE_PRIVILEGE')")
   @ResponseBody
@@ -541,7 +541,7 @@ class CarCommandRestController(@Autowired val carCommandService : CarCommandServ
     if(updated == null) throw new ElementNotUpdatedException[Car](classOf[Car])
     ResponseEntity.status(HttpStatus.OK).body(updated)
   }
-*/
+
 
   @ApiOperation(value = "Delete the Car.", response = classOf[Car])
   @PreAuthorize("#oauth2.hasScope('DELETE_PRIVILEGE')")

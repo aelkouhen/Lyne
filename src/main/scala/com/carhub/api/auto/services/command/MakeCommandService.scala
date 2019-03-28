@@ -1,19 +1,34 @@
 package com.carhub.api.auto.services.command
 
-import java.util.{Date, UUID}
+import java.awt.image.BufferedImage
+import java.util.{Calendar, Date, UUID}
 
+import com.carhub.api.auto.domain.dto.Photo
 import com.carhub.api.auto.domain.{Make, Model}
 import com.carhub.api.auto.repositories.MakeRepository
-import org.springframework.beans.factory.annotation.Autowired
+import com.carhub.api.auto.utils.jwt.JwtUtil
+import com.google.common.io.Files
+import com.google.common.net.HttpHeaders
+import javax.imageio.ImageIO
+import org.springframework.beans.factory.annotation.{Autowired, Value}
+import org.springframework.cloud.client.ServiceInstance
+import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.reactive.function.BodyInserters
+import org.springframework.web.reactive.function.client.WebClient
 
 @Autowired
 @Transactional
 @Service
 class MakeCommandService(makeRepository : MakeRepository,
                          modelCommandService: ModelCommandService)  {
+
+  val mediaServiceInstance : ServiceInstance = null
+
+  @Value("${security.oauth2.resource.token-type}")
+  val tokenType : String = null
 
   def addMake(make : Make) = makeRepository.save(make)
 
@@ -24,7 +39,7 @@ class MakeCommandService(makeRepository : MakeRepository,
     makeToUpdate.founder = make.founder
     makeToUpdate.headquarterLocation = make.headquarterLocation
     makeToUpdate.closed = make.closed
-    //makeToUpdate.logo = make.logo
+    makeToUpdate.logoId = make.logoId
     makeToUpdate.name = make.name
     makeToUpdate.oldName = make.oldName
     makeToUpdate.models.addAll(make.models)
@@ -67,16 +82,14 @@ class MakeCommandService(makeRepository : MakeRepository,
     makeRepository.save(makeToUpdate)
   }
 
-  /*
+
   def updateMakeLogo (makeId : UUID, logo : MultipartFile) = {
-    val logoCreated = photoCommandService.addPhoto(logo)
     val makeToUpdate = makeRepository.getOne(makeId)
-    photoCommandService.updatePhotoCaption(logoCreated.id, "The " + makeToUpdate.name + "'s logo")
-    makeToUpdate.logo = logoCreated
+    makeToUpdate.logoId = addPhoto(logo)
 
     makeRepository.save(makeToUpdate)
   }
-  */
+
   def updateMakeName (makeId : UUID, name : String) = {
     val makeToUpdate = makeRepository.getOne(makeId)
     makeToUpdate.name = name
@@ -103,5 +116,34 @@ class MakeCommandService(makeRepository : MakeRepository,
   def deleteMake(makeId : UUID) = {
     val makeToDelete = makeRepository.getOne(makeId)
     makeRepository.delete(makeToDelete)
+  }
+
+  def addPhoto(photo: MultipartFile): UUID ={
+    val photoMeta = new Photo
+    photoMeta.size = photo.getSize
+    photoMeta.name = Files.getNameWithoutExtension(photo.getOriginalFilename)
+    photoMeta.format = Files.getFileExtension(photo.getOriginalFilename)
+    photoMeta.content = photo.getBytes
+    photoMeta.mimeType = photo.getContentType
+    photoMeta.created = Calendar.getInstance().getTime()
+
+    val bimg : BufferedImage = ImageIO.read(photo.getInputStream)
+    photoMeta.width = bimg.getWidth
+    photoMeta.height = bimg.getHeight
+
+    val client = WebClient.builder()
+      .baseUrl(mediaServiceInstance.getUri.toString)
+      .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+      .build()
+
+    var request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+
+    val p = request.retrieve()
+      .bodyToMono(classOf[Photo])
+      .block()
+
+    p.id
   }
 }

@@ -5,14 +5,21 @@ import java.text.SimpleDateFormat
 import java.util.{Calendar, Locale}
 
 import com.carhub.api.auto.domain._
+import com.carhub.api.auto.domain.dto.{File, Photo, Video}
 import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.services.command._
+import com.carhub.api.auto.utils.jwt.JwtUtil
 import com.google.common.io.Files
+import com.google.common.net.HttpHeaders
 import javax.imageio.ImageIO
-import org.springframework.beans.factory.annotation.Autowired
+import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.boot.{ApplicationArguments, ApplicationRunner}
+import org.springframework.cloud.client.ServiceInstance
 import org.springframework.core.io.ClassPathResource
+import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Component
+import org.springframework.web.reactive.function.BodyInserters
+import org.springframework.web.reactive.function.client.WebClient
 
 @Autowired
 @Component
@@ -23,6 +30,12 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
                             serieCommandService : SerieCommandService)
                             extends ApplicationRunner {
 
+  @Value("${security.oauth2.resource.token-type}")
+  val tokenType : String = null
+
+  @Autowired
+  val mediaServiceInstance : ServiceInstance = null
+
   def run(args: ApplicationArguments): Unit = {
     val make = new Make()
     make.name = "Nissan"
@@ -32,7 +45,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     make.foundationDate = date
     make.about = "Nissan Motor Company, Limited, Nissan est un constructeur automobile japonais né sous le nom de Datsun. Son siège social est à Yokohama depuis 2010. Il est lié au constructeur français Renault depuis 1999 à travers l'Alliance Renault-Nissan qui est au premier semestre 2017, le premier groupe automobile mondial."
     make.founder = "Yoshisuke Aikawa"
-    //make.logo = createPhoto()
+    make.logoId = createPhoto()
 
     makeCommandService.addMake(make)
 
@@ -85,7 +98,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.rimsSize = "R17; R18; R19"
     car.serie = serie
 
-    /*
+
     car.images.add({
       val photo = new Photo
       val picture = new ClassPathResource("images/nissan-x-trail.jpg")
@@ -104,10 +117,22 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       photo.caption = "Xtrail"
       photo.created = Calendar.getInstance().getTime()
       photo.content = arrayPic
-      photoCommandService.addPhoto(photo)
 
-      photo
-    })*/
+      val client = WebClient.builder()
+        .baseUrl(mediaServiceInstance.getUri.toString)
+        .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+        .build()
+
+      val request = client
+        .method(HttpMethod.POST)
+        .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+
+      val result = request.retrieve()
+        .bodyToMono(classOf[Photo])
+        .block()
+
+      result.id
+    })
 
     carCommandService.addCar(car)
 
@@ -126,7 +151,6 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     carCommandService.updateCarEngine(car.id, engine)
 
 
-    /*
     val photo = new Photo
     val picture = new ClassPathResource("images/xtrail.jpg")
     var inputStream = picture.getInputStream
@@ -144,19 +168,37 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     photo.caption = "Xtrail"
     photo.created = Calendar.getInstance().getTime()
     photo.content = arrayPic
-    photoCommandService.addPhoto(photo)
 
-    carCommandService.updateCarUploadPhoto(car.id, photo)
+    val client = WebClient.builder()
+      .baseUrl(mediaServiceInstance.getUri.toString)
+      .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+      .build()
 
+    var request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+
+    val p = request.retrieve()
+      .bodyToMono(classOf[Photo])
+      .block()
+
+    carCommandService.updateCarUploadPhoto(car.id, p.id)
 
     val video = new Video
     video.name = "TS"
     video.caption = "Technical Spec. Video"
     video.created = Calendar.getInstance().getTime()
     video.url = "https://youtu.be/9u9x4kveojU"
-    videoCommandService.addVideo(video)
 
-    carCommandService.updateCarUploadVideo(car.id, video)
+    request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/videos").body(BodyInserters.fromObject(video))
+
+    val v = request.retrieve()
+      .bodyToMono(classOf[Video])
+      .block()
+
+    carCommandService.updateCarUploadVideo(car.id, v.id)
 
     val file = new File
     val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
@@ -171,15 +213,21 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     file.caption = "Brochure"
     file.created = Calendar.getInstance().getTime()
     file.content = arrayPic
-    fileCommandService.addFile(file)
 
+    request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/files").body(BodyInserters.fromObject(file))
 
-    carCommandService.updateCarUploadFile(car.id, file)
-    */
+    val f = request.retrieve()
+      .bodyToMono(classOf[File])
+      .block()
+
+    carCommandService.updateCarUploadFile(car.id, f.id)
   }
 
-  /*
+
   private def createPhoto() = {
+
     val photo = new Photo
     val picture = new ClassPathResource("images/nissan_logo.png")
     var inputStream = picture.getInputStream
@@ -197,9 +245,21 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     photo.caption = "Nissan's logo"
     photo.created = Calendar.getInstance().getTime()
     photo.content = arrayPic
-    photoCommandService.addPhoto(photo)
 
-    photo
+    val client = WebClient.builder()
+      .baseUrl(mediaServiceInstance.getUri.toString)
+      .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+      .build()
+
+    var request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+
+    val p = request.retrieve()
+      .bodyToMono(classOf[Photo])
+      .block()
+
+    photo.id
   }
-  */
+
 }

@@ -42,6 +42,7 @@ class Make extends Serializable {
   var closed: Boolean = _
 
   @BeanProperty
+  @Type(`type` = "uuid-char")
   var logoId: UUID = _
 
   @BeanProperty

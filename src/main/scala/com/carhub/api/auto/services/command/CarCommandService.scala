@@ -1,15 +1,25 @@
 package com.carhub.api.auto.services.command
 
-import java.util.UUID
+import java.awt.image.BufferedImage
+import java.util.{Calendar, UUID}
 
 import com.carhub.api.auto.domain._
+import com.carhub.api.auto.domain.dto.{File, Photo, Video}
 import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.repositories.CarRepository
 import com.carhub.api.auto.services.query._
-import org.springframework.beans.factory.annotation.Autowired
+import com.carhub.api.auto.utils.jwt.JwtUtil
+import com.google.common.io.Files
+import com.google.common.net.HttpHeaders
+import javax.imageio.ImageIO
+import org.springframework.beans.factory.annotation.{Autowired, Value}
+import org.springframework.cloud.client.ServiceInstance
+import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.web.multipart.MultipartFile
+import org.springframework.web.reactive.function.BodyInserters
+import org.springframework.web.reactive.function.client.WebClient
 
 @Autowired
 @Transactional
@@ -17,6 +27,11 @@ import org.springframework.web.multipart.MultipartFile
 class CarCommandService(carRepository: CarRepository,
                         engineCommandService: EngineCommandService,
                         serieQueryService: SerieQueryService){
+
+  val mediaServiceInstance : ServiceInstance = null
+
+  @Value("${security.oauth2.resource.token-type}")
+  val tokenType : String = null
 
   def addCar (car :Car) = {
     if(car.engine != null) engineCommandService.addEngine(car.engine)
@@ -416,53 +431,131 @@ class CarCommandService(carRepository: CarRepository,
     carRepository.save(carToUpdate)
   }
 
-  /*
+
   def updateCarUploadFile(carId : UUID, file: MultipartFile) = {
-    val fileToAdd = fileCommandService.addFile(file)
+    val fileToAdd = addFile(file)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.files.add(fileToAdd)
     carRepository.save(carToUpdate)
   }
 
   def updateCarUploadPhoto(carId : UUID, photo : MultipartFile) = {
-    val photoToAdd = photoCommandService.addPhoto(photo)
+    val photoToAdd = addPhoto(photo)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.images.add(photoToAdd)
     carRepository.save(carToUpdate)
   }
 
   def updateCarUploadVideo(carId : UUID, video : MultipartFile) = {
-    val videoToAdd = videoCommandService.addVideo(video)
+    val videoToAdd = addVideo(video)
     val carToUpdate = carRepository.getOne(carId)
     carToUpdate.videos.add(videoToAdd)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadFile(carId : UUID, file: File) = {
-    val fileToAdd = fileCommandService.addFile(file)
+  def updateCarUploadFile(carId : UUID, fileId: UUID) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.files.add(fileToAdd)
+    carToUpdate.files.add(fileId)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadPhoto(carId : UUID, photo : Photo) = {
-    val photoToAdd = photoCommandService.addPhoto(photo)
+  def updateCarUploadPhoto(carId : UUID, photoId : UUID) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.images.add(photoToAdd)
+    carToUpdate.images.add(photoId)
     carRepository.save(carToUpdate)
   }
 
-  def updateCarUploadVideo(carId : UUID, video : Video) = {
-    val videoToAdd = videoCommandService.addVideo(video)
+  def updateCarUploadVideo(carId : UUID, videoId : UUID) = {
     val carToUpdate = carRepository.getOne(carId)
-    carToUpdate.videos.add(videoToAdd)
+    carToUpdate.videos.add(videoId)
     carRepository.save(carToUpdate)
   }
 
-*/
   def deleteCar(carId : UUID) = {
     val carToDelete = carRepository.getOne(carId)
     if (carToDelete != null) carRepository.delete(carToDelete)
   }
 
+  def addPhoto(photo: MultipartFile): UUID ={
+    val photoMeta = new Photo
+    photoMeta.size = photo.getSize
+    photoMeta.name = Files.getNameWithoutExtension(photo.getOriginalFilename)
+    photoMeta.format = Files.getFileExtension(photo.getOriginalFilename)
+    photoMeta.content = photo.getBytes
+    photoMeta.mimeType = photo.getContentType
+    photoMeta.created = Calendar.getInstance().getTime()
+
+    val bimg : BufferedImage = ImageIO.read(photo.getInputStream)
+    photoMeta.width = bimg.getWidth
+    photoMeta.height = bimg.getHeight
+
+    val client = WebClient.builder()
+      .baseUrl(mediaServiceInstance.getUri.toString)
+      .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+      .build()
+
+    var request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+
+    val p = request.retrieve()
+      .bodyToMono(classOf[Photo])
+      .block()
+
+    p.id
+  }
+
+  def addVideo(video: MultipartFile): UUID ={
+    val photoMeta = new Photo
+    photoMeta.size = video.getSize
+    photoMeta.name = Files.getNameWithoutExtension(video.getOriginalFilename)
+    photoMeta.format = Files.getFileExtension(video.getOriginalFilename)
+    photoMeta.content = video.getBytes
+    photoMeta.mimeType = video.getContentType
+    photoMeta.created = Calendar.getInstance().getTime()
+
+    val bimg : BufferedImage = ImageIO.read(video.getInputStream)
+    photoMeta.width = bimg.getWidth
+    photoMeta.height = bimg.getHeight
+
+    val client = WebClient.builder()
+      .baseUrl(mediaServiceInstance.getUri.toString)
+      .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+      .build()
+
+    var request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/videos").body(BodyInserters.fromObject(video))
+
+    val v = request.retrieve()
+      .bodyToMono(classOf[Video])
+      .block()
+
+    v.id
+  }
+
+  def addFile(file: MultipartFile): UUID ={
+    val photoMeta = new Photo
+    photoMeta.size = file.getSize
+    photoMeta.name = Files.getNameWithoutExtension(file.getOriginalFilename)
+    photoMeta.format = Files.getFileExtension(file.getOriginalFilename)
+    photoMeta.content = file.getBytes
+    photoMeta.mimeType = file.getContentType
+    photoMeta.created = Calendar.getInstance().getTime()
+
+    val client = WebClient.builder()
+      .baseUrl(mediaServiceInstance.getUri.toString)
+      .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+      .build()
+
+    var request = client
+      .method(HttpMethod.POST)
+      .uri("/media/v1/files").body(BodyInserters.fromObject(file))
+
+    val f = request.retrieve()
+      .bodyToMono(classOf[File])
+      .block()
+
+    f.id
+  }
 }
