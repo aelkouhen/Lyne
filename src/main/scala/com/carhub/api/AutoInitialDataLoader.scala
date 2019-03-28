@@ -259,7 +259,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
       .bodyToMono(classOf[Photo])
       .block()
 
-    photo.id
+    p.id
   }
 
 }
