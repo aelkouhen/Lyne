@@ -38,7 +38,8 @@ class ApiErrorHandler {
     classOf[MissingServletRequestPartException],
     classOf[BindException],
     classOf[NoHandlerFoundException],
-    classOf[AsyncRequestTimeoutException]))
+    classOf[AsyncRequestTimeoutException],
+    classOf[ServiceUnavailableException]))
   def handleAll(ex: Throwable, request: WebRequest): ResponseEntity[ApiError] = ex match{
       case ex : ElementNotFoundException[_] => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : ContentNotFoundException[_] => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
@@ -59,6 +60,7 @@ class ApiErrorHandler {
       case ex : BindException => buildResponseEntity(new ApiError(HttpStatus.BAD_REQUEST,"error" , ex))
       case ex : NoHandlerFoundException => buildResponseEntity(new ApiError(HttpStatus.NOT_FOUND,"error" , ex))
       case ex : AsyncRequestTimeoutException => buildResponseEntity(new ApiError(HttpStatus.SERVICE_UNAVAILABLE,"error" , ex))
+      case ex : ServiceUnavailableException => buildResponseEntity(new ApiError(HttpStatus.SERVICE_UNAVAILABLE,"error" , ex))
       case _ => buildResponseEntity(new ApiError(HttpStatus.INTERNAL_SERVER_ERROR,"error" , ex))
   }
 

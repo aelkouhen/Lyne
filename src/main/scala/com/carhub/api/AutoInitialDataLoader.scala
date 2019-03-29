@@ -33,7 +33,15 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
   @Value("${security.oauth2.resource.token-type}")
   val tokenType : String = null
 
-  @Autowired
+  @Value("${media.photo-endpoint}")
+  val photoEndpoint : String = null
+
+  @Value("${media.file-endpoint}")
+  val fileEndpoint : String = null
+
+  @Value("${media.video-endpoint}")
+  val videoEndpoint : String = null
+
   val mediaServiceInstance : ServiceInstance = null
 
   def run(args: ApplicationArguments): Unit = {
@@ -125,7 +133,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
       val request = client
         .method(HttpMethod.POST)
-        .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+        .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
 
       val result = request.retrieve()
         .bodyToMono(classOf[Photo])
@@ -176,7 +184,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     var request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+      .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
 
     val p = request.retrieve()
       .bodyToMono(classOf[Photo])
@@ -192,7 +200,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/videos").body(BodyInserters.fromObject(video))
+      .uri(videoEndpoint).body(BodyInserters.fromObject(video))
 
     val v = request.retrieve()
       .bodyToMono(classOf[Video])
@@ -216,7 +224,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/files").body(BodyInserters.fromObject(file))
+      .uri(fileEndpoint).body(BodyInserters.fromObject(file))
 
     val f = request.retrieve()
       .bodyToMono(classOf[File])
@@ -253,7 +261,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     var request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+      .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
 
     val p = request.retrieve()
       .bodyToMono(classOf[Photo])
@@ -261,5 +269,4 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
 
     p.id
   }
-
 }

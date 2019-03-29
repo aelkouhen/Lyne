@@ -33,6 +33,15 @@ class CarCommandService(carRepository: CarRepository,
   @Value("${security.oauth2.resource.token-type}")
   val tokenType : String = null
 
+  @Value("${media.photo-endpoint}")
+  val photoEndpoint : String = null
+
+  @Value("${media.file-endpoint}")
+  val fileEndpoint : String = null
+
+  @Value("${media.video-endpoint}")
+  val videoEndpoint : String = null
+
   def addCar (car :Car) = {
     if(car.engine != null) engineCommandService.addEngine(car.engine)
     carRepository.save(car)
@@ -496,7 +505,7 @@ class CarCommandService(carRepository: CarRepository,
 
     var request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+      .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
 
     val p = request.retrieve()
       .bodyToMono(classOf[Photo])
@@ -525,7 +534,7 @@ class CarCommandService(carRepository: CarRepository,
 
     var request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/videos").body(BodyInserters.fromObject(video))
+      .uri(videoEndpoint).body(BodyInserters.fromObject(video))
 
     val v = request.retrieve()
       .bodyToMono(classOf[Video])
@@ -550,7 +559,7 @@ class CarCommandService(carRepository: CarRepository,
 
     var request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/files").body(BodyInserters.fromObject(file))
+      .uri(fileEndpoint).body(BodyInserters.fromObject(file))
 
     val f = request.retrieve()
       .bodyToMono(classOf[File])

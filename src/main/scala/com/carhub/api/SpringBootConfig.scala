@@ -1,5 +1,6 @@
 package com.carhub.api
 
+import com.carhub.api.auto.utils.exception.ServiceUnavailableException
 import org.springframework.beans.factory.annotation.{Autowired, Value}
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
 import org.springframework.cloud.client.ServiceInstance
@@ -18,14 +19,14 @@ class SpringBootConfig{
   @Autowired
   val loadBalancerClient : LoadBalancerClient = null
 
-  @Value("${service.media.serviceId}")
+  @Value("${media.service.name")
   val mediaService : String = null
 
   @Bean
   def mediaServiceInstance(): ServiceInstance ={
     val mediaServiceInstance : ServiceInstance = loadBalancerClient.choose(mediaService)
     if(mediaServiceInstance == null)
-      throw new RuntimeException("Media Service is Down")
+      throw new ServiceUnavailableException("Media")
 
     mediaServiceInstance
   }

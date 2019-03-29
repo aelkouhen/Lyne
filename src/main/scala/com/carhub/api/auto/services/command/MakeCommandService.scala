@@ -30,6 +30,9 @@ class MakeCommandService(makeRepository : MakeRepository,
   @Value("${security.oauth2.resource.token-type}")
   val tokenType : String = null
 
+  @Value("${media.photo-endpoint}")
+  val photoEndpoint : String = null
+
   def addMake(make : Make) = makeRepository.save(make)
 
   def updateMake (makeId : UUID, make : Make) = {
@@ -138,7 +141,7 @@ class MakeCommandService(makeRepository : MakeRepository,
 
     var request = client
       .method(HttpMethod.POST)
-      .uri("/media/v1/photos").body(BodyInserters.fromObject(photo))
+      .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
 
     val p = request.retrieve()
       .bodyToMono(classOf[Photo])
