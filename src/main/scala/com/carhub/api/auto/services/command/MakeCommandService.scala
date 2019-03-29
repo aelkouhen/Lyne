@@ -7,11 +7,11 @@ import com.carhub.api.auto.domain.dto.Photo
 import com.carhub.api.auto.domain.{Make, Model}
 import com.carhub.api.auto.repositories.MakeRepository
 import com.carhub.api.auto.utils.jwt.JwtUtil
+import com.carhub.api.auto.utils.media.MediaUtil
 import com.google.common.io.Files
 import com.google.common.net.HttpHeaders
 import javax.imageio.ImageIO
 import org.springframework.beans.factory.annotation.{Autowired, Value}
-import org.springframework.cloud.client.ServiceInstance
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -24,8 +24,6 @@ import org.springframework.web.reactive.function.client.WebClient
 @Service
 class MakeCommandService(makeRepository : MakeRepository,
                          modelCommandService: ModelCommandService)  {
-
-  val mediaServiceInstance : ServiceInstance = null
 
   @Value("${security.oauth2.resource.token-type}")
   val tokenType : String = null
@@ -122,6 +120,7 @@ class MakeCommandService(makeRepository : MakeRepository,
   }
 
   def addPhoto(photo: MultipartFile): UUID ={
+    val mediaService = MediaUtil.mediaService()
     val photoMeta = new Photo
     photoMeta.size = photo.getSize
     photoMeta.name = Files.getNameWithoutExtension(photo.getOriginalFilename)
@@ -135,13 +134,14 @@ class MakeCommandService(makeRepository : MakeRepository,
     photoMeta.height = bimg.getHeight
 
     val client = WebClient.builder()
-      .baseUrl(mediaServiceInstance.getUri.toString)
+      .baseUrl(mediaService.getUri.toString)
       .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
       .build()
 
     var request = client
       .method(HttpMethod.POST)
-      .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
+      .uri(photoEndpoint)
+      .body(BodyInserters.fromObject(photoMeta))
 
     val p = request.retrieve()
       .bodyToMono(classOf[Photo])

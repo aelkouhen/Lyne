@@ -9,11 +9,11 @@ import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.repositories.CarRepository
 import com.carhub.api.auto.services.query._
 import com.carhub.api.auto.utils.jwt.JwtUtil
+import com.carhub.api.auto.utils.media.MediaUtil
 import com.google.common.io.Files
 import com.google.common.net.HttpHeaders
 import javax.imageio.ImageIO
 import org.springframework.beans.factory.annotation.{Autowired, Value}
-import org.springframework.cloud.client.ServiceInstance
 import org.springframework.http.HttpMethod
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Transactional
@@ -27,8 +27,6 @@ import org.springframework.web.reactive.function.client.WebClient
 class CarCommandService(carRepository: CarRepository,
                         engineCommandService: EngineCommandService,
                         serieQueryService: SerieQueryService){
-
-  val mediaServiceInstance : ServiceInstance = null
 
   @Value("${security.oauth2.resource.token-type}")
   val tokenType : String = null
@@ -486,26 +484,27 @@ class CarCommandService(carRepository: CarRepository,
   }
 
   def addPhoto(photo: MultipartFile): UUID ={
+    val mediaService = MediaUtil.mediaService()
     val photoMeta = new Photo
     photoMeta.size = photo.getSize
     photoMeta.name = Files.getNameWithoutExtension(photo.getOriginalFilename)
     photoMeta.format = Files.getFileExtension(photo.getOriginalFilename)
-    photoMeta.content = photo.getBytes
     photoMeta.mimeType = photo.getContentType
     photoMeta.created = Calendar.getInstance().getTime()
-
+    photoMeta.content = photo.getBytes
     val bimg : BufferedImage = ImageIO.read(photo.getInputStream)
     photoMeta.width = bimg.getWidth
     photoMeta.height = bimg.getHeight
 
     val client = WebClient.builder()
-      .baseUrl(mediaServiceInstance.getUri.toString)
+      .baseUrl(mediaService.getUri.toString)
       .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
       .build()
 
     var request = client
       .method(HttpMethod.POST)
-      .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
+      .uri(photoEndpoint)
+      .body(BodyInserters.fromObject(photoMeta))
 
     val p = request.retrieve()
       .bodyToMono(classOf[Photo])
@@ -515,26 +514,28 @@ class CarCommandService(carRepository: CarRepository,
   }
 
   def addVideo(video: MultipartFile): UUID ={
-    val photoMeta = new Photo
-    photoMeta.size = video.getSize
-    photoMeta.name = Files.getNameWithoutExtension(video.getOriginalFilename)
-    photoMeta.format = Files.getFileExtension(video.getOriginalFilename)
-    photoMeta.content = video.getBytes
-    photoMeta.mimeType = video.getContentType
-    photoMeta.created = Calendar.getInstance().getTime()
+    val mediaService = MediaUtil.mediaService()
+    val videoMeta = new Video
+    videoMeta.size = video.getSize
+    videoMeta.name = Files.getNameWithoutExtension(video.getOriginalFilename)
+    videoMeta.format = Files.getFileExtension(video.getOriginalFilename)
+    videoMeta.content = video.getBytes
+    videoMeta.mimeType = video.getContentType
+    videoMeta.created = Calendar.getInstance().getTime()
 
     val bimg : BufferedImage = ImageIO.read(video.getInputStream)
-    photoMeta.width = bimg.getWidth
-    photoMeta.height = bimg.getHeight
+    videoMeta.width = bimg.getWidth
+    videoMeta.height = bimg.getHeight
 
     val client = WebClient.builder()
-      .baseUrl(mediaServiceInstance.getUri.toString)
+      .baseUrl(mediaService.getUri.toString)
       .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
       .build()
 
     var request = client
       .method(HttpMethod.POST)
-      .uri(videoEndpoint).body(BodyInserters.fromObject(video))
+      .uri(videoEndpoint)
+      .body(BodyInserters.fromObject(videoMeta))
 
     val v = request.retrieve()
       .bodyToMono(classOf[Video])
@@ -544,22 +545,24 @@ class CarCommandService(carRepository: CarRepository,
   }
 
   def addFile(file: MultipartFile): UUID ={
-    val photoMeta = new Photo
-    photoMeta.size = file.getSize
-    photoMeta.name = Files.getNameWithoutExtension(file.getOriginalFilename)
-    photoMeta.format = Files.getFileExtension(file.getOriginalFilename)
-    photoMeta.content = file.getBytes
-    photoMeta.mimeType = file.getContentType
-    photoMeta.created = Calendar.getInstance().getTime()
+    val mediaService = MediaUtil.mediaService()
+    val fileMeta = new File
+    fileMeta.size = file.getSize
+    fileMeta.name = Files.getNameWithoutExtension(file.getOriginalFilename)
+    fileMeta.format = Files.getFileExtension(file.getOriginalFilename)
+    fileMeta.content = file.getBytes
+    fileMeta.mimeType = file.getContentType
+    fileMeta.created = Calendar.getInstance().getTime()
 
     val client = WebClient.builder()
-      .baseUrl(mediaServiceInstance.getUri.toString)
+      .baseUrl(mediaService.getUri.toString)
       .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
       .build()
 
     var request = client
       .method(HttpMethod.POST)
-      .uri(fileEndpoint).body(BodyInserters.fromObject(file))
+      .uri(fileEndpoint)
+      .body(BodyInserters.fromObject(fileMeta))
 
     val f = request.retrieve()
       .bodyToMono(classOf[File])

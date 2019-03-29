@@ -184,16 +184,16 @@
     <orderEntry type="library" name="Gradle: commons-codec:commons-codec:1.11" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.sun.jersey:jersey-client:1.19.1" level="project" />
     <orderEntry type="library" name="Gradle: org.codehaus.jackson:jackson-mapper-asl:1.9.13" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.sun.jersey:jersey-core:1.19.1" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-codec-http2:4.1.33.Final" level="project" />
-    <orderEntry type="library" scope="RUNTIME" name="Gradle: javax.ws.rs:jsr311-api:1.1.1" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: com.sun.jersey:jersey-core:1.19.1" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-handler-proxy:4.1.33.Final" level="project" />
+    <orderEntry type="library" scope="RUNTIME" name="Gradle: javax.ws.rs:jsr311-api:1.1.1" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.apache.httpcomponents:httpclient:4.5.7" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-codec-http:4.1.33.Final" level="project" />
     <orderEntry type="library" name="Gradle: io.netty:netty-handler:4.1.33.Final" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: com.github.vlsi.compactmap:compactmap:1.2.1" level="project" />
-    <orderEntry type="library" name="Gradle: io.netty:netty-transport-native-epoll:linux-x86_64:4.1.33.Final" level="project" />
     <orderEntry type="library" scope="RUNTIME" name="Gradle: org.codehaus.woodstox:woodstox-core-asl:4.4.1" level="project" />
+    <orderEntry type="library" name="Gradle: io.netty:netty-transport-native-epoll:linux-x86_64:4.1.33.Final" level="project" />
     <orderEntry type="library" name="Gradle: org.reactivestreams:reactive-streams:1.0.2" level="project" />
     <orderEntry type="library" name="Gradle: net.minidev:accessors-smart:1.2" level="project" />
     <orderEntry type="library" name="Gradle: ch.qos.logback:logback-core:1.2.3" level="project" />

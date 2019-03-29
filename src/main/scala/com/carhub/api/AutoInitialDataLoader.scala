@@ -8,7 +8,9 @@ import com.carhub.api.auto.domain._
 import com.carhub.api.auto.domain.dto.{File, Photo, Video}
 import com.carhub.api.auto.domain.enumerations._
 import com.carhub.api.auto.services.command._
+import com.carhub.api.auto.utils.exception.ServiceUnavailableException
 import com.carhub.api.auto.utils.jwt.JwtUtil
+import com.carhub.api.auto.utils.media.MediaUtil
 import com.google.common.io.Files
 import com.google.common.net.HttpHeaders
 import javax.imageio.ImageIO
@@ -42,8 +44,6 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
   @Value("${media.video-endpoint}")
   val videoEndpoint : String = null
 
-  val mediaServiceInstance : ServiceInstance = null
-
   def run(args: ApplicationArguments): Unit = {
     val make = new Make()
     make.name = "Nissan"
@@ -53,7 +53,12 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     make.foundationDate = date
     make.about = "Nissan Motor Company, Limited, Nissan est un constructeur automobile japonais né sous le nom de Datsun. Son siège social est à Yokohama depuis 2010. Il est lié au constructeur français Renault depuis 1999 à travers l'Alliance Renault-Nissan qui est au premier semestre 2017, le premier groupe automobile mondial."
     make.founder = "Yoshisuke Aikawa"
-    make.logoId = createPhoto()
+    try {
+      val mediaService = MediaUtil.mediaService()
+      make.logoId = createPhoto(mediaService)
+    } catch {
+      case e : ServiceUnavailableException => //Do Nothing
+    }
 
     makeCommandService.addMake(make)
 
@@ -106,42 +111,45 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     car.rimsSize = "R17; R18; R19"
     car.serie = serie
 
+    try {
+      val mediaService = MediaUtil.mediaService()
+      car.images.add({
+        val photo = new Photo
+        val picture = new ClassPathResource("images/nissan-x-trail.jpg")
+        var inputStream = picture.getInputStream
+        val bimg : BufferedImage = ImageIO.read(inputStream)
+        photo.width = bimg.getWidth
+        photo.height = bimg.getHeight
+        inputStream = picture.getInputStream
+        val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
+        inputStream.close()
+        val connection = picture.getURL.openConnection
+        photo.mimeType = connection.getContentType
+        photo.size = picture.contentLength
+        photo.name = Files.getNameWithoutExtension(picture.getFilename)
+        photo.format = Files.getFileExtension(picture.getFilename)
+        photo.caption = "Xtrail"
+        photo.created = Calendar.getInstance().getTime()
+        photo.content = arrayPic
 
-    car.images.add({
-      val photo = new Photo
-      val picture = new ClassPathResource("images/nissan-x-trail.jpg")
-      var inputStream = picture.getInputStream
-      val bimg : BufferedImage = ImageIO.read(inputStream)
-      photo.width = bimg.getWidth
-      photo.height = bimg.getHeight
-      inputStream = picture.getInputStream
-      val arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
-      inputStream.close()
-      val connection = picture.getURL.openConnection
-      photo.mimeType = connection.getContentType
-      photo.size = picture.contentLength
-      photo.name = Files.getNameWithoutExtension(picture.getFilename)
-      photo.format = Files.getFileExtension(picture.getFilename)
-      photo.caption = "Xtrail"
-      photo.created = Calendar.getInstance().getTime()
-      photo.content = arrayPic
+        val client = WebClient.builder()
+          .baseUrl(mediaService.getUri.toString)
+          .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+          .build()
 
-      val client = WebClient.builder()
-        .baseUrl(mediaServiceInstance.getUri.toString)
-        .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
-        .build()
+        val request = client
+          .method(HttpMethod.POST)
+          .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
 
-      val request = client
-        .method(HttpMethod.POST)
-        .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
+        val result = request.retrieve()
+          .bodyToMono(classOf[Photo])
+          .block()
 
-      val result = request.retrieve()
-        .bodyToMono(classOf[Photo])
-        .block()
-
-      result.id
-    })
-
+        result.id
+      })
+    } catch {
+      case e : ServiceUnavailableException => //Do Nothing
+    }
     carCommandService.addCar(car)
 
     val engine = new Engine
@@ -158,84 +166,87 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     engineCommandService.addEngine(engine)
     carCommandService.updateCarEngine(car.id, engine)
 
+    try {
+      val mediaService = MediaUtil.mediaService()
+      val photo = new Photo
+      val picture = new ClassPathResource("images/xtrail.jpg")
+      var inputStream = picture.getInputStream
+      val bimg: BufferedImage = ImageIO.read(inputStream)
+      photo.width = bimg.getWidth
+      photo.height = bimg.getHeight
+      inputStream = picture.getInputStream
+      var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
+      inputStream.close()
+      photo.size = picture.contentLength
+      var connection = picture.getURL.openConnection
+      photo.mimeType = connection.getContentType
+      photo.name = Files.getNameWithoutExtension(picture.getFilename)
+      photo.format = Files.getFileExtension(picture.getFilename)
+      photo.caption = "Xtrail"
+      photo.created = Calendar.getInstance().getTime()
+      photo.content = arrayPic
 
-    val photo = new Photo
-    val picture = new ClassPathResource("images/xtrail.jpg")
-    var inputStream = picture.getInputStream
-    val bimg : BufferedImage = ImageIO.read(inputStream)
-    photo.width = bimg.getWidth
-    photo.height = bimg.getHeight
-    inputStream = picture.getInputStream
-    var arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
-    inputStream.close()
-    photo.size = picture.contentLength
-    var connection = picture.getURL.openConnection
-    photo.mimeType = connection.getContentType
-    photo.name = Files.getNameWithoutExtension(picture.getFilename)
-    photo.format = Files.getFileExtension(picture.getFilename)
-    photo.caption = "Xtrail"
-    photo.created = Calendar.getInstance().getTime()
-    photo.content = arrayPic
+      val client = WebClient.builder()
+        .baseUrl(mediaService.getUri.toString)
+        .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
+        .build()
 
-    val client = WebClient.builder()
-      .baseUrl(mediaServiceInstance.getUri.toString)
-      .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
-      .build()
+      var request = client
+        .method(HttpMethod.POST)
+        .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
 
-    var request = client
-      .method(HttpMethod.POST)
-      .uri(photoEndpoint).body(BodyInserters.fromObject(photo))
+      val p = request.retrieve()
+        .bodyToMono(classOf[Photo])
+        .block()
 
-    val p = request.retrieve()
-      .bodyToMono(classOf[Photo])
-      .block()
+      carCommandService.updateCarUploadPhoto(car.id, p.id)
 
-    carCommandService.updateCarUploadPhoto(car.id, p.id)
 
-    val video = new Video
-    video.name = "TS"
-    video.caption = "Technical Spec. Video"
-    video.created = Calendar.getInstance().getTime()
-    video.url = "https://youtu.be/9u9x4kveojU"
+      val video = new Video
+      video.name = "TS"
+      video.caption = "Technical Spec. Video"
+      video.created = Calendar.getInstance().getTime()
+      video.url = "https://youtu.be/9u9x4kveojU"
 
-    request = client
-      .method(HttpMethod.POST)
-      .uri(videoEndpoint).body(BodyInserters.fromObject(video))
+      request = client
+        .method(HttpMethod.POST)
+        .uri(videoEndpoint).body(BodyInserters.fromObject(video))
 
-    val v = request.retrieve()
-      .bodyToMono(classOf[Video])
-      .block()
+      val v = request.retrieve()
+        .bodyToMono(classOf[Video])
+        .block()
 
-    carCommandService.updateCarUploadVideo(car.id, v.id)
+      carCommandService.updateCarUploadVideo(car.id, v.id)
 
-    val file = new File
-    val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
-    inputStream = brochure.getInputStream
-    arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
-    inputStream.close()
-    file.name = Files.getNameWithoutExtension(brochure.getFilename)
-    file.size = brochure.contentLength
-    file.format = Files.getFileExtension(brochure.getFilename)
-    connection = brochure.getURL.openConnection
-    file.mimeType = connection.getContentType
-    file.caption = "Brochure"
-    file.created = Calendar.getInstance().getTime()
-    file.content = arrayPic
+      val file = new File
+      val brochure = new ClassPathResource("files/Brochure_XTRAIL.pdf")
+      inputStream = brochure.getInputStream
+      arrayPic = Stream.continually(inputStream.read).takeWhile(-1 !=).map(_.toByte).toArray
+      inputStream.close()
+      file.name = Files.getNameWithoutExtension(brochure.getFilename)
+      file.size = brochure.contentLength
+      file.format = Files.getFileExtension(brochure.getFilename)
+      connection = brochure.getURL.openConnection
+      file.mimeType = connection.getContentType
+      file.caption = "Brochure"
+      file.created = Calendar.getInstance().getTime()
+      file.content = arrayPic
 
-    request = client
-      .method(HttpMethod.POST)
-      .uri(fileEndpoint).body(BodyInserters.fromObject(file))
+      request = client
+        .method(HttpMethod.POST)
+        .uri(fileEndpoint).body(BodyInserters.fromObject(file))
 
-    val f = request.retrieve()
-      .bodyToMono(classOf[File])
-      .block()
+      val f = request.retrieve()
+        .bodyToMono(classOf[File])
+        .block()
 
-    carCommandService.updateCarUploadFile(car.id, f.id)
+      carCommandService.updateCarUploadFile(car.id, f.id)
+    } catch {
+      case e : ServiceUnavailableException => //Do Nothing
+    }
   }
 
-
-  private def createPhoto() = {
-
+  private def createPhoto(mediaService : ServiceInstance) = {
     val photo = new Photo
     val picture = new ClassPathResource("images/nissan_logo.png")
     var inputStream = picture.getInputStream
@@ -255,7 +266,7 @@ class AutoInitialDataLoader(carCommandService : CarCommandService,
     photo.content = arrayPic
 
     val client = WebClient.builder()
-      .baseUrl(mediaServiceInstance.getUri.toString)
+      .baseUrl(mediaService.getUri.toString)
       .defaultHeader(HttpHeaders.AUTHORIZATION, tokenType + " " + JwtUtil.token())
       .build()
 
